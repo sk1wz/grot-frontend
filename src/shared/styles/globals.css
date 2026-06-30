@@ -1,0 +1,65 @@
+@import "tailwindcss";
+:root,
+.light,
+.default,
+[data-theme="light"],
+[data-theme="default"] {
+  --accent: rgb(255, 209, 4);
+  --accent-foreground: black;
+  --surface: white;
+  --surface-foreground: black;
+  --muted: gray;
+  --foreground: black;
+  --field: rgb(240, 240, 240);
+  --field-foreground: black;
+  --background: rgb(241, 241, 241);
+  --border: rgb(204, 201, 201);
+  --accent-border: rgb(255, 209, 4);
+}
+
+.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.default):not(.dark):not([data-theme]),
+  [data-theme="system"] {
+    color-scheme: dark;
+  }
+}
+/* Прокрутка везде доступна, визуальная полоса скрыта */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+body {
+  background-color: var(--background);
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.leads-lane-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.leads-lane-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.leads-lane-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background-color: var(--border);
+}
