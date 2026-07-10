@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function Advantages() {
   return (
-    <section className="relative overflow-hidden bg-white px-2 py-14 sm:px-6 sm:py-16 md:px-8 md:py-20">
+    <section className="relative overflow-hidden px-2 py-14 sm:px-6 sm:py-16 md:px-8 md:py-20">
       <div className="relative mx-auto max-w-[1350px]">
         <Image
           src="/Rectangle 58.png"
