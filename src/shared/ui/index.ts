@@ -1,5 +1,4 @@
 export * from "./Avatar/Avatar";
-export * from "./AuthForm/AuthForm";
 export * from "./Button/Button";
 export * from "./Input/Input";
 export * from "./Balance/Balance";

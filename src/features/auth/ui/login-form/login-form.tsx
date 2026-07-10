@@ -1,11 +1,16 @@
 "use client";
-import { AuthForm } from "@/shared/ui";
-import { login, type LoginResponse } from "../../api";
-import { toast } from "react-toastify";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { login, type LoginResponse } from "../../api";
+import { ArrowRightToLine, EyeIcon, EyeOffIcon } from "lucide-react";
+import { Text } from "@/shared/ui";
 
 export function LoginForm() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -29,13 +34,74 @@ export function LoginForm() {
     }
   };
   return (
-    <AuthForm
-      onSubmit={handleSubmit}
-      passwordAutoComplete="current-password"
-      submitText="Войти"
-      switchHref="/register"
-      switchLinkText="Зарегистрироваться"
-      switchText="Нет аккаунта?"
-    />
+    <form className="flex flex-1 flex-col gap-4" onSubmit={handleSubmit}>
+      <label className="flex flex-col gap-2" htmlFor="email">
+        <span className="text-sm font-medium text-[#3e3c4b]">
+          Введите Email
+        </span>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          autoComplete="email"
+          suppressHydrationWarning
+          className="w-full rounded-full bg-white px-5 py-3.5 text-[#3e3c4b] shadow-[inset_0_2px_6px_rgba(163,177,198,0.28)] outline-none placeholder:text-[#3e3c4b]"
+        />
+      </label>
+
+      <label className="flex flex-col gap-2" htmlFor="password">
+        <span className="text-sm font-medium text-[#3e3c4b]">
+          Введите пароль
+        </span>
+        <div className="relative">
+          <input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Пароль"
+            required
+            autoComplete="current-password"
+            suppressHydrationWarning
+            className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-[#3e3c4b] shadow-[inset_0_2px_6px_rgba(163,177,198,0.28)] outline-none placeholder:text-[#3e3c4b]"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((value) => !value)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer p-1 opacity-70 transition-opacity hover:opacity-100"
+            aria-label={showPassword ? "Скрыть пароль" : "Показать пароль"}
+          >
+            {showPassword ? (
+              <EyeIcon color="black" size={20} />
+            ) : (
+              <EyeOffIcon color="black" size={20} />
+            )}
+          </button>
+        </div>
+      </label>
+
+      <button
+        type="submit"
+        className="mt-1 w-full cursor-pointer rounded-full bg-[#c8ddd5] py-4 text-sm font-bold uppercase tracking-wide text-[#3e3c4b] shadow-[0_18.667px_18.667px_rgba(62,60,75,0.24),inset_0_-5.849px_5.849px_0px_#adadad,inset_0_5.849px_5.849px_0px_#ffffff] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#b8d4c8] active:translate-y-0 active:scale-[0.98]"
+      >
+        Войти
+      </button>
+
+      <div className="flex items-end justify-between gap-4 pt-2">
+        <div className="text-left text-sm text-[#3e3c4b]">
+          <p>У вас еще нет личного кабинета?</p>
+          <Text>Зарегистрируйтесь</Text>
+        </div>
+
+        <Link
+          href="/register"
+          aria-label="Перейти к регистрации"
+          className="flex h-10 w-10 shrink-0 items-center justify-center transition-opacity hover:opacity-70"
+        >
+          <ArrowRightToLine color="black" size={20} />
+        </Link>
+      </div>
+    </form>
   );
 }

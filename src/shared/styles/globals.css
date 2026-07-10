@@ -4,7 +4,7 @@
 .default,
 [data-theme="light"],
 [data-theme="default"] {
-  --accent: rgb(255, 209, 4);
+  --accent: #d5ebd9;
   --accent-foreground: black;
   --surface: white;
   --surface-foreground: black;
@@ -12,9 +12,9 @@
   --foreground: #3e3c4b;
   --field: rgb(240, 240, 240);
   --field-foreground: black;
-  --background: rgb(243, 242, 242);
+  --background: rgb(224, 224, 224);
   --border: rgb(204, 201, 201);
-  --accent-border: rgb(255, 209, 4);
+  --accent-border: #d5ebd9;
 }
 
 .dark,
