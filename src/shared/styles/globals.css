@@ -5,7 +5,7 @@
 [data-theme="light"],
 [data-theme="default"] {
   --accent: #d5ebd9;
-  --accent-foreground: black;
+  --accent-foreground: #3e3c4b;
   --surface: white;
   --surface-foreground: black;
   --muted: gray;

@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 const AUTH_CARD_CLASS =
-  "relative z-10 flex min-h-[650px] p-10 w-full max-w-[600px] flex-col rounded-[40px_120px_40px_120px] border border-[#e3e8ef] bg-[#f4f6f9]/50 shadow-[0_24px_64px_rgba(62,60,75,0.08)] backdrop-blur-sm";
+  "relative z-10 flex min-h-[650px] w-full max-w-[600px] flex-col overflow-visible rounded-[40px_110px_40px_110px] border border-white/60 bg-white/35 p-10 shadow-[0_24px_64px_rgba(62,60,75,0.12)] backdrop-blur-2xl";
 
 export function AuthCardShell({
   title,
@@ -12,8 +12,8 @@ export function AuthCardShell({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-h-full items-center justify-center ">
-      <div className={AUTH_CARD_CLASS}>
+    <div className="relative flex min-h-full flex-1 flex-col items-center justify-center px-4 py-12">
+      <div className="relative w-full max-w-[600px]">
         <Image
           src="/Rectangle 159.png"
           alt=""
@@ -25,12 +25,14 @@ export function AuthCardShell({
           style={{ height: "auto" }}
         />
 
-        <h1 className="mb-8 shrink-0 text-center text-2xl font-bold text-[#3e3c4b] sm:mb-10 sm:text-[28px]">
-          {title}
-        </h1>
+        <div className={AUTH_CARD_CLASS}>
+          <h1 className="relative z-10 mb-8 shrink-0 text-center text-2xl font-bold text-[#3e3c4b] sm:mb-10 sm:text-[28px]">
+            {title}
+          </h1>
 
-        <div className="mx-auto flex w-full max-w-[400px] flex-1 flex-col">
-          {children}
+          <div className="relative z-10 mx-auto flex w-full max-w-[400px] flex-1 flex-col">
+            {children}
+          </div>
         </div>
       </div>
     </div>
