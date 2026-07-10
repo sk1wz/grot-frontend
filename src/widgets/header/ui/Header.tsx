@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { HeaderUserMenu } from "./HeaderUserMenu";
 import { getRouteTitle } from "@/shared/lib";
 
 export function Header() {
@@ -14,7 +13,6 @@ export function Header() {
         <h1 className="text-sm font-semibold tracking-tight text-(--foreground)">
           {title}
         </h1>
-        <HeaderUserMenu />
       </div>
     </header>
   );

@@ -7,11 +7,11 @@ export enum BalanceChangeReason {
   BALANCE_FAILED = "BALANCE_FAILED",
 }
 
-export const BalanceTransactionSchema = z.object({
-  id: z.uuid(),
-  userId: z.uuid(),
+const BalanceTransactionInputSchema = z.object({
+  id: z.uuid().optional(),
+  userId: z.uuid().optional(),
   amount: z.number(),
-  reason: z.enum(BalanceChangeReason),
+  status: z.enum(BalanceChangeReason).optional(),
   meta: z
     .object({
       action: z.string().optional(),
@@ -21,9 +21,16 @@ export const BalanceTransactionSchema = z.object({
   createdAt: z.string(),
 });
 
+export const BalanceTransactionSchema = BalanceTransactionInputSchema.transform(
+  (transaction) => ({
+    ...transaction,
+    status: transaction.status as BalanceChangeReason,
+  })
+);
+
 export const BalanceTransactionsResponseSchema = z.object({
   items: z.array(BalanceTransactionSchema),
-  total: z.number(),
+  total: z.number().optional(),
 });
 
 export type BalanceTransaction = z.infer<typeof BalanceTransactionSchema>;
@@ -36,5 +43,6 @@ export type BalanceTransactionsStore = {
   total: number;
   isLoading: boolean;
   setTransactions: (items: BalanceTransactionsResponse) => void;
+  setTransaction: (transaction: BalanceTransaction) => void;
   setLoading: (isLoading: boolean) => void;
 };

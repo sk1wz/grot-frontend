@@ -4,6 +4,10 @@ import { TooltipProvider } from "../TooltipProvider/TooltipProvider";
 import { UserProvider } from "../UserProvider/UserProvider";
 import { useUserStore } from "@/entities/user";
 import { useEffect } from "react";
+import {
+  BalanceChangeReason,
+  useBalanceTransactionsStore,
+} from "@/entities/balance";
 
 type BalanceUpdatedPayload = {
   balance: number;
@@ -11,7 +15,8 @@ type BalanceUpdatedPayload = {
     id: string;
     userId: string;
     amount: number;
-    status: string;
+    status?: string;
+    reason?: string;
     meta?: { action?: string };
     createdAt: string;
   };
@@ -31,8 +36,21 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
         "balance.updated",
         (payload: BalanceUpdatedPayload) => {
           const { user, setUser } = useUserStore.getState();
+          const { setTransaction } = useBalanceTransactionsStore.getState();
           if (!user) return;
 
+          const rawReason =
+            payload.transaction.status ?? payload.transaction.reason;
+          const normalizedReason = Object.values(BalanceChangeReason).includes(
+            rawReason as BalanceChangeReason
+          )
+            ? (rawReason as BalanceChangeReason)
+            : BalanceChangeReason.BALANCE_FAILED;
+
+          setTransaction({
+            ...payload.transaction,
+            status: normalizedReason,
+          });
           setUser({ ...user, balance: payload.balance });
           console.log(payload);
         }
