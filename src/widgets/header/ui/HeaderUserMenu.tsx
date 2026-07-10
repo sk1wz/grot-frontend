@@ -37,8 +37,7 @@ export function HeaderUserMenu() {
           render: ({ data }: { data: Error }) => data.message,
         },
       });
-      router.push("/login");
-      router.refresh();
+      router.push("/logout");
     } catch {
       setIsLoggingOut(false);
     }
@@ -63,9 +62,9 @@ export function HeaderUserMenu() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuLabel>
           <WalletWithDeposit user={user} />
-        </DropdownMenuItem>
+        </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 

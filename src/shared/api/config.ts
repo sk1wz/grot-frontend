@@ -1,1 +1,1 @@
-export const baseURL = "https://api.apiline.digital/api";
+export const baseURL = "http://localhost:4000/api";

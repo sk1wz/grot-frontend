@@ -2,8 +2,20 @@
 import { connectRealtime } from "@/shared/api/connectRealTime";
 import { TooltipProvider } from "../TooltipProvider/TooltipProvider";
 import { UserProvider } from "../UserProvider/UserProvider";
-import { useUserStore } from "@/entities/user/model/useUserStore";
+import { useUserStore } from "@/entities/user";
 import { useEffect } from "react";
+
+type BalanceUpdatedPayload = {
+  balance: number;
+  transaction: {
+    id: string;
+    userId: string;
+    amount: number;
+    status: string;
+    meta?: { action?: string };
+    createdAt: string;
+  };
+};
 
 export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   const userId = useUserStore((state) => state.user?.id);
@@ -15,9 +27,16 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       sockets.check.on("check.updated", (checkDto) => {
         console.log(checkDto);
       });
-      sockets.balance.on("balance.updated", (payload) => {
-        console.log(payload);
-      });
+      sockets.balance.on(
+        "balance.updated",
+        (payload: BalanceUpdatedPayload) => {
+          const { user, setUser } = useUserStore.getState();
+          if (!user) return;
+
+          setUser({ ...user, balance: payload.balance });
+          console.log(payload);
+        }
+      );
       sockets.notifications.on("notification.created", (notification) => {
         console.log(notification);
       });
