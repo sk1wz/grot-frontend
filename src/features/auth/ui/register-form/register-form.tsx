@@ -99,7 +99,7 @@ export function RegisterForm() {
   };
 
   return (
-    <form className="flex flex-1 flex-col gap-5" onSubmit={handleSubmit}>
+    <form className="flex flex-1 flex-col gap-4" onSubmit={handleSubmit}>
       <label className="flex flex-col gap-2" htmlFor="email">
         <span className="text-sm font-medium text-[#3e3c4b]">
           Введите Email
