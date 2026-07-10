@@ -12,7 +12,7 @@ export function AuthCardShell({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-h-full flex-1 flex-col items-center justify-center bg-white px-4 py-12">
+    <div className="flex min-h-full items-center justify-center ">
       <div className={AUTH_CARD_CLASS}>
         <Image
           src="/Rectangle 159.png"
@@ -20,7 +20,9 @@ export function AuthCardShell({
           aria-hidden
           width={320}
           height={320}
-          className="pointer-events-none absolute -bottom-20 -right-20 z-0 h-auto w-[160px] select-none"
+          priority
+          className="pointer-events-none absolute -bottom-20 -right-20 z-0 w-[160px] select-none"
+          style={{ height: "auto" }}
         />
 
         <h1 className="mb-8 shrink-0 text-center text-2xl font-bold text-[#3e3c4b] sm:mb-10 sm:text-[28px]">

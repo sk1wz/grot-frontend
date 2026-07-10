@@ -12,7 +12,7 @@
   --foreground: #3e3c4b;
   --field: rgb(240, 240, 240);
   --field-foreground: black;
-  --background: rgb(224, 224, 224);
+  --background: rgb(255, 255, 255);
   --border: rgb(204, 201, 201);
   --accent-border: #d5ebd9;
 }

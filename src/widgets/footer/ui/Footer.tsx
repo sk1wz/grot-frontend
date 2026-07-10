@@ -9,7 +9,9 @@ export function Footer() {
         aria-hidden
         width={320}
         height={320}
-        className="pointer-events-none absolute -right-8 -top-24 z-0 h-auto w-[160px] select-none sm:-right-4 sm:-top-32 sm:w-[200px] md:-top-40 md:w-[260px] lg:right-0 lg:w-[320px]"
+        fetchPriority="low"
+        className="pointer-events-none absolute -right-8 -top-24 z-0 w-[160px] select-none sm:-right-4 sm:-top-32 sm:w-[200px] md:-top-40 md:w-[260px] lg:right-0 lg:w-[320px]"
+        style={{ height: "auto" }}
       />
 
       <footer className="relative z-10 rounded-t-2xl bg-[#D4DDEA]/75 backdrop-blur-sm">

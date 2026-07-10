@@ -15,7 +15,7 @@ export function Checks() {
             alt="ФССП, ГИБДД, банкротства, ИНН по паспорту, ГИС Торги"
             width={1350}
             height={760}
-            className="pointer-events-none w-full select-none"
+            className="pointer-events-none select-none"
             style={{ width: "100%", height: "auto" }}
             priority
           />
