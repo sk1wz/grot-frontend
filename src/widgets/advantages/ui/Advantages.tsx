@@ -2,14 +2,7 @@ import Image from "next/image";
 
 export function Advantages() {
   return (
-    <section
-      aria-labelledby="advantages-title"
-      className="relative overflow-hidden bg-white px-2 py-14 sm:px-6 sm:py-16 md:px-8 md:py-20"
-    >
-      <h2 id="advantages-title" className="sr-only">
-        Наши преимущества
-      </h2>
-
+    <section className="relative overflow-hidden bg-white px-2 py-14 sm:px-6 sm:py-16 md:px-8 md:py-20">
       <div className="relative mx-auto max-w-[1350px]">
         <Image
           src="/Rectangle 58.png"
@@ -17,7 +10,7 @@ export function Advantages() {
           aria-hidden
           width={340}
           height={380}
-          className="pointer-events-none absolute -left-3 top-5 z-0 h-auto w-[220px] -translate-y-1/2 select-none md:left-1 lg:-left-12 lg:w-[280px] xl:-left-8 xl:w-[320px]"
+          className="pointer-events-none absolute -left-16 top-5 z-0 h-auto w-[220px] -translate-y-1/2 select-none md:-left-1 lg:-left-12 lg:w-[280px] xl:-left-8 xl:w-[320px]"
         />
 
         <div className="relative z-10 flex origin-center items-center justify-center max-md:scale-[1.28] md:scale-100">
