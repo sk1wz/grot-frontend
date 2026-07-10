@@ -41,6 +41,7 @@
 
 body {
   background-color: var(--background);
+  font-family: var(--font-roboto), sans-serif;
 }
 
 @keyframes skeleton-shimmer {
