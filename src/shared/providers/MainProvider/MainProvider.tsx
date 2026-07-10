@@ -16,7 +16,6 @@ type BalanceUpdatedPayload = {
     userId: string;
     amount: number;
     status?: string;
-    reason?: string;
     meta?: { action?: string };
     createdAt: string;
   };
@@ -39,8 +38,7 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
           const { setTransaction } = useBalanceTransactionsStore.getState();
           if (!user) return;
 
-          const rawReason =
-            payload.transaction.status ?? payload.transaction.reason;
+          const rawReason = payload.transaction.status;
           const normalizedReason = Object.values(BalanceChangeReason).includes(
             rawReason as BalanceChangeReason
           )

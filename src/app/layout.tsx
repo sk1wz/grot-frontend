@@ -6,6 +6,11 @@ import { roboto } from "@/shared/fonts/roboto";
 export const metadata: Metadata = {
   title: "InfoFusion",
   description: "InfoFusion",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
