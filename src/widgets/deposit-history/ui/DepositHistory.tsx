@@ -1,24 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useBalanceTransactionsStore } from "@/entities/balance";
-import type { BalanceTransaction } from "@/entities/balance";
 import {
-  ALL_TRANSACTIONS_FILTER,
   getBalanceTransactions,
-  matchTransactionFilter,
-  searchTransaction,
-  transactionFilterOptions,
-  type TransactionFilter,
-} from "@/features/balance";
-import { useSearchAndFilter } from "@/features/search-filter";
+  useBalanceTransactionsStore,
+} from "@/entities/balance";
+import type { BalanceTransaction } from "@/entities/balance";
+import { useFilter } from "@/features/options";
 import {
   DepositHistoryCard,
   Pagination,
-  SearchField,
   SelectField,
   Skeleton,
 } from "@/shared/ui";
+import {
+  ALL_TRANSACTIONS_FILTER,
+  matchTransactionFilter,
+  transactionFilterOptions,
+  type TransactionFilter,
+} from "../lib/transaction-options";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -59,19 +59,19 @@ export function DepositHistory() {
   }, []);
 
   const {
-    search,
-    setSearch,
-    filter,
-    setFilter,
-    filteredItems,
-    hasActiveFilters,
-  } = useSearchAndFilter<BalanceTransaction, TransactionFilter>(items, {
-    allFilterValue: ALL_TRANSACTIONS_FILTER,
-    initialFilter: ALL_TRANSACTIONS_FILTER,
-    searchFn: searchTransaction,
-    filterFn: matchTransactionFilter,
-    onChange: resetPage,
-  });
+    value: filter,
+    setValue: setFilter,
+    items: filteredItems,
+    isActive: isFilterActive,
+  } = useFilter<BalanceTransaction, TransactionFilter>(
+    items,
+    ALL_TRANSACTIONS_FILTER,
+    matchTransactionFilter,
+    {
+      initialValue: ALL_TRANSACTIONS_FILTER,
+      onChange: resetPage,
+    }
+  );
 
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -96,21 +96,13 @@ export function DepositHistory() {
     <section className="flex h-full w-full flex-col gap-4">
       <div className="border border-(--border) bg-(--surface) p-4">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-4 sm:flex-row justify-between sm:gap-3">
-            <SelectField<TransactionFilter>
-              value={filter ?? ALL_TRANSACTIONS_FILTER}
-              onChange={setFilter}
-              options={transactionFilterOptions}
-              label="Тип операции"
-              className="max-w-xs"
-            />
-            <SearchField
-              value={search}
-              onChange={setSearch}
-              placeholder="ID, действие, сумма, дата..."
-              className="max-w-xs"
-            />
-          </div>
+          <SelectField<TransactionFilter>
+            value={filter}
+            onChange={setFilter}
+            options={transactionFilterOptions}
+            label="Тип операции"
+            className="max-w-xs"
+          />
 
           <div className="h-full overflow-auto border border-(--border) [scrollbar-gutter:stable]">
             <table className="w-full min-w-[980px] table-fixed border-collapse text-left">
@@ -160,8 +152,8 @@ export function DepositHistory() {
                       colSpan={5}
                       className="px-4 py-10 text-center text-sm text-(--muted)"
                     >
-                      {hasActiveFilters
-                        ? "Ничего не найдено"
+                      {isFilterActive
+                        ? "Нет операций по выбранному фильтру"
                         : "Нет операций для отображения"}
                     </td>
                   </tr>

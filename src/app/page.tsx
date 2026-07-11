@@ -1,7 +1,7 @@
-import { Advantages } from "@/widgets/advantages";
-import { Checks } from "@/widgets/checks";
-import { Footer } from "@/widgets/footer";
-import { Hero } from "@/widgets/hero";
+import { Advantages } from "@/widgets/main/advantages";
+import { Checks } from "@/widgets/main/checks";
+import { Footer } from "@/widgets/main/footer";
+import { Hero } from "@/widgets/main/hero";
 
 export default function HomePage() {
   return (

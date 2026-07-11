@@ -1,5 +1,6 @@
 import { BalanceTransactionStatus } from "@/entities/balance";
 import { formatAmount, formatDate } from "@/shared/lib";
+import { Badge, BadgeVariant } from "@/shared/ui";
 
 export type DepositHistoryCardProps = {
   amount: number;
@@ -25,13 +26,11 @@ const typeLabels: Record<BalanceTransactionStatus, string> = {
   BALANCE_PURCHASE: "Списание средств",
 };
 
-const statusStyles: Record<BalanceTransactionStatus, string> = {
-  BALANCE_TOPUP:
-    "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200",
-  BALANCE_REFUND: "bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-200",
-  BALANCE_FAILED: "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200",
-  BALANCE_PURCHASE:
-    "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200",
+const statusVariants: Record<BalanceTransactionStatus, BadgeVariant> = {
+  BALANCE_TOPUP: "success",
+  BALANCE_REFUND: "info",
+  BALANCE_FAILED: "danger",
+  BALANCE_PURCHASE: "warning",
 };
 
 export function DepositHistoryCard({
@@ -74,11 +73,7 @@ export function DepositHistoryCard({
         {id ?? "—"}
       </td>
       <td className="border-b border-(--border) px-4 py-3 text-sm">
-        <span
-          className={`inline-flex max-w-full items-center truncate rounded-full px-2.5 py-1 text-xs font-medium ${statusStyles[status]}`}
-        >
-          {statusLabel}
-        </span>
+        <Badge variant={statusVariants[status]}>{statusLabel}</Badge>
       </td>
       <td className="truncate border-b border-(--border) px-4 py-3 text-sm text-(--foreground)">
         {action ?? "—"}

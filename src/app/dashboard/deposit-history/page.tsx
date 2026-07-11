@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DepositHistory } from "@/widgets/dashboard/deposit-history";
+import { DepositHistory } from "@/widgets/deposit-history";
 
 export const metadata: Metadata = {
   title: "История транзакций",

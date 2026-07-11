@@ -1,8 +1,8 @@
 import {
   BalanceTransactionsResponseSchema,
   useBalanceTransactionsStore,
-} from "@/entities/balance";
-import type { BalanceTransactionsResponse } from "@/entities/balance";
+} from "../model";
+import type { BalanceTransactionsResponse } from "../model";
 import { baseURL } from "@/shared/api/config";
 
 export async function getBalanceTransactions(): Promise<
