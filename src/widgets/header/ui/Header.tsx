@@ -10,7 +10,7 @@ export function Header() {
   const user = useUserStore((state) => state.user);
 
   return (
-    <header className="sticky top-0 z-100 flex h-14 shrink-0 items-center  bg-(--surface) px-4">
+    <header className="z-100 flex h-14 shrink-0 items-center bg-(--surface) px-4">
       <div className="flex w-full items-center justify-between gap-4">
         <h1 className="truncate text-lg font-semibold text-(--foreground)">
           {getRouteTitle(pathname)}

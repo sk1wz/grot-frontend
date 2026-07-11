@@ -48,7 +48,7 @@ export function Sidebar() {
                   : "text-(--foreground) hover:bg-(--accent)/50"
               }`}
             >
-              <Icon className="size-4 shrink-0" />
+              <Icon className="size-4 shrink-0 text-(--icon-color)" />
               <span>{item.label}</span>
             </Link>
           );

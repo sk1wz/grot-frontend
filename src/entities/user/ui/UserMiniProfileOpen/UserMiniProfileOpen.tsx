@@ -103,7 +103,10 @@ export function UserMiniProfileOpen({
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-3 px-4 py-3 text-sm text-(--foreground) transition-colors hover:bg-(--field)"
               >
-                <Icon className="size-4 shrink-0" />
+                <Icon
+                  size={18}
+                  className="size-4 shrink-0 text-(--icon-color)"
+                />
                 {item.label}
               </Link>
             );
@@ -116,7 +119,7 @@ export function UserMiniProfileOpen({
             onClick={handleLogout}
             className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-sm text-(--foreground) transition-colors hover:bg-(--field) disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <LogOut className="size-4 shrink-0" />
+            <LogOut size={18} className=" shrink-0 text-(--icon-color)" />
             Выйти из аккаунта
           </button>
         </div>
