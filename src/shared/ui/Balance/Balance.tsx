@@ -25,7 +25,7 @@ export const Balance: React.FC<BalanceProps> = ({
   }
   return (
     <div className={`flex items-center gap-2 text-sm ${className}`}>
-      <Icon color="var(--accent)" size={18} />
+      <Icon className="text-(--icon-color)" size={18} />
       <span className="text-(--foreground)">Баланс:</span>
       <span className="font-semibold text-(--foreground)">
         {formattedBalance} {currency}

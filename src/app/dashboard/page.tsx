@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
+import { ChecksGrid } from "@/features/checker";
 
 export const metadata: Metadata = {
-  title: "Главная",
-  description: "Главная страница",
+  title: "Проверки",
+  description: "Доступные проверки",
 };
 
 export default function DashboardPage() {
-  return <div>Главная</div>;
+  return (
+    <div>
+      <ChecksGrid />
+    </div>
+  );
 }

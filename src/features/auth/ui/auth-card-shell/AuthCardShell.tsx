@@ -12,7 +12,7 @@ export function AuthCardShell({
   children: ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-full items-center justify-center overflow-hidden bg-[#D5EBD9]">
+    <div className="relative flex min-h-full items-center justify-center overflow-hidden p-2">
       <div className="relative w-full max-w-[600px]">
         <Image
           src="/Rectangle 159.png"
