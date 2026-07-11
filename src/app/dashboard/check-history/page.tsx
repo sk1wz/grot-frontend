@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Text, TextTitle } from "@/shared/ui";
+import { Text } from "@/shared/ui";
 
 export const metadata: Metadata = {
   title: "История проверок",
@@ -9,9 +9,6 @@ export const metadata: Metadata = {
 export default function CheckHistoryPage() {
   return (
     <div className=" flex flex-col gap-4">
-      <TextTitle className="text-left text-2xl! md:text-3xl!">
-        История проверок
-      </TextTitle>
       <Text className="text-(--muted)">
         Здесь будет отображаться история ваших проверок.
       </Text>
