@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Text } from "@/shared/ui";
+import { DepositHistory } from "@/widgets/dashboard/deposit-history";
 
 export const metadata: Metadata = {
   title: "История транзакций",
@@ -7,11 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function DepositHistoryPage() {
-  return (
-    <div className="flex flex-col gap-4">
-      <Text className="text-(--muted)">
-        Здесь будет отображаться история пополнений и списаний с баланса.
-      </Text>
-    </div>
-  );
+  return <DepositHistory />;
 }

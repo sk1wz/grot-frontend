@@ -4,7 +4,7 @@ import { UserProvider } from "../UserProvider/UserProvider";
 import { useUserStore } from "@/entities/user";
 import { useEffect } from "react";
 import {
-  BalanceChangeReason,
+  BalanceTransactionStatus,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
 
@@ -38,11 +38,11 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
           if (!user) return;
 
           const rawReason = payload.transaction.status;
-          const normalizedReason = Object.values(BalanceChangeReason).includes(
-            rawReason as BalanceChangeReason
-          )
-            ? (rawReason as BalanceChangeReason)
-            : BalanceChangeReason.BALANCE_FAILED;
+          const normalizedReason = Object.values(
+            BalanceTransactionStatus
+          ).includes(rawReason as BalanceTransactionStatus)
+            ? (rawReason as BalanceTransactionStatus)
+            : BalanceTransactionStatus.BALANCE_FAILED;
 
           setTransaction({
             ...payload.transaction,

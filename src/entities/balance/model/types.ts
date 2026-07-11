@@ -1,6 +1,6 @@
 import z from "zod";
 
-export enum BalanceChangeReason {
+export enum BalanceTransactionStatus {
   BALANCE_PURCHASE = "BALANCE_PURCHASE",
   BALANCE_REFUND = "BALANCE_REFUND",
   BALANCE_TOPUP = "BALANCE_TOPUP",
@@ -11,7 +11,7 @@ const BalanceTransactionInputSchema = z.object({
   id: z.uuid().optional(),
   userId: z.uuid().optional(),
   amount: z.number(),
-  status: z.enum(BalanceChangeReason).optional(),
+  status: z.enum(BalanceTransactionStatus).optional(),
   meta: z
     .object({
       action: z.string().optional(),
@@ -24,7 +24,7 @@ const BalanceTransactionInputSchema = z.object({
 export const BalanceTransactionSchema = BalanceTransactionInputSchema.transform(
   (transaction) => ({
     ...transaction,
-    status: transaction.status as BalanceChangeReason,
+    status: transaction.status ?? BalanceTransactionStatus.BALANCE_FAILED,
   })
 );
 

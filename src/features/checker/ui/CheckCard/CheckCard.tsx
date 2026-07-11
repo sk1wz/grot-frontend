@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import type { StartCheckResponse } from "@/entities/check";
-import { Button, Card, Input, Text } from "@/shared/ui";
+import { Button, Card, Input, Select, Text } from "@/shared/ui";
 import { startCheck } from "../../api";
 import { buildCheckBody } from "../../model/build-body";
 import type {
@@ -164,8 +164,7 @@ export function CheckCard({ config, availableFeatures = [] }: CheckCardProps) {
 
       <div className="flex flex-1 flex-col gap-3">
         {modes.length > 0 && (
-          <select
-            className="w-full rounded-lg border border-(--border) bg-(--field) px-4 py-2 text-sm text-(--field-foreground) outline-none focus:border-(--accent-border)"
+          <Select
             value={modeId}
             onChange={(event) => handleModeChange(event.target.value)}
           >
@@ -174,7 +173,7 @@ export function CheckCard({ config, availableFeatures = [] }: CheckCardProps) {
                 {mode.label}
               </option>
             ))}
-          </select>
+          </Select>
         )}
 
         {fields.map((field) => (
