@@ -42,7 +42,9 @@ export type BalanceTransactionsStore = {
   items: BalanceTransaction[];
   total: number;
   isLoading: boolean;
+  isInitialized: boolean;
   setTransactions: (items: BalanceTransactionsResponse) => void;
   setTransaction: (transaction: BalanceTransaction) => void;
   setLoading: (isLoading: boolean) => void;
+  setInitialized: (isInitialized: boolean) => void;
 };

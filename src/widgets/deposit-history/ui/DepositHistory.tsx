@@ -52,6 +52,10 @@ function DepositHistorySkeletonRows() {
 export function DepositHistory() {
   const items = useBalanceTransactionsStore((state) => state.items);
   const isLoading = useBalanceTransactionsStore((state) => state.isLoading);
+  const isInitialized = useBalanceTransactionsStore(
+    (state) => state.isInitialized
+  );
+  const showSkeleton = !isInitialized || (isLoading && items.length === 0);
   const [currentPage, setCurrentPage] = useState(1);
 
   const resetPage = useCallback(() => {
@@ -133,7 +137,7 @@ export function DepositHistory() {
                 </tr>
               </thead>
               <tbody>
-                {isLoading && !items.length ? (
+                {showSkeleton ? (
                   <DepositHistorySkeletonRows />
                 ) : paginatedItems.length ? (
                   paginatedItems.map((deposit) => (

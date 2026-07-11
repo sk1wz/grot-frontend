@@ -41,6 +41,8 @@ export async function getBalanceTransactions(): Promise<
     };
   } catch {
   } finally {
-    useBalanceTransactionsStore.getState().setLoading(false);
+    const store = useBalanceTransactionsStore.getState();
+    store.setLoading(false);
+    store.setInitialized(true);
   }
 }
