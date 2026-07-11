@@ -1,6 +1,5 @@
 "use client";
 import { connectRealtime } from "@/shared/api/connectRealTime";
-import { TooltipProvider } from "../TooltipProvider/TooltipProvider";
 import { UserProvider } from "../UserProvider/UserProvider";
 import { useUserStore } from "@/entities/user";
 import { useEffect } from "react";
@@ -66,9 +65,7 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-      <UserProvider>
-        <TooltipProvider>{children}</TooltipProvider>
-      </UserProvider>
+      <UserProvider>{children}</UserProvider>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { MainProvider } from "@/shared/providers/MainProvider/MainProvider";
+import { MainProvider } from "@/shared/providers";
 import { Header } from "@/widgets/header";
 
 export default function DashboardLayout({
