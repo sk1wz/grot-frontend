@@ -3,8 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/entities/user";
 import { getRouteTitle } from "@/shared/lib/main-menu-nav";
-import { Balance } from "@/shared/ui";
-import { UserMiniProfile } from "@/entities/user/ui";
+import { UserMiniProfileOpen } from "@/entities/user/ui";
 
 export function Header() {
   const pathname = usePathname() ?? "";
@@ -18,8 +17,7 @@ export function Header() {
         </h1>
 
         <div className="flex items-center gap-4">
-          <Balance balance={user?.balance ?? null} />
-          <UserMiniProfile user={user} className="max-w-48" />
+          <UserMiniProfileOpen user={user} className="max-w-48" />
         </div>
       </div>
     </header>

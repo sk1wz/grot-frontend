@@ -19,15 +19,18 @@ export const sidebarNav: NavItem[] = [
     href: "/dashboard/statistics",
     icon: ChartBar,
   },
-  {
-    label: "История транзакций",
-    href: "/dashboard/deposit-history",
-    icon: History,
-  },
+];
+
+export const menuItems: NavItem[] = [
   {
     label: "Уведомления",
     href: "/dashboard/notifications",
     icon: Bell,
+  },
+  {
+    label: "История транзакций",
+    href: "/dashboard/deposit-history",
+    icon: History,
   },
 ];
 
