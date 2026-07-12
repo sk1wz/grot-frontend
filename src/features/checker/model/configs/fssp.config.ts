@@ -12,7 +12,7 @@ export const fsspConfig: CheckConfig = {
   title: "ФССП",
   description: "Проверка исполнительных производств",
   endpoint: "/checks/fssp",
-  price: 3,
+  price: 10,
   eta: "~3с",
   includeModeInBody: true,
   modes: [

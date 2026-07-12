@@ -6,7 +6,7 @@ export const gibddConfig: CheckConfig = {
   title: "Транспорт",
   description: "Проверка транспорта по VIN",
   endpoint: "/checks/gibdd",
-  price: 39,
+  price: 50,
   eta: "1–3 мин",
   fields: [
     {

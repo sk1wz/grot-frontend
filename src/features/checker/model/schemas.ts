@@ -9,10 +9,7 @@ export const fioSchema = z.object({
 
 export const fioDobSchema = z.object({
   fio: z.string().trim().min(3, "Укажите ФИО"),
-  dob: z
-    .string()
-    .trim()
-    .regex(dobRegex, "Дата в формате ДД.ММ.ГГГГ"),
+  dob: z.string().trim().regex(dobRegex, "Дата в формате ДД.ММ.ГГГГ"),
 });
 
 export const innSchema = z.object({
@@ -44,10 +41,7 @@ export const docIdSchema = z.object({
 
 export const innPassportSchema = z.object({
   fio: z.string().trim().min(3, "Укажите ФИО"),
-  dob: z
-    .string()
-    .trim()
-    .regex(dobRegex, "Дата в формате ДД.ММ.ГГГГ"),
+  dob: z.string().trim().regex(dobRegex, "Дата в формате ДД.ММ.ГГГГ"),
   passport: z.string().trim().min(5, "Укажите паспорт"),
 });
 

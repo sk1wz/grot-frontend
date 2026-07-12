@@ -6,7 +6,7 @@ export const gistorgiConfig: CheckConfig = {
   title: "ГИС Торги",
   description: "Проверка по VIN в реестре торгов",
   endpoint: "/checks/gistorgi",
-  price: 3,
+  price: 10,
   eta: "~2с",
   fields: [
     {

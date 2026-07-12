@@ -1,4 +1,5 @@
 import { useUserStore } from "@/entities/user";
+import { useChecksStore } from "@/entities/check";
 import { baseURL } from "@/shared/api/config";
 
 async function clearLocalSession() {
@@ -32,6 +33,7 @@ export async function logout(): Promise<void> {
     }
   } finally {
     useUserStore.getState().setUser(null);
+    useChecksStore.getState().reset();
     await clearLocalSession();
   }
 }

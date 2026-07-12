@@ -6,7 +6,7 @@ export const innConfig: CheckConfig = {
   title: "ИНН по паспорту",
   description: "Поиск ИНН по паспорту и ФИО",
   endpoint: "/checks/inn",
-  price: 3,
+  price: 10,
   eta: "~1с",
   modes: [
     {

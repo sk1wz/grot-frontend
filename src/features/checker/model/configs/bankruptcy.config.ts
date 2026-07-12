@@ -6,7 +6,7 @@ export const bankruptcyConfig: CheckConfig = {
   title: "Банкротства",
   description: "Проверка на банкротство",
   endpoint: "/checks/bancrupcy",
-  price: 3,
+  price: 10,
   eta: "~10с",
   modes: [
     {

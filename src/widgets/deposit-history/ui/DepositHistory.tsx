@@ -19,6 +19,7 @@ import {
   transactionFilterOptions,
   type TransactionFilter,
 } from "../lib/transaction-options";
+import { DepositHistoryStats } from "./DepositHistoryStats";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -97,7 +98,9 @@ export function DepositHistory() {
   }, []);
 
   return (
-    <section className="flex h-full w-full flex-col gap-4">
+    <section className="flex w-full flex-col gap-4">
+      <DepositHistoryStats items={items} />
+
       <div className="border border-(--border) bg-(--surface) p-4">
         <div className="flex flex-col gap-4">
           <SelectField<TransactionFilter>
@@ -108,7 +111,7 @@ export function DepositHistory() {
             className="max-w-xs"
           />
 
-          <div className="h-full overflow-auto border border-(--border) [scrollbar-gutter:stable]">
+          <div className="overflow-x-auto border border-(--border) [scrollbar-gutter:stable]">
             <table className="w-full min-w-[980px] table-fixed border-collapse text-left">
               <colgroup>
                 <col className="w-[10%]" />

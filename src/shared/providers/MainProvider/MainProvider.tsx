@@ -3,10 +3,18 @@ import { connectRealtime } from "@/shared/api/connectRealTime";
 import { UserProvider } from "../UserProvider/UserProvider";
 import { useUserStore } from "@/entities/user";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   BalanceTransactionStatus,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
+import {
+  CheckSchema,
+  CheckStatus,
+  getCheckModuleLabel,
+  getCheckStatusLabel,
+  useChecksStore,
+} from "@/entities/check";
 import { playSound } from "@/shared/lib";
 
 type BalanceUpdatedPayload = {
@@ -26,14 +34,37 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!userId) {
+      useChecksStore.getState().reset();
       return;
     }
 
     const sockets = connectRealtime(userId);
 
     sockets.check.on("check.updated", (checkDto) => {
+      const parsed = CheckSchema.safeParse(checkDto);
+      if (!parsed.success) return;
+
+      useChecksStore.getState().upsertCheck(parsed.data);
       playSound("/notify-sound.mp3");
-      console.log(checkDto);
+
+      const moduleLabel = getCheckModuleLabel(parsed.data.module);
+      const statusLabel = getCheckStatusLabel(parsed.data.status);
+      const isSuccess = parsed.data.status === CheckStatus.DONE;
+
+      toast.info(
+        <div className="flex flex-col gap-1 pr-2">
+          <span className="text-sm font-semibold">
+            {isSuccess ? "Проверка завершена" : "Проверка не выполнена"}
+          </span>
+          <span className="text-sm">
+            {moduleLabel} · {statusLabel}
+          </span>
+        </div>,
+        {
+          toastId: parsed.data.id,
+          autoClose: 5000,
+        }
+      );
     });
     sockets.balance.on("balance.updated", (payload: BalanceUpdatedPayload) => {
       const { user, setUser } = useUserStore.getState();
@@ -52,7 +83,6 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
         status: normalizedReason,
       });
       setUser({ ...user, balance: payload.balance });
-      console.log(payload);
     });
 
     return () => {
@@ -62,7 +92,7 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   }, [userId]);
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+    <div className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden">
       <UserProvider>{children}</UserProvider>
     </div>
   );

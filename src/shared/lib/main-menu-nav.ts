@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { ChartBar, ClipboardList, History } from "lucide-react";
+import { ClipboardList, History } from "lucide-react";
 
 export type NavItem = {
   label: string;
@@ -13,11 +13,6 @@ export const sidebarNav: NavItem[] = [
     label: "История проверок",
     href: "/dashboard/check-history",
     icon: History,
-  },
-  {
-    label: "Статистика",
-    href: "/dashboard/statistics",
-    icon: ChartBar,
   },
 ];
 

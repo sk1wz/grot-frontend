@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Text } from "@/shared/ui";
+import { CheckHistory } from "@/widgets/check-history";
 
 export const metadata: Metadata = {
   title: "История проверок",
@@ -7,11 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function CheckHistoryPage() {
-  return (
-    <div className=" flex flex-col gap-4">
-      <Text className="text-(--muted)">
-        Здесь будет отображаться история ваших проверок.
-      </Text>
-    </div>
-  );
+  return <CheckHistory />;
 }
