@@ -135,8 +135,12 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
                   />
                   <YAxis tick={{ fill: "var(--muted)", fontSize: 12 }} />
                   <Tooltip
-                    formatter={(value: number) => formatAmount(value)}
-                    labelFormatter={(label) => label}
+                    formatter={(value) =>
+                      formatAmount(
+                        typeof value === "number" ? value : Number(value) || 0
+                      )
+                    }
+                    labelFormatter={(label) => String(label)}
                   />
                   <Legend />
                   <Bar
