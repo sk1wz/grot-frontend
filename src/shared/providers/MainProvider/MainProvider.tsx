@@ -7,11 +7,6 @@ import {
   BalanceTransactionStatus,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
-import {
-  NotificationSchema,
-  syncNotifications,
-  useNotificationsStore,
-} from "@/entities/notification";
 import { playSound } from "@/shared/lib";
 
 type BalanceUpdatedPayload = {
@@ -34,11 +29,10 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    void syncNotifications();
-
     const sockets = connectRealtime(userId);
 
     sockets.check.on("check.updated", (checkDto) => {
+      playSound("/notify-sound.mp3");
       console.log(checkDto);
     });
     sockets.balance.on("balance.updated", (payload: BalanceUpdatedPayload) => {
@@ -60,21 +54,10 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       setUser({ ...user, balance: payload.balance });
       console.log(payload);
     });
-    sockets.notifications.on("notification.updated", (notification) => {
-      const parsed = NotificationSchema.safeParse(notification);
-      if (!parsed.success) return;
-
-      useNotificationsStore.getState().upsertNotification(parsed.data);
-
-      if (parsed.data.isRead) return;
-
-      playSound("/notify-sound.mp3");
-    });
 
     return () => {
       sockets.check.disconnect();
       sockets.balance.disconnect();
-      sockets.notifications.disconnect();
     };
   }, [userId]);
 

@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Bell, ChartBar, ClipboardList, History } from "lucide-react";
+import { ChartBar, ClipboardList, History } from "lucide-react";
 
 export type NavItem = {
   label: string;
@@ -22,11 +22,6 @@ export const sidebarNav: NavItem[] = [
 ];
 
 export const menuItems: NavItem[] = [
-  {
-    label: "Уведомления",
-    href: "/dashboard/notifications",
-    icon: Bell,
-  },
   {
     label: "История транзакций",
     href: "/dashboard/deposit-history",
