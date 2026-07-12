@@ -104,7 +104,7 @@ export function DepositHistory() {
             value={filter}
             onChange={setFilter}
             options={transactionFilterOptions}
-            label="Тип операции"
+            label="Тип транзакции"
             className="max-w-xs"
           />
 
@@ -171,6 +171,7 @@ export function DepositHistory() {
             limit={ITEMS_PER_PAGE}
             page={safeCurrentPage}
             onPageChange={setCurrentPage}
+            summaryText="Всего транзакций"
           />
         </div>
       </div>

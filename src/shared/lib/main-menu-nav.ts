@@ -37,7 +37,7 @@ export const menuItems: NavItem[] = [
 export function getRouteTitle(pathname: string): string {
   const path = pathname.split("?")[0] ?? pathname;
 
-  const allItems = [...sidebarNav].sort(
+  const allItems = [...sidebarNav, ...menuItems].sort(
     (a, b) => b.href.length - a.href.length
   );
 

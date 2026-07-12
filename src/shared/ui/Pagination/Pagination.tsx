@@ -13,6 +13,7 @@ export type PaginationProps = {
   page: number;
   onPageChange?: (page: number) => void;
   className?: string;
+  summaryText?: string;
 };
 
 function getTotalPages(total: number, limit: number) {
@@ -41,6 +42,7 @@ export function Pagination({
   page,
   onPageChange,
   className = "",
+  summaryText,
 }: PaginationProps) {
   const totalPages = getTotalPages(total, limit);
   const safePage = Math.min(Math.max(page, 1), Math.max(totalPages, 1));
@@ -66,7 +68,9 @@ export function Pagination({
       aria-label="Пагинация"
       className={`flex justify-between items-center gap-2 ${className}`}
     >
-      <span className="text-sm text-(--muted)">Всего транзакций: {total}</span>
+      <span className="text-sm text-(--muted)">
+        {summaryText && `${summaryText}: ${total}`}
+      </span>
 
       <div className="flex items-center justify-start gap-1">
         <button

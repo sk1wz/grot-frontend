@@ -107,7 +107,7 @@ export function UserMiniProfileOpen({
                   size={18}
                   className="size-4 shrink-0 text-(--icon-color)"
                 />
-                {item.label}
+                <span className="flex-1">{item.label}</span>
               </Link>
             );
           })}
