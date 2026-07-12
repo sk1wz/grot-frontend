@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
-const url = "https://api.ivatracker.ru";
+const url = "http://api.ivatracker.ru";
 type Sockets = {
   check: Socket;
   balance: Socket;
