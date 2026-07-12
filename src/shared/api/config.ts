@@ -1,1 +1,1 @@
-export const baseURL = "https://api.ivatracker.ru";
+export const baseURL = "https://ivatracker.ru";
