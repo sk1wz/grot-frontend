@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Text } from "@/shared/ui";
+import { NotificationsList } from "@/widgets/notifications";
 
 export const metadata: Metadata = {
   title: "Уведомления",
@@ -7,11 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function NotificationsPage() {
-  return (
-    <div className="flex flex-col gap-4">
-      <Text className="text-(--muted)">
-        Пока уведомлений нет. Здесь будут появляться новые системные события.
-      </Text>
-    </div>
-  );
+  return <NotificationsList />;
 }
