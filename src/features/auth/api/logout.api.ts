@@ -1,13 +1,4 @@
-import { useUserStore } from "@/entities/user";
-import { useChecksStore } from "@/entities/check";
 import { baseURL } from "@/shared/api/config";
-
-async function clearLocalSession() {
-  await fetch("/api/session", {
-    method: "DELETE",
-    credentials: "include",
-  });
-}
 
 export async function logout(): Promise<void> {
   try {
@@ -31,9 +22,7 @@ export async function logout(): Promise<void> {
         // ignore non-json logout response
       }
     }
-  } finally {
-    useUserStore.getState().setUser(null);
-    useChecksStore.getState().reset();
-    await clearLocalSession();
+  } catch (error) {
+    console.error("Не удалось выйти из системы", error);
   }
 }
