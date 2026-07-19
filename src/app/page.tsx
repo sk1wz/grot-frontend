@@ -86,7 +86,7 @@ export default function HomePage() {
           height={500}
           className="pointer-events-none absolute top-[35%] right-[15%] z-10 w-[clamp(10rem,30vw,28rem)] translate-x-1/2 -translate-y-1/2"
         />
-        <div className="absolute bottom-8 left-0 z-20 w-full max-w-[450px] rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border-[3px] border-[#C9D5E5]/40 bg-white/30 px-8 py-6 backdrop-blur-[88.16px] shadow-[inset_7.6px_-7.6px_7.6px_0_rgba(212,221,234,0.4),inset_15px_-15.2px_15.2px_0_rgba(212,221,234,0.4)]">
+        <div className="absolute bottom-8 left-0 z-20 w-full max-w-[450px] rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border-[3px] border-[#C9D5E5]/40 bg-white/20 px-8 py-6 backdrop-blur-[88.16px] shadow-[inset_7.6px_-7.6px_7.6px_0_rgba(212,221,234,0.4),inset_15px_-15.2px_15.2px_0_rgba(212,221,234,0.4)]">
           <div className="mb-4">
             <Text className="text-base sm:text-xl font-semibold leading-relaxed">
               Единая платформа для проверки данных через ГИБДД, ФССП и другие

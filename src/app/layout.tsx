@@ -24,7 +24,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${roboto.variable}  h-full antialiased`}
     >
-      <body className="h-full w-full">
+      <body>
         <ToastContainer
           position="bottom-right"
           autoClose={1000}
@@ -37,7 +37,7 @@ export default function RootLayout({
           pauseOnHover={false}
           theme="light"
         />
-        <div className="h-full w-full">{children}</div>
+        {children}
       </body>
     </html>
   );
