@@ -44,7 +44,7 @@ function HeroButton({
 
 export default function HomePage() {
   return (
-    <div className="max-w-[1440px] mx-auto p-6">
+    <div className="max-w-[1460px] p-6 mx-auto">
       <header>
         <div className="flex items-center justify-between">
           <div>
@@ -52,21 +52,21 @@ export default function HomePage() {
           </div>
           <div>
             <HeroButton href="/login" variant="secondary">
-              ЛИЧНЫЙ КАБИНЕТ
+              Личный кабинет
             </HeroButton>
           </div>
         </div>
       </header>
       <div className="hero relative h-[600px] w-full ">
-        <div className="absolute h-[600px] w-full max-w-full rounded-full bg-[#D4DDEA] blur-[100px]" />
+        <div className="absolute inset-0 w-full max-w-[850px] justify-self-center rounded-full bg-[#D4DDEA] blur-[50px]" />
         <span
-          className="absolute top-10 left-20 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent"
+          className="absolute top-10 left-10 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent lg:left-80"
           style={{ filter: watermarkShadow }}
         >
           Info
         </span>
         <span
-          className="absolute right-20 bottom-10 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent"
+          className="absolute top-30 right-10 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent lg:top-auto lg:right-30 lg:bottom-20"
           style={{ filter: watermarkShadow }}
         >
           Fusion
@@ -84,11 +84,11 @@ export default function HomePage() {
           alt=""
           width={500}
           height={500}
-          className="pointer-events-none absolute top-[20%] right-[10%] z-10 w-[clamp(10rem,30vw,28rem)] translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-none absolute top-[35%] right-[15%] z-10 w-[clamp(10rem,30vw,28rem)] translate-x-1/2 -translate-y-1/2"
         />
-        <div className="absolute bottom-8 left-0 z-20 max-w-[clamp(20rem,30vw,27rem)] rounded-[34px] border-[3px] border-[#C9D5E5] bg-white/60 p-6 backdrop-blur-[88.16px] shadow-[inset_7.6px_-7.6px_7.6px_0_rgba(212,221,234,0.6),inset_15.2px_-15.2px_15.2px_0_rgba(212,221,234,0.6)]">
+        <div className="absolute bottom-8 left-0 z-20 w-full max-w-[450px] rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border-[3px] border-[#C9D5E5]/50 bg-transparent px-8 py-6 backdrop-blur-[88.16px] shadow-[inset_7.6px_-7.6px_7.6px_0_rgba(212,221,234,0.4),inset_1px_-15.2px_15.2px_0_rgba(212,221,234,0.4)]">
           <div className="mb-4">
-            <Text className="text-xl font-semibold leading-relaxed">
+            <Text className="text-base sm:text-xl font-semibold leading-relaxed">
               Единая платформа для проверки данных через ГИБДД, ФССП и другие
               ведомства.
             </Text>
@@ -102,6 +102,22 @@ export default function HomePage() {
             Стать клиентом
           </HeroButton>
         </div>
+      </div>
+      <div className="relative min-h-[600px] h-full w-full">
+        <Image
+          src="/advantage_figure.png"
+          alt=""
+          width={373}
+          height={542}
+          className="pointer-events-none absolute top-50 -left-5 h-auto w-[clamp(12rem,28vw,23rem)] -translate-y-1/2"
+        />
+        <Image
+          src="/panel advantages.svg"
+          alt=""
+          width={1400}
+          height={300}
+          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
       </div>
     </div>
   );
