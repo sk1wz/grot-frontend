@@ -44,7 +44,7 @@ function HeroButton({
 
 export default function HomePage() {
   return (
-    <div className="max-w-[1460px] p-6 mx-auto">
+    <div className="max-w-[1460px] pt-6 px-6 mx-auto">
       <header>
         <div className="flex items-center justify-between">
           <div>
@@ -57,7 +57,7 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      <div className="hero relative h-[600px] w-full ">
+      <section className="relative h-[600px] w-full">
         <div className="absolute inset-0 w-full max-w-[850px] justify-self-center rounded-full bg-[#D4DDEA] blur-[50px]" />
         <span
           className="absolute top-10 left-10 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent lg:left-80"
@@ -86,7 +86,7 @@ export default function HomePage() {
           height={500}
           className="pointer-events-none absolute top-[35%] right-[15%] z-10 w-[clamp(10rem,30vw,28rem)] translate-x-1/2 -translate-y-1/2"
         />
-        <div className="absolute bottom-8 left-0 z-20 w-full max-w-[450px] rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border-[3px] border-[#C9D5E5]/50 bg-transparent px-8 py-6 backdrop-blur-[88.16px] shadow-[inset_7.6px_-7.6px_7.6px_0_rgba(212,221,234,0.4),inset_1px_-15.2px_15.2px_0_rgba(212,221,234,0.4)]">
+        <div className="absolute bottom-8 left-0 z-20 w-full max-w-[450px] rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border-[3px] border-[#C9D5E5]/40 bg-white/30 px-8 py-6 backdrop-blur-[88.16px] shadow-[inset_7.6px_-7.6px_7.6px_0_rgba(212,221,234,0.4),inset_15px_-15.2px_15.2px_0_rgba(212,221,234,0.4)]">
           <div className="mb-4">
             <Text className="text-base sm:text-xl font-semibold leading-relaxed">
               Единая платформа для проверки данных через ГИБДД, ФССП и другие
@@ -102,8 +102,8 @@ export default function HomePage() {
             Стать клиентом
           </HeroButton>
         </div>
-      </div>
-      <div className="relative min-h-[600px] h-full w-full">
+      </section>
+      <section className="relative h-[600px] w-full">
         <Image
           src="/advantage_figure.png"
           alt=""
@@ -118,7 +118,54 @@ export default function HomePage() {
           height={300}
           className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
-      </div>
+      </section>
+      <section className="relative w-full">
+        <h2 className="text-left text-4xl font-bold text-[#3E3C4B]">
+          Доступные проверки
+        </h2>
+        <Image
+          src="/examination form.svg"
+          alt="Доступные проверки"
+          width={1024}
+          height={768}
+          draggable={false}
+          className="pointer-events-none mt-8 h-auto w-full select-none [-webkit-user-drag:none]"
+        />
+      </section>
+      <footer
+        style={{ filter: watermarkShadow }}
+        className="mt-16 grid min-h-[300px] grid-cols-[1fr_auto_1fr] items-center bg-[#C9D5E5]/40 rounded-t-[34px] p-4"
+      >
+        <div className="self-start justify-self-start">
+          <Logo />
+        </div>
+        <div className="col-start-2 self-center flex flex-col items-center gap-2 text-center text-[#3E3C4B]">
+          <h2
+            className="px-1  bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-4xl font-bold text-transparent"
+            style={{ filter: watermarkShadow }}
+          >
+            InfoFusion
+          </h2>
+          <a
+            className="text-base sm:text-lg font-bold text-[#3E3C4B]"
+            href="tel:+78000000000"
+          >
+            +7 (800) 000-00-00
+          </a>
+          <a
+            className="text-base sm:text-lg font-bold text-[#3E3C4B]"
+            href="mailto:info@autosledrf.ru"
+          >
+            info@autosledrf.ru
+          </a>
+          <a
+            className="mt-2 text-sm underline text-[#3E3C4B] font-semibold"
+            href="/privacy-policy"
+          >
+            Политика конфиденциальности
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

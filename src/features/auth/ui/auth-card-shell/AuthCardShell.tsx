@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 const AUTH_CARD_CLASS =
-  "relative z-10 flex min-h-[650px] w-full max-w-[600px] flex-col rounded-[40px_150px_40px_150px] border-[10px] border-[#C9D5E5]/60 bg-transparent p-10 shadow-[0_24px_64px_rgba(62,60,75,0.12)] backdrop-blur-xl";
+  "relative z-10 flex min-h-[650px] w-full max-w-[600px] flex-col rounded-[40px_150px_40px_150px] border-[10px] border-[#C9D5E5]/60 bg-transparent p-10 shadow-[0_24px_64px_rgba(62,60,75,0.12)] backdrop-blur-xl mx-auto";
 
 export function AuthCardShell({
   title,
@@ -12,10 +12,10 @@ export function AuthCardShell({
   children: ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-full items-center justify-center overflow-hidden p-2">
-      <div className="relative w-full max-w-[600px]">
+    <div className="relative flex min-h-full items-center justify-center p-2">
+      <div className="relative w-full h-full">
         <Image
-          src="/Rectangle 159.png"
+          src="/auth_figure.png"
           alt=""
           aria-hidden
           width={320}

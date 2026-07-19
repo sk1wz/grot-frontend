@@ -3,8 +3,7 @@ import Link from "next/link";
 
 const dropShadow = [
   "12px 12px 50px 0px rgba(62, 60, 75, 0.25)",
-  "-12px -12px 20px 0px rgba(255, 255, 255, 1)",
-  "-20px -20px 44px 0px rgba(201, 213, 229, 0.8)",
+  "-12px -12px 20px 0px rgba(255, 255, 255, 0.5)",
 ].join(", ");
 
 const insetShadow = [
