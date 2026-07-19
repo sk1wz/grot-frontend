@@ -3,7 +3,7 @@ import { AuthCardShell } from "@/features/auth";
 
 export default function LoginPage() {
   return (
-    <AuthCardShell title="Вход в личный кабинет">
+    <AuthCardShell title="Авторизация">
       <LoginForm />
     </AuthCardShell>
   );

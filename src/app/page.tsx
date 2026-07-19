@@ -142,7 +142,7 @@ export default function HomePage() {
           className="pointer-events-none absolute -top-15 right-10 z-0 h-auto w-[clamp(9rem,30vw,20rem)] translate-x-[30%] -translate-y-[30%] select-none"
         />
 
-        <footer className="relative z-10 grid min-h-[300px] grid-cols-[1fr_auto_1fr] items-center rounded-t-[34px] bg-[#C9D5E5] p-4 shadow-[inset_-7.5px_6px_7.5px_0_rgba(255,255,255,0.6),inset_-15.2px_15.2px_15.2px_0_rgba(212,221,234,0.6)]">
+        <footer className="relative z-10 grid min-h-[300px] grid-cols-[1fr_auto_1fr] items-center rounded-t-[34px] p-4 bg-[#C9D5E5] shadow-[inset_-7.5px_6px_7.5px_0_rgba(255,255,255,0.6),inset_-15.2px_15.2px_15.2px_0_rgba(212,221,234,0.6)]">
           <div className="self-start justify-self-start">
             <Logo />
           </div>

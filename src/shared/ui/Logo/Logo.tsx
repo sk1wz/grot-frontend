@@ -7,7 +7,7 @@ const dropShadow = [
 ].join(", ");
 
 const insetShadow = [
-  "inset 12px 12px 50px 0px rgba(62, 60, 75, 0.25)",
+  // "inset 12px 12px 50px 0px rgba(62, 60, 75, 0.25)",
   "inset -12px -12px 24px 0px rgba(255, 255, 255, 0.6)",
   "inset 7px 7px 4px 0px rgba(255, 255, 255, 0.6)",
   "inset -7px -7px 7px 0px rgba(62, 60, 75, 0.3)",
