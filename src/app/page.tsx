@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 
 const watermarkShadow = [
   "drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.75))",
-  "drop-shadow(2px 3px 6px rgba(100, 115, 140, 0.55))",
+  "drop-shadow(2px 3px 6px rgba(100, 115, 140, 0.3))",
   "drop-shadow(4px 7px 14px rgba(80, 95, 120, 0.45))",
   "drop-shadow(-1px -1px 2px rgba(255, 255, 255, 0.5))",
 ].join(" ");
@@ -132,40 +132,51 @@ export default function HomePage() {
           className="pointer-events-none mt-8 h-auto w-full select-none [-webkit-user-drag:none]"
         />
       </section>
-      <footer
-        style={{ filter: watermarkShadow }}
-        className="mt-16 grid min-h-[300px] grid-cols-[1fr_auto_1fr] items-center bg-[#C9D5E5]/40 rounded-t-[34px] p-4"
-      >
-        <div className="self-start justify-self-start">
-          <Logo />
-        </div>
-        <div className="col-start-2 self-center flex flex-col items-center gap-2 text-center text-[#3E3C4B]">
-          <h2
-            className="px-1  bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-4xl font-bold text-transparent"
-            style={{ filter: watermarkShadow }}
-          >
-            InfoFusion
-          </h2>
-          <a
-            className="text-base sm:text-lg font-bold text-[#3E3C4B]"
-            href="tel:+78000000000"
-          >
-            +7 (800) 000-00-00
-          </a>
-          <a
-            className="text-base sm:text-lg font-bold text-[#3E3C4B]"
-            href="mailto:info@autosledrf.ru"
-          >
-            info@autosledrf.ru
-          </a>
-          <a
-            className="mt-2 text-sm underline text-[#3E3C4B] font-semibold"
-            href="/privacy-policy"
-          >
-            Политика конфиденциальности
-          </a>
-        </div>
-      </footer>
+      <div className="relative mt-16">
+        <Image
+          src="/footer_figure.png"
+          alt=""
+          width={373}
+          height={542}
+          draggable={false}
+          className="pointer-events-none absolute -top-15 right-10 z-0 h-auto w-[clamp(9rem,30vw,20rem)] translate-x-[35%] -translate-y-[35%] select-none"
+        />
+
+        <footer
+          style={{ filter: watermarkShadow }}
+          className=" grid min-h-[300px] grid-cols-[1fr_auto_1fr] items-center bg-[#C9D5E5]/70 rounded-t-[34px] z-10 p-4"
+        >
+          <div className="self-start justify-self-start">
+            <Logo />
+          </div>
+          <div className="col-start-2 self-center flex flex-col items-center gap-2 text-center text-[#3E3C4B]">
+            <h2
+              className="px-1 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-4xl font-bold text-transparent"
+              style={{ filter: watermarkShadow }}
+            >
+              InfoFusion
+            </h2>
+            <a
+              className="text-base sm:text-lg font-bold text-[#3E3C4B]"
+              href="tel:+78000000000"
+            >
+              +7 (800) 000-00-00
+            </a>
+            <a
+              className="text-base sm:text-lg font-bold text-[#3E3C4B]"
+              href="mailto:info@autosledrf.ru"
+            >
+              info@autosledrf.ru
+            </a>
+            <a
+              className="mt-2 text-sm underline text-[#3E3C4B] font-semibold"
+              href="/privacy-policy"
+            >
+              Политика конфиденциальности
+            </a>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
