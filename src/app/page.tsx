@@ -139,7 +139,7 @@ export default function HomePage() {
           width={373}
           height={542}
           draggable={false}
-          className="pointer-events-none absolute -top-15 right-10 z-0 h-auto w-[clamp(9rem,30vw,20rem)] translate-x-[35%] -translate-y-[35%] select-none"
+          className="pointer-events-none absolute -top-15 right-10 z-0 h-auto w-[clamp(9rem,30vw,20rem)] translate-x-[30%] -translate-y-[30%] select-none"
         />
 
         <footer
