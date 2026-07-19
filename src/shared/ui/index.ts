@@ -12,3 +12,4 @@ export * from "./Pagination/Pagination";
 export * from "./Text/Text";
 export * from "./Text/TextTitle";
 export * from "./Skeleton/Skeleton";
+export * from "./Logo/Logo";
