@@ -4,17 +4,17 @@
 .default,
 [data-theme="light"],
 [data-theme="default"] {
-  --accent: #d5ebd9;
+  --accent: #c8ddd5;
   --accent-foreground: #3e3c4b;
-  --surface: white;
-  --surface-foreground: black;
+  --surface: #c9d5e5;
+  --surface-foreground: #3e3c4b;
   --muted: #3e3c4b;
   --foreground: #3e3c4b;
   --field: rgb(240, 240, 240);
-  --field-foreground: black;
-  --background: #ececec;
+  --field-foreground: #3e3c4b;
+  --background: #ffffff;
   --border: rgb(204, 201, 201);
-  --accent-border: #d5ebd9;
+  --accent-border: #c8ddd5;
   --icon-color: #338830;
 }
 
@@ -51,12 +51,4 @@ body {
   100% {
     transform: translateX(100%);
   }
-}
-
-.hero-watermark {
-  font-family: var(--font-roboto), sans-serif;
-  color: #c9d5e5;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.75),
-    2px 3px 6px rgba(100, 115, 140, 0.55), 4px 7px 14px rgba(80, 95, 120, 0.45),
-    -1px -1px 2px rgba(255, 255, 255, 0.5);
 }
