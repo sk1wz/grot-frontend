@@ -32,6 +32,7 @@ export async function getBalanceTransactions(): Promise<
     const parsed = BalanceTransactionsResponseSchema.safeParse(normalizedData);
 
     if (!parsed.success) {
+      console.error("Balance transactions parse error:", parsed.error);
       throw new Error("Некорректный ответ сервера");
     }
 
@@ -39,7 +40,8 @@ export async function getBalanceTransactions(): Promise<
       items: parsed.data.items,
       total: parsed.data.total ?? parsed.data.items.length,
     };
-  } catch {
+  } catch (error) {
+    console.error("Failed to load balance transactions:", error);
   } finally {
     const store = useBalanceTransactionsStore.getState();
     store.setLoading(false);

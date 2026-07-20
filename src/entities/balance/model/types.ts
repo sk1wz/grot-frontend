@@ -10,7 +10,7 @@ export enum BalanceTransactionStatus {
 const BalanceTransactionInputSchema = z.object({
   id: z.uuid().optional(),
   userId: z.uuid().optional(),
-  amount: z.number(),
+  amount: z.coerce.number(),
   status: z.enum(BalanceTransactionStatus).optional(),
   meta: z
     .object({
