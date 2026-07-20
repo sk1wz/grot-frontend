@@ -34,7 +34,7 @@ function SummaryCard({
 }) {
   return (
     <div className="rounded-xl border border-(--border) bg-(--surface) p-4">
-      <Text className="text-xs font-medium uppercase tracking-wide text-(--muted)">
+      <Text className="text-xs font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
       <p className={`mt-2 text-xl font-semibold ${accentClassName}`}>{value}</p>
@@ -45,7 +45,7 @@ function SummaryCard({
 function ChartEmptyState() {
   return (
     <div className="flex h-full items-center justify-center">
-      <Text className="text-sm text-(--muted)">Нет данных</Text>
+      <Text className="text-sm text-(--foreground)">Нет данных</Text>
     </div>
   );
 }
@@ -131,9 +131,9 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis
                     dataKey="monthLabel"
-                    tick={{ fill: "var(--muted)", fontSize: 12 }}
+                    tick={{ fill: "var(--foreground)", fontSize: 12 }}
                   />
-                  <YAxis tick={{ fill: "var(--muted)", fontSize: 12 }} />
+                  <YAxis tick={{ fill: "var(--foreground)", fontSize: 12 }} />
                   <Tooltip
                     formatter={(value) =>
                       formatAmount(

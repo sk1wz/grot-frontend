@@ -7,12 +7,7 @@ import {
 } from "@/entities/balance";
 import type { BalanceTransaction } from "@/entities/balance";
 import { useFilter } from "@/features/options";
-import {
-  DepositHistoryCard,
-  Pagination,
-  SelectField,
-  Skeleton,
-} from "@/shared/ui";
+import { Pagination, SelectField, Skeleton } from "@/shared/ui";
 import {
   ALL_TRANSACTIONS_FILTER,
   matchTransactionFilter,
@@ -20,6 +15,7 @@ import {
   type TransactionFilter,
 } from "../lib/transaction-options";
 import { DepositHistoryStats } from "./DepositHistoryStats";
+import { DepositHistoryCard } from "./DepositHistoryCard";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -122,19 +118,19 @@ export function DepositHistory() {
               </colgroup>
               <thead className="sticky top-0 z-10 bg-(--surface)">
                 <tr>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--muted)">
+                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Тип / Дата
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--muted)">
+                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     ID транзакции
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--muted)">
+                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Статус
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--muted)">
+                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Действие
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--muted)">
+                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Сумма
                   </th>
                 </tr>
@@ -157,7 +153,7 @@ export function DepositHistory() {
                   <tr>
                     <td
                       colSpan={5}
-                      className="px-4 py-10 text-center text-sm text-(--muted)"
+                      className="px-4 py-10 text-center text-sm text-(--foreground)"
                     >
                       {isFilterActive
                         ? "Нет операций по выбранному фильтру"

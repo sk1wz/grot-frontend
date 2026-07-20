@@ -12,10 +12,8 @@
   --foreground: #3e3c4b;
   --field: rgb(240, 240, 240);
   --field-foreground: #3e3c4b;
-  --background: #ececec;
-  --border: rgb(204, 201, 201);
+  --background: #ffffff;
   --accent-border: #c8ddd5;
-  --icon-color: #338830;
 
   --panel-fill: rgba(201, 213, 229, 0.4);
   --panel-blur: 44.08px;

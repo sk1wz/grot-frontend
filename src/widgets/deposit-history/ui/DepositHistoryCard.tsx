@@ -66,7 +66,9 @@ export function DepositHistoryCard({
           <span className="truncate text-sm font-medium text-(--foreground)">
             {typeLabel}
           </span>
-          <span className="mt-0.5 text-xs text-(--muted)">{formattedDate}</span>
+          <span className="mt-0.5 text-xs text-(--foreground)">
+            {formattedDate}
+          </span>
         </div>
       </td>
       <td className="truncate border-b border-(--border) px-4 py-3 text-sm text-(--foreground)">

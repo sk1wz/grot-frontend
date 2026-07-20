@@ -5,7 +5,6 @@ export * from "./Input/Input";
 export * from "./Select/Select";
 export * from "./SearchField/SearchField";
 export * from "./SelectField/SelectField";
-export * from "./Card/Card";
 export * from "./Pagination/Pagination";
 export * from "./Text/Text";
 export * from "./Text/TextTitle";

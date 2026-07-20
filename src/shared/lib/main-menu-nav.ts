@@ -1,27 +1,27 @@
-import type { LucideIcon } from "lucide-react";
-import { ClipboardList, History } from "lucide-react";
-
 export type NavItem = {
   label: string;
   href: string;
-  icon: LucideIcon;
 };
 
 export const sidebarNav: NavItem[] = [
-  { label: "Проверки", href: "/dashboard", icon: ClipboardList },
+  { label: "ГИБДД", href: "/dashboard/gibdd" },
+  { label: "ФССП", href: "/dashboard/fssp" },
+  { label: "Банкротства", href: "/dashboard/bankruptcy" },
+  { label: "ИНН по паспорту", href: "/dashboard/inn-by-passport" },
+  { label: "ГИС торги", href: "/dashboard/gis-torgi" },
+  { label: "Конвертация", href: "/dashboard/conversion" },
+  { label: "ФгИС такси", href: "/dashboard/fgis-taxi" },
+  { label: "Оценка стоимости авто", href: "/dashboard/car-valuation" },
   {
-    label: "История проверок",
-    href: "/dashboard/check-history",
-    icon: History,
+    label: "Федеральный реестр инвалидов",
+    href: "/dashboard/disability-registry",
   },
+  { label: "Тарифы", href: "/dashboard/tariffs" },
+  { label: "О Сервисе", href: "/dashboard/about" },
 ];
 
 export const menuItems: NavItem[] = [
-  {
-    label: "История транзакций",
-    href: "/dashboard/deposit-history",
-    icon: History,
-  },
+  { label: "История транзакций", href: "/dashboard/deposit-history" },
 ];
 
 export function getRouteTitle(pathname: string): string {

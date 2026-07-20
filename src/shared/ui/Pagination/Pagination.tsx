@@ -68,7 +68,7 @@ export function Pagination({
       aria-label="Пагинация"
       className={`flex justify-between items-center gap-2 ${className}`}
     >
-      <span className="text-sm text-(--muted)">
+      <span className="text-sm text-(--foreground)">
         {summaryText && `${summaryText}: ${total}`}
       </span>
 
@@ -103,8 +103,8 @@ export function Pagination({
             className={[
               "flex size-9 cursor-pointer items-center justify-center rounded-lg border text-sm font-medium outline-none transition-colors",
               item === safePage
-                ? "border-(--accent-border) bg-(--accent) text-(--accent-foreground)"
-                : "border-(--border) bg-(--surface) text-(--foreground) hover:bg-(--field)",
+                ? "bg-(--accent) text-(--accent-foreground)"
+                : "bg-(--surface) text-(--foreground) hover:bg-(--field)",
             ].join(" ")}
           >
             {item}
