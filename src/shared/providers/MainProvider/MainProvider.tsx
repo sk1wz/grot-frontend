@@ -58,6 +58,7 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
         status: normalizedReason,
       });
       setUser({ ...user, balance: payload.balance });
+      playSound("/notify-sound.mp3");
     });
 
     return () => {
