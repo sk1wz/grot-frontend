@@ -6,7 +6,7 @@
 [data-theme="default"] {
   --accent: #c8ddd5;
   --accent-foreground: #3e3c4b;
-  --surface: #c9d5e5;
+  --surface: rgba(201, 213, 229, 0.4);
   --surface-foreground: #3e3c4b;
   --muted: #3e3c4b;
   --foreground: #3e3c4b;
@@ -16,6 +16,13 @@
   --border: rgb(204, 201, 201);
   --accent-border: #c8ddd5;
   --icon-color: #338830;
+
+  --panel-fill: rgba(201, 213, 229, 0.4);
+  --panel-blur: 44.08px;
+  --panel-shadow: inset -15.2px 15.2px 15.2px 0 rgba(212, 221, 234, 0.4),
+    inset -7.6px 7.6px 7.6px 0 rgba(255, 255, 255, 0.4),
+    inset 15.2px -15.2px 15.2px 0 rgba(255, 255, 255, 0.4),
+    inset 7.6px -7.6px 7.6px 0 rgba(212, 221, 234, 0.4);
 }
 
 .dark,

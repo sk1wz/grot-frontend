@@ -1,9 +1,8 @@
 "use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarNav } from "@/shared/lib/main-menu-nav";
+import { Logo, LogoName } from "@/shared/ui";
 
 function isActive(pathname: string, href: string) {
   if (href === "/dashboard") {
@@ -17,19 +16,14 @@ export function Sidebar() {
   const pathname = usePathname() ?? "";
 
   return (
-    <aside className="flex h-full w-65 shrink-0 flex-col border border-(--border) bg-(--surface)">
-      <div className="flex h-14 shrink-0 items-center border-b border-(--border) px-4">
-        <Link href="/dashboard" className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="InfoFusion"
-            width={28}
-            height={28}
-            className="size-7"
-          />
-          <span className="text-sm font-semibold text-(--foreground)">
-            InfoFusion
-          </span>
+    <aside className="flex h-full w-75 shrink-0 flex-col rounded-tr-[34px] rounded-br-[34px] bg-(--panel-fill) p-4 shadow-(--panel-shadow) backdrop-blur-(--panel-blur)">
+      <div className="">
+        <Link
+          href="/dashboard"
+          className="flex flex-col items-center justify-center gap-2"
+        >
+          <Logo />
+          <LogoName />
         </Link>
       </div>
 

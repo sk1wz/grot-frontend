@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { Logo, Text } from "@/shared/ui";
+import { Logo, LogoName, Text } from "@/shared/ui";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -147,12 +147,7 @@ export default function HomePage() {
             <Logo />
           </div>
           <div className="col-start-2 self-center flex flex-col items-center gap-2 text-center text-[#3E3C4B]">
-            <h2
-              className="px-1 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-4xl font-bold text-transparent"
-              style={{ filter: watermarkShadow }}
-            >
-              InfoFusion
-            </h2>
+            <LogoName />
             <a
               className="text-base sm:text-lg font-bold text-[#3E3C4B]"
               href="tel:+78000000000"

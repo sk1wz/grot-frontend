@@ -11,3 +11,4 @@ export * from "./Text/Text";
 export * from "./Text/TextTitle";
 export * from "./Skeleton/Skeleton";
 export * from "./Logo/Logo";
+export * from "./Logo/LogoName";
