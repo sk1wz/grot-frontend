@@ -44,7 +44,7 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
     sockets.balance.on("balance.updated", (payload: BalanceUpdatedPayload) => {
       const { user, setUser } = useUserStore.getState();
       const { setTransaction } = useBalanceTransactionsStore.getState();
-      console.log(payload);
+
       if (!user) return;
 
       const rawReason = payload.transaction.status;
@@ -53,7 +53,6 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       )
         ? (rawReason as BalanceTransactionStatus)
         : BalanceTransactionStatus.BALANCE_FAILED;
-      console.log(payload);
       setTransaction({
         ...payload.transaction,
         status: normalizedReason,
