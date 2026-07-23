@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   title: "InfoFusion",
   description: "InfoFusion",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
   },
 };
 
