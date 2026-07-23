@@ -1,20 +1,4 @@
-import z from "zod";
-
-export enum CheckModule {
-  GIBDD = "GIBDD",
-  GISTORGI = "GISTORGI",
-  FSSP = "FSSP",
-  BANKRUPTCY = "BANKRUPTCY",
-  INN = "INN",
-}
-
-export enum CheckStatus {
-  PENDING = "PENDING",
-  QUEUED = "QUEUED",
-  RUNNING = "RUNNING",
-  DONE = "DONE",
-  FAILED = "FAILED",
-}
+import type { Check } from "./fabric-schemas";
 
 export type LegacyCheckStatus = "queued" | "processing" | "done" | "failed";
 
@@ -24,22 +8,41 @@ export type StartCheckResponse = {
   client_reference?: string;
 };
 
-export const CheckSchema = z.object({
-  id: z.uuid(),
-  module: z.nativeEnum(CheckModule),
-  status: z.nativeEnum(CheckStatus),
-  subject: z.unknown(),
-  cost: z.number(),
-  result: z.unknown().nullable().optional(),
-  error: z.unknown().nullable().optional(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  completedAt: z.string().nullable().optional(),
-});
+/** Значения = коды API */
+export enum CheckModule {
+  GIBDD = "GIBDD",
+  GISTORGI = "GISTORGI",
+  FSSP = "FSSP",
+  BANKRUPTCY = "BANKRUPTCY",
+  INN = "INN",
+}
 
-export const ChecksResponseSchema = z.array(CheckSchema);
+/** Значения = коды API */
+export enum CheckStatus {
+  PENDING = "PENDING",
+  QUEUED = "QUEUED",
+  RUNNING = "RUNNING",
+  DONE = "DONE",
+  FAILED = "FAILED",
+}
 
-export type Check = z.infer<typeof CheckSchema>;
+/** Значения = названия модулей */
+export const CheckModuleLabel: Record<CheckModule, string> = {
+  [CheckModule.GIBDD]: "Модуль ГИБДД",
+  [CheckModule.GISTORGI]: "Модуль ГИСТОРГИ",
+  [CheckModule.FSSP]: "Модуль ФССП",
+  [CheckModule.BANKRUPTCY]: "Модуль банкротства",
+  [CheckModule.INN]: "Модуль ИНН",
+};
+
+/** Значения = названия статусов */
+export const CheckStatusLabel: Record<CheckStatus, string> = {
+  [CheckStatus.PENDING]: "Ожидание",
+  [CheckStatus.QUEUED]: "В очереди",
+  [CheckStatus.RUNNING]: "Выполняется",
+  [CheckStatus.DONE]: "Готово",
+  [CheckStatus.FAILED]: "Ошибка",
+};
 
 export type ChecksStore = {
   items: Check[];
