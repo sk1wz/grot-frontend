@@ -9,5 +9,6 @@ export * from "./Pagination/Pagination";
 export * from "./Text/Text";
 export * from "./Text/TextTitle";
 export * from "./Skeleton/Skeleton";
+export * from "./Table";
 export * from "./Logo/Logo";
 export * from "./Logo/LogoName";
