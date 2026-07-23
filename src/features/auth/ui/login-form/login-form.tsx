@@ -36,7 +36,7 @@ export function LoginForm() {
   return (
     <form className="flex flex-1 flex-col gap-4" onSubmit={handleSubmit}>
       <label className="flex flex-col gap-2" htmlFor="email">
-        <span className="text-sm font-medium text-[#3e3c4b]">
+        <span className="text-sm font-medium text-(--foreground)">
           Введите Email
         </span>
         <input
@@ -47,12 +47,12 @@ export function LoginForm() {
           required
           autoComplete="email"
           suppressHydrationWarning
-          className="w-full rounded-full bg-white px-5 py-3.5 text-[#3e3c4b] shadow-[inset_0_2px_6px_rgba(163,177,198,0.28)] outline-none placeholder:text-[#3e3c4b]"
+          className="w-full rounded-full bg-white px-5 py-3.5 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
         />
       </label>
 
       <label className="flex flex-col gap-2" htmlFor="password">
-        <span className="text-sm font-medium text-[#3e3c4b]">
+        <span className="text-sm font-medium text-(--foreground)">
           Введите пароль
         </span>
         <div className="relative">
@@ -64,7 +64,7 @@ export function LoginForm() {
             required
             autoComplete="current-password"
             suppressHydrationWarning
-            className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-[#3e3c4b] shadow-[inset_0_2px_6px_rgba(163,177,198,0.28)] outline-none placeholder:text-[#3e3c4b]"
+            className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
           />
           <button
             type="button"
@@ -83,13 +83,13 @@ export function LoginForm() {
 
       <button
         type="submit"
-        className="mt-1 w-full cursor-pointer rounded-full bg-[#c8ddd5] py-4 text-sm font-bold uppercase tracking-wide text-[#3e3c4b] shadow-[0_18.667px_18.667px_rgba(62,60,75,0.24),inset_0_-5.849px_5.849px_0px_#adadad,inset_0_5.849px_5.849px_0px_#ffffff] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#b8d4c8] active:translate-y-0 active:scale-[0.98]"
+        className="mt-1 w-full cursor-pointer rounded-full bg-(--accent) py-4 text-sm font-bold uppercase tracking-wide text-(--foreground) shadow-(--shadow-1) transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--accent)/90 active:translate-y-0 active:scale-[0.98]"
       >
         Войти
       </button>
 
       <div className="flex items-end justify-between gap-4 pt-2">
-        <div className="text-left text-sm text-[#3e3c4b]">
+        <div className="text-left text-sm text-(--foreground)">
           <p>У вас еще нет личного кабинета?</p>
           <Text>Зарегистрируйтесь</Text>
         </div>
