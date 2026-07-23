@@ -66,7 +66,7 @@ export function Pagination({
   return (
     <nav
       aria-label="Пагинация"
-      className={`flex justify-between items-center gap-2 ${className}`}
+      className={`flex justify-between items-center px-4 py-2 bg-(--surface) rounded-lg gap-2 ${className}`}
     >
       <span className="text-sm text-(--foreground)">
         {summaryText && `${summaryText}: ${total}`}
@@ -78,7 +78,7 @@ export function Pagination({
           aria-label="В начало"
           disabled={!canGoPrev}
           onClick={() => handlePageChange(1)}
-          className="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-(--surface) text-(--foreground) outline-none transition-colors hover:bg-(--field) disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronsLeft size={18} />
         </button>
@@ -88,7 +88,7 @@ export function Pagination({
           aria-label="Предыдущая страница"
           disabled={!canGoPrev}
           onClick={() => handlePageChange(safePage - 1)}
-          className="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-(--surface) text-(--foreground) outline-none transition-colors hover:bg-(--field) disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronLeft size={18} />
         </button>
@@ -104,7 +104,7 @@ export function Pagination({
               "flex size-9 cursor-pointer items-center justify-center rounded-lg text-sm font-medium outline-none transition-colors",
               item === safePage
                 ? "bg-(--accent) text-(--accent-foreground)"
-                : "bg-(--surface) text-(--foreground) hover:bg-(--field)",
+                : "bg-(--field) border border-(--border) text-(--field-foreground) hover:bg-(--accent)/90",
             ].join(" ")}
           >
             {item}
@@ -116,7 +116,7 @@ export function Pagination({
           aria-label="Следующая страница"
           disabled={!canGoNext}
           onClick={() => handlePageChange(safePage + 1)}
-          className="flex size-9 cursor-pointer items-center justify-center rounded-lg bg-(--surface) text-(--foreground) outline-none transition-colors hover:bg-(--field) disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronRight size={18} />
         </button>
@@ -126,7 +126,7 @@ export function Pagination({
           aria-label="В конец"
           disabled={!canGoNext}
           onClick={() => handlePageChange(totalPages)}
-          className="flex size-9 cursor-pointer items-center justify-center rounded-lg  bg-(--surface) text-(--foreground) outline-none transition-colors hover:bg-(--field) disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronsRight size={18} />
         </button>
