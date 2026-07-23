@@ -151,7 +151,7 @@ export function RegisterForm() {
 
       <button
         type="submit"
-        className="mt-1 w-full cursor-pointer rounded-full bg-(--accent) py-4 text-sm font-bold uppercase tracking-wide text-(--foreground) shadow-(--shadow-1) transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--accent)/90 active:translate-y-0 active:scale-[0.98]"
+        className="mt-1 w-full cursor-pointer rounded-full bg-(--accent) py-4 text-sm font-bold uppercase tracking-wide text-(--accent-foreground) shadow-(--shadow-1) transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--accent)/90 active:translate-y-0 active:scale-[0.98]"
       >
         Зарегистрироваться
       </button>
