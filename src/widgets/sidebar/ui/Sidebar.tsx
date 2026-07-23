@@ -28,9 +28,9 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-center rounded-[20px] border border-[#ffffff]/60 px-3 py-2.5 text-center text-sm font-medium transition-colors ${
+              className={`flex items-center justify-center rounded-[20px] border-2 border-[#ffffff] px-3 py-2.5 text-center text-sm font-medium transition-colors shadow-[inset_2_4px_0_rgba(255,1,255,0.8)] ${
                 active
-                  ? "bg-white/70 text-(--foreground) shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]"
+                  ? "bg-white/70 text-(--foreground)"
                   : "bg-white/25 text-(--foreground) hover:bg-white/45"
               }`}
             >
