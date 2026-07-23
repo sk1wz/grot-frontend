@@ -33,7 +33,7 @@ function SummaryCard({
   accentClassName: string;
 }) {
   return (
-    <div className="rounded-xl border border-(--border) bg-(--surface) p-4">
+    <div className="rounded-xl bg-(--surface) p-4">
       <Text className="text-xs font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
@@ -81,7 +81,7 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-(--border) bg-(--surface) p-4">
+        <div className="rounded-xl  bg-(--surface) p-4">
           <Text className="text-sm font-medium text-(--foreground)">
             Распределение по типам
           </Text>
@@ -119,7 +119,7 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
           </div>
         </div>
 
-        <div className="rounded-xl border border-(--border) bg-(--surface) p-4">
+        <div className="rounded-xl bg-(--surface) p-4">
           <Text className="text-sm font-medium text-(--foreground)">
             Динамика по месяцам
           </Text>
@@ -128,7 +128,7 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
             {stats.byMonth.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={stats.byMonth}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
                     dataKey="monthLabel"
                     tick={{ fill: "var(--foreground)", fontSize: 12 }}

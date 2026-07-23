@@ -24,20 +24,20 @@ function DepositHistorySkeletonRows() {
     <>
       {Array.from({ length: 5 }).map((_, index) => (
         <tr key={index}>
-          <td className="border-b border-(--border) px-4 py-3">
+          <td className="px-4 py-3">
             <Skeleton className="h-4 w-40" />
             <Skeleton className="mt-2 h-3 w-28" />
           </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          <td className="px-4 py-3">
             <Skeleton className="h-4 w-36" />
           </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          <td className="px-4 py-3">
             <Skeleton className="h-6 w-28 rounded-full" />
           </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          <td className="px-4 py-3">
             <Skeleton className="h-4 w-56" />
           </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          <td className="px-4 py-3">
             <Skeleton className="h-4 w-24" />
           </td>
         </tr>
@@ -97,7 +97,7 @@ export function DepositHistory() {
     <section className="flex w-full flex-col gap-4">
       <DepositHistoryStats items={items} />
 
-      <div className="border border-(--border) bg-(--surface) p-4">
+      <div className="bg-(--surface) p-4">
         <div className="flex flex-col gap-4">
           <SelectField<TransactionFilter>
             value={filter}
@@ -107,7 +107,7 @@ export function DepositHistory() {
             className="max-w-xs"
           />
 
-          <div className="overflow-x-auto border border-(--border) [scrollbar-gutter:stable]">
+          <div className="overflow-x-auto border [scrollbar-gutter:stable]">
             <table className="w-full min-w-[980px] table-fixed border-collapse text-left">
               <colgroup>
                 <col className="w-[10%]" />
@@ -118,19 +118,19 @@ export function DepositHistory() {
               </colgroup>
               <thead className="sticky top-0 z-10 bg-(--surface)">
                 <tr>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
+                  <th className="bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Тип / Дата
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
+                  <th className="bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     ID транзакции
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
+                  <th className="bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Статус
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
+                  <th className="bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Действие
                   </th>
-                  <th className="border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
+                  <th className="bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)">
                     Сумма
                   </th>
                 </tr>

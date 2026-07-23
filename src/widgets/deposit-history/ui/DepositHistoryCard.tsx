@@ -61,7 +61,7 @@ export function DepositHistoryCard({
 
   return (
     <tr className={`transition-colors hover:bg-(--field) ${className}`}>
-      <td className="border-b border-(--border) px-4 py-3">
+      <td className=" px-4 py-3">
         <div className="flex min-w-0 flex-col">
           <span className="truncate text-sm font-medium text-(--foreground)">
             {typeLabel}
@@ -71,17 +71,17 @@ export function DepositHistoryCard({
           </span>
         </div>
       </td>
-      <td className="truncate border-b border-(--border) px-4 py-3 text-sm text-(--foreground)">
+      <td className="truncate px-4 py-3 text-sm text-(--foreground)">
         {id ?? "—"}
       </td>
-      <td className="border-b border-(--border) px-4 py-3 text-sm">
+      <td className="px-4 py-3 text-sm">
         <Badge variant={statusVariants[status]}>{statusLabel}</Badge>
       </td>
-      <td className="truncate border-b border-(--border) px-4 py-3 text-sm text-(--foreground)">
+      <td className="truncate px-4 py-3 text-sm text-(--foreground)">
         {action ?? "—"}
       </td>
       <td
-        className={`whitespace-nowrap border-b border-(--border) px-4 py-3 text-sm font-semibold ${amountClassName}`}
+        className={`whitespace-nowrap px-4 py-3 text-sm font-semibold ${amountClassName}`}
       >
         {signedAmount}
       </td>

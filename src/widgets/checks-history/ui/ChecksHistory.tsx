@@ -1,8 +1,7 @@
 "use client";
-
 import { useEffect, useMemo, useState } from "react";
 import { CheckModule, getChecks, useChecksStore } from "@/entities/check";
-import { Pagination, TableCheck } from "@/shared/ui";
+import { Pagination, TableCheck, TextTitle } from "@/shared/ui";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -45,23 +44,22 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
   return (
     <section className={`flex w-full flex-col gap-4 ${className}`}>
-      <div className="border border-(--border) bg-(--surface) p-4">
-        <div className="flex flex-col gap-4">
-          <TableCheck
-            items={paginatedItems}
-            isLoading={isLoading && items.length === 0}
-            isInitialized={isInitialized}
-            emptyMessage="Нет проверок для отображения"
-          />
+      <TextTitle>История проверок</TextTitle>
+      <div className="flex flex-col gap-4">
+        <TableCheck
+          items={paginatedItems}
+          isLoading={isLoading && items.length === 0}
+          isInitialized={isInitialized}
+          emptyMessage="Нет проверок для отображения"
+        />
 
-          <Pagination
-            total={totalItems}
-            limit={ITEMS_PER_PAGE}
-            page={safeCurrentPage}
-            onPageChange={setCurrentPage}
-            summaryText="Всего проверок"
-          />
-        </div>
+        <Pagination
+          total={totalItems}
+          limit={ITEMS_PER_PAGE}
+          page={safeCurrentPage}
+          onPageChange={setCurrentPage}
+          summaryText="Всего проверок"
+        />
       </div>
     </section>
   );

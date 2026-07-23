@@ -1,3 +1,29 @@
+function collectSubjectValues(value: unknown): string[] {
+  if (value == null || value === "") {
+    return [];
+  }
+
+  if (typeof value === "string" || typeof value === "number") {
+    return [String(value)];
+  }
+
+  if (typeof value === "boolean") {
+    return value ? ["true"] : [];
+  }
+
+  if (Array.isArray(value)) {
+    return value.flatMap(collectSubjectValues);
+  }
+
+  if (typeof value === "object") {
+    return Object.values(value as Record<string, unknown>).flatMap(
+      collectSubjectValues
+    );
+  }
+
+  return [];
+}
+
 export function formatCheckSubject(subject: unknown): string {
   if (subject == null) {
     return "—";
@@ -11,19 +37,7 @@ export function formatCheckSubject(subject: unknown): string {
     return String(subject);
   }
 
-  const values = Object.entries(subject as Record<string, unknown>)
-    .flatMap(([, value]) => {
-      if (value == null || value === "") {
-        return [];
-      }
-
-      if (typeof value === "boolean") {
-        return value ? [] : [];
-      }
-
-      return [String(value)];
-    })
-    .filter(Boolean);
+  const values = collectSubjectValues(subject);
 
   return values.length ? values.join(", ") : "—";
 }

@@ -6,27 +6,18 @@ export type TableProps = {
   className?: string;
 };
 
-export type TableHeadProps = {
-  children: ReactNode;
-  className?: string;
-};
-
-export type TableBodyProps = {
-  children: ReactNode;
-  className?: string;
-};
-
 export function Table({
   children,
   minWidth = "720px",
+
   className = "",
 }: TableProps) {
   return (
     <div
-      className={`overflow-x-auto border border-(--border) [scrollbar-gutter:stable] ${className}`}
+      className={`overflow-x-auto rounded-[18px] border border-(--border) [scrollbar-gutter:stable] ${className}`}
     >
       <table
-        className="w-full table-fixed border-collapse text-left"
+        className="w-full table-fixed border-separate border-spacing-0 text-left"
         style={{ minWidth }}
       >
         {children}
@@ -35,15 +26,29 @@ export function Table({
   );
 }
 
-export function TableHead({ children, className = "" }: TableHeadProps) {
+export function TableHead({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <thead className={`sticky top-0 z-10 bg-(--surface) ${className}`}>
+    <thead
+      className={`sticky top-0 z-10 bg-(--panel-fill) shadow-(--panel-shadow) [&_th:first-child]:rounded-tl-[18px] [&_th:last-child]:rounded-tr-[18px] ${className}`}
+    >
       {children}
     </thead>
   );
 }
 
-export function TableBody({ children, className = "" }: TableBodyProps) {
+export function TableBody({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return <tbody className={className}>{children}</tbody>;
 }
 
@@ -56,10 +61,38 @@ export function TableHeadCell({
 }) {
   return (
     <th
-      className={`border-b border-(--border) bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground) ${className}`}
+      className={`bg-(--panel-fill) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground) ${className}`}
     >
       {children}
     </th>
+  );
+}
+
+export function TableCell({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <td className={`px-4 py-3 text-sm text-(--foreground) ${className}`}>
+      {children}
+    </td>
+  );
+}
+
+export function TableRow({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <tr className={`transition-colors hover:bg-(--field) ${className}`}>
+      {children}
+    </tr>
   );
 }
 

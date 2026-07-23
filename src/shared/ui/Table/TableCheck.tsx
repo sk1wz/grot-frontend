@@ -1,13 +1,19 @@
 import type { Check } from "@/entities/check";
+import { CheckModuleLabel, CheckStatusLabel } from "@/entities/check";
+import { formatDate } from "@/shared/lib";
+import { Badge } from "@/shared/ui/Badge/Badge";
 import { Skeleton } from "@/shared/ui/Skeleton/Skeleton";
 import {
   Table,
   TableBody,
+  TableCell,
   TableEmptyRow,
   TableHead,
   TableHeadCell,
+  TableRow,
 } from "./Table";
-import { TableCheckRow } from "./TableCheckRow";
+import { checkStatusVariants } from "./lib/check-status";
+import { formatCheckSubject } from "./lib/format-check-subject";
 
 export type TableCheckProps = {
   items: Check[];
@@ -22,21 +28,42 @@ function TableCheckSkeletonRows() {
     <>
       {Array.from({ length: 5 }).map((_, index) => (
         <tr key={index}>
-          <td className="border-b border-(--border) px-4 py-3">
+          <TableCell>
             <Skeleton className="h-4 w-36" />
-          </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          </TableCell>
+          <TableCell>
+            <Skeleton className="h-4 w-28" />
+          </TableCell>
+          <TableCell>
             <Skeleton className="h-4 w-48" />
-          </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          </TableCell>
+          <TableCell>
             <Skeleton className="h-6 w-24 rounded-full" />
-          </td>
-          <td className="border-b border-(--border) px-4 py-3">
+          </TableCell>
+          <TableCell>
             <Skeleton className="h-4 w-16" />
-          </td>
+          </TableCell>
         </tr>
       ))}
     </>
+  );
+}
+
+function TableCheckRow({ check }: { check: Check }) {
+  return (
+    <TableRow>
+      <TableCell>{formatDate(check.createdAt)}</TableCell>
+      <TableCell>{CheckModuleLabel[check.module]}</TableCell>
+      <TableCell className="truncate">
+        {formatCheckSubject(check.subject)}
+      </TableCell>
+      <TableCell>
+        <Badge variant={checkStatusVariants[check.status]}>
+          {CheckStatusLabel[check.status]}
+        </Badge>
+      </TableCell>
+      <TableCell>{null}</TableCell>
+    </TableRow>
   );
 }
 
@@ -50,17 +77,19 @@ export function TableCheck({
   const showSkeleton = !isInitialized || (isLoading && items.length === 0);
 
   return (
-    <Table minWidth="720px" className={className}>
+    <Table minWidth="840px" className={className}>
       <colgroup>
-        <col className="w-[24%]" />
-        <col className="w-[40%]" />
+        <col className="w-[22%]" />
         <col className="w-[18%]" />
-        <col className="w-[18%]" />
+        <col className="w-[28%]" />
+        <col className="w-[16%]" />
+        <col className="w-[16%]" />
       </colgroup>
       <TableHead>
         <tr>
-          <TableHeadCell>Дата и время проверки</TableHeadCell>
-          <TableHeadCell>Запрос</TableHeadCell>
+          <TableHeadCell>Дата и время</TableHeadCell>
+          <TableHeadCell>Модуль</TableHeadCell>
+          <TableHeadCell>Тело запроса</TableHeadCell>
           <TableHeadCell>Статус</TableHeadCell>
           <TableHeadCell>Действия</TableHeadCell>
         </tr>
@@ -69,11 +98,9 @@ export function TableCheck({
         {showSkeleton ? (
           <TableCheckSkeletonRows />
         ) : items.length ? (
-          items.map((check) => (
-            <TableCheckRow key={check.id} check={check} />
-          ))
+          items.map((check) => <TableCheckRow key={check.id} check={check} />)
         ) : (
-          <TableEmptyRow colSpan={4}>{emptyMessage}</TableEmptyRow>
+          <TableEmptyRow colSpan={5}>{emptyMessage}</TableEmptyRow>
         )}
       </TableBody>
     </Table>
