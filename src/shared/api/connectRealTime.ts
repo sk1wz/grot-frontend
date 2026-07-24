@@ -1,6 +1,5 @@
 import { io, Socket } from "socket.io-client";
-
-const url = "http://localhost:4000";
+import { baseURL } from "./config";
 
 type Sockets = {
   check: Socket;
@@ -13,8 +12,8 @@ export const connectRealtime = (userId: string): Sockets => {
     query: { userId },
   };
 
-  const check = io(`${url}/check`, common);
-  const balance = io(`${url}/balance`, common);
+  const check = io(`${baseURL}/check`, common);
+  const balance = io(`${baseURL}/balance`, common);
 
   const subscribe = (socket: Socket) => {
     socket.emit("subscribe", { userId });
