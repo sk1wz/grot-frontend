@@ -39,3 +39,7 @@ export function getRouteTitle(pathname: string): string {
 
   return "Панель";
 }
+
+export function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
