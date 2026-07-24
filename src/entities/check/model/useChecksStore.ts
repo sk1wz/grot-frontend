@@ -25,9 +25,7 @@ export const useChecksStore = create<ChecksStore>()((set) => ({
       }
 
       return {
-        items: state.items.map((item) =>
-          item.id === check.id ? check : item
-        ),
+        items: state.items.map((item) => (item.id === check.id ? check : item)),
       };
     }),
   setLoading: (isLoading) => set({ isLoading }),
