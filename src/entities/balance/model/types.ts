@@ -7,11 +7,11 @@ export enum BalanceTransactionStatus {
   BALANCE_FAILED = "BALANCE_FAILED",
 }
 
-const BalanceTransactionInputSchema = z.object({
-  id: z.uuid().optional(),
-  userId: z.uuid().optional(),
+const BalanceTransactionSchema = z.object({
+  id: z.uuid(),
+  userId: z.uuid(),
   amount: z.coerce.number(),
-  status: z.enum(BalanceTransactionStatus).optional(),
+  status: z.enum(BalanceTransactionStatus),
   meta: z
     .object({
       action: z.string().optional(),
@@ -21,7 +21,7 @@ const BalanceTransactionInputSchema = z.object({
   createdAt: z.string(),
 });
 
-export const BalanceTransactionSchema = BalanceTransactionInputSchema.transform(
+export const BalanceTransaction = BalanceTransactionSchema.transform(
   (transaction) => ({
     ...transaction,
     status: transaction.status ?? BalanceTransactionStatus.BALANCE_FAILED,
@@ -33,18 +33,18 @@ export const BalanceTransactionsResponseSchema = z.object({
   total: z.number().optional(),
 });
 
-export type BalanceTransaction = z.infer<typeof BalanceTransactionSchema>;
+export type BalanceTransactionType = z.infer<typeof BalanceTransactionSchema>;
 export type BalanceTransactionsResponse = z.infer<
   typeof BalanceTransactionsResponseSchema
 >;
 
 export type BalanceTransactionsStore = {
-  items: BalanceTransaction[];
+  items: BalanceTransactionType[];
   total: number;
   isLoading: boolean;
   isInitialized: boolean;
   setTransactions: (items: BalanceTransactionsResponse) => void;
-  setTransaction: (transaction: BalanceTransaction) => void;
+  setTransaction: (transaction: BalanceTransactionType) => void;
   setLoading: (isLoading: boolean) => void;
   setInitialized: (isInitialized: boolean) => void;
 };
