@@ -15,7 +15,7 @@ export const UserSchema = z.object({
   email: z.string(),
   role: z.enum(UserRole),
   picture: z.string(),
-  balance: z.number(),
+  balance: z.coerce.number(),
   createdAt: z.string(),
 });
 
