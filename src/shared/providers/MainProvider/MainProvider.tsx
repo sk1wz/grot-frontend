@@ -4,23 +4,11 @@ import { UserProvider } from "../UserProvider/UserProvider";
 import { useUserStore } from "@/entities/user";
 import { useEffect } from "react";
 import {
-  BalanceTransactionStatus,
+  BalanceTransactionType,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
 import { CheckSchema, useChecksStore } from "@/entities/check";
 import { playSound } from "@/shared/lib";
-
-type BalanceUpdatedPayload = {
-  balance: number;
-  transaction: {
-    id: string;
-    userId: string;
-    amount: number;
-    status?: string;
-    meta?: { action?: string };
-    createdAt: string;
-  };
-};
 
 export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   const userId = useUserStore((state) => state.user?.id);
@@ -41,24 +29,23 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       useChecksStore.getState().upsertCheck(parsed.data);
       playSound("/notify-sound.mp3");
     });
-    sockets.balance.on("balance.updated", (payload: BalanceUpdatedPayload) => {
+
+    sockets.balance.on("balance.updated", (payload: unknown) => {
       const { user, setUser } = useUserStore.getState();
       const { setTransaction } = useBalanceTransactionsStore.getState();
 
       if (!user) return;
 
-      const rawReason = payload.transaction.status;
-      const normalizedReason = Object.values(BalanceTransactionStatus).includes(
-        rawReason as BalanceTransactionStatus
-      )
-        ? (rawReason as BalanceTransactionStatus)
-        : BalanceTransactionStatus.BALANCE_FAILED;
+      const status = (payload as { transaction: BalanceTransactionType })
+        .transaction.status;
       setTransaction({
-        ...payload.transaction,
-        status: normalizedReason,
+        ...(payload as { transaction: BalanceTransactionType }).transaction,
+        status: status,
       });
-      setUser({ ...user, balance: payload.balance });
-      playSound("/notify-sound.mp3");
+      setUser({
+        ...user,
+        balance: (payload as { balance: number }).balance ?? 0,
+      });
     });
 
     return () => {
