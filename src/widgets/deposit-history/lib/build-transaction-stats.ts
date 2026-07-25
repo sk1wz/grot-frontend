@@ -1,15 +1,17 @@
 import {
   BalanceTransactionStatus,
-  type BalanceTransaction,
+  type BalanceTransactionType,
 } from "@/entities/balance";
 
-export const TRANSACTION_CHART_COLORS: Record<BalanceTransactionStatus, string> =
-  {
-    [BalanceTransactionStatus.BALANCE_TOPUP]: "#338830",
-    [BalanceTransactionStatus.BALANCE_PURCHASE]: "#e11d48",
-    [BalanceTransactionStatus.BALANCE_REFUND]: "#0284c7",
-    [BalanceTransactionStatus.BALANCE_FAILED]: "#78716c",
-  };
+export const TRANSACTION_CHART_COLORS: Record<
+  BalanceTransactionStatus,
+  string
+> = {
+  [BalanceTransactionStatus.BALANCE_TOPUP]: "#338830",
+  [BalanceTransactionStatus.BALANCE_PURCHASE]: "#e11d48",
+  [BalanceTransactionStatus.BALANCE_REFUND]: "#0284c7",
+  [BalanceTransactionStatus.BALANCE_FAILED]: "#78716c",
+};
 
 export const TRANSACTION_TYPE_LABELS: Record<BalanceTransactionStatus, string> =
   {
@@ -65,7 +67,7 @@ function getMonthLabel(key: string) {
 }
 
 export function buildTransactionStats(
-  items: BalanceTransaction[]
+  items: BalanceTransactionType[]
 ): TransactionStats {
   const summary: TransactionSummary = {
     totalTopup: 0,

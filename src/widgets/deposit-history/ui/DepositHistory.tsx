@@ -5,7 +5,7 @@ import {
   getBalanceTransactions,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
-import type { BalanceTransaction } from "@/entities/balance";
+import type { BalanceTransactionType } from "@/entities/balance";
 import { useFilter } from "@/features/options";
 import { Pagination, SelectField, Skeleton } from "@/shared/ui";
 import {
@@ -64,7 +64,7 @@ export function DepositHistory() {
     setValue: setFilter,
     items: filteredItems,
     isActive: isFilterActive,
-  } = useFilter<BalanceTransaction, TransactionFilter>(
+  } = useFilter<BalanceTransactionType, TransactionFilter>(
     items,
     ALL_TRANSACTIONS_FILTER,
     matchTransactionFilter,

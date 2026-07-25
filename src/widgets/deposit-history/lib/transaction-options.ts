@@ -1,6 +1,6 @@
 import {
   BalanceTransactionStatus,
-  type BalanceTransaction,
+  type BalanceTransactionType,
 } from "@/entities/balance";
 import type { FilterOption } from "@/features/options";
 
@@ -19,7 +19,7 @@ export const transactionFilterOptions: FilterOption<TransactionFilter>[] = [
 ];
 
 export function matchTransactionFilter(
-  transaction: BalanceTransaction,
+  transaction: BalanceTransactionType,
   filter: TransactionFilter
 ) {
   return transaction.status === filter;
