@@ -23,7 +23,7 @@ export function UserBalance({
   return (
     <Link
       href={href}
-      className={`rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-(--foreground) transition-colors hover:bg-white ${className}`}
+      className={`rounded-full bg-(--accent) px-4 py-2 text-sm font-semibold text-(--foreground) transition-colors hover:bg-(--accent)/70 ${className}`}
     >
       {formatAmount(balance)}
     </Link>
