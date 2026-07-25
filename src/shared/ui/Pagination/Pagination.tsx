@@ -36,6 +36,9 @@ function getVisiblePages(totalPages: number, page: number): number[] {
   return [page, page + 1];
 }
 
+const controlClassName =
+  "flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50";
+
 export function Pagination({
   total,
   limit,
@@ -59,78 +62,86 @@ export function Pagination({
     onPageChange?.(nextPage);
   }
 
-  if (totalPages <= 1) {
+  if (total <= 0) {
     return null;
   }
 
   return (
     <nav
       aria-label="Пагинация"
-      className={`flex justify-between items-center px-4 py-2 bg-(--surface) rounded-lg gap-2 ${className}`}
+      className={`grid grid-cols-3 items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 ${className}`}
     >
-      <span className="text-sm text-(--foreground)">
-        {summaryText && `${summaryText}: ${total}`}
+      <span className="justify-self-start text-sm text-(--foreground)">
+        {summaryText ? `${summaryText}: ${total}` : null}
       </span>
 
-      <div className="flex items-center justify-start gap-1">
-        <button
-          type="button"
-          aria-label="В начало"
-          disabled={!canGoPrev}
-          onClick={() => handlePageChange(1)}
-          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <ChevronsLeft size={18} />
-        </button>
+      <div className="flex items-center justify-center gap-1">
+        {totalPages > 1 ? (
+          <>
+            <button
+              type="button"
+              aria-label="В начало"
+              disabled={!canGoPrev}
+              onClick={() => handlePageChange(1)}
+              className={controlClassName}
+            >
+              <ChevronsLeft size={18} />
+            </button>
 
-        <button
-          type="button"
-          aria-label="Предыдущая страница"
-          disabled={!canGoPrev}
-          onClick={() => handlePageChange(safePage - 1)}
-          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <ChevronLeft size={18} />
-        </button>
+            <button
+              type="button"
+              aria-label="Предыдущая страница"
+              disabled={!canGoPrev}
+              onClick={() => handlePageChange(safePage - 1)}
+              className={controlClassName}
+            >
+              <ChevronLeft size={18} />
+            </button>
 
-        {pageItems.map((item) => (
-          <button
-            key={item}
-            type="button"
-            aria-label={`Страница ${item}`}
-            aria-current={item === safePage ? "page" : undefined}
-            onClick={() => handlePageChange(item)}
-            className={[
-              "flex size-9 cursor-pointer items-center justify-center rounded-lg text-sm font-medium outline-none transition-colors",
-              item === safePage
-                ? "bg-(--accent) text-(--accent-foreground)"
-                : "bg-(--field) border border-(--border) text-(--field-foreground) hover:bg-(--accent)/90",
-            ].join(" ")}
-          >
-            {item}
-          </button>
-        ))}
+            {pageItems.map((item) => (
+              <button
+                key={item}
+                type="button"
+                aria-label={`Страница ${item}`}
+                aria-current={item === safePage ? "page" : undefined}
+                onClick={() => handlePageChange(item)}
+                className={[
+                  "flex size-9 cursor-pointer items-center justify-center rounded-lg text-sm font-medium outline-none transition-colors",
+                  item === safePage
+                    ? "bg-(--accent) text-(--accent-foreground)"
+                    : "border border-(--border) bg-(--field) text-(--field-foreground) hover:bg-(--accent)/90",
+                ].join(" ")}
+              >
+                {item}
+              </button>
+            ))}
 
-        <button
-          type="button"
-          aria-label="Следующая страница"
-          disabled={!canGoNext}
-          onClick={() => handlePageChange(safePage + 1)}
-          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <ChevronRight size={18} />
-        </button>
+            <button
+              type="button"
+              aria-label="Следующая страница"
+              disabled={!canGoNext}
+              onClick={() => handlePageChange(safePage + 1)}
+              className={controlClassName}
+            >
+              <ChevronRight size={18} />
+            </button>
 
-        <button
-          type="button"
-          aria-label="В конец"
-          disabled={!canGoNext}
-          onClick={() => handlePageChange(totalPages)}
-          className="flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <ChevronsRight size={18} />
-        </button>
+            <button
+              type="button"
+              aria-label="В конец"
+              disabled={!canGoNext}
+              onClick={() => handlePageChange(totalPages)}
+              className={controlClassName}
+            >
+              <ChevronsRight size={18} />
+            </button>
+          </>
+        ) : null}
       </div>
+
+      <span className="justify-self-end text-sm text-(--foreground)">
+        Страница {safePage} из {Math.max(totalPages, 1)}
+      </span>
     </nav>
   );
 }
