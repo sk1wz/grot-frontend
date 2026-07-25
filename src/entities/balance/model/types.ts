@@ -24,7 +24,7 @@ const BalanceTransactionSchema = z.object({
 export const BalanceTransaction = BalanceTransactionSchema.transform(
   (transaction) => ({
     ...transaction,
-    status: transaction.status ?? BalanceTransactionStatus.BALANCE_FAILED,
+    status: transaction.status,
   })
 );
 
