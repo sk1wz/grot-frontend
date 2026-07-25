@@ -1,3 +1,3 @@
 export * from "./format";
-export * from "./main-menu-nav";
+export * from "./menu";
 export * from "./play-sound";
