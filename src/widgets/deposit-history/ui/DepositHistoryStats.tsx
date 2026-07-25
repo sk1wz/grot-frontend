@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { BalanceTransaction } from "@/entities/balance";
+import type { BalanceTransactionType } from "@/entities/balance";
 import { formatAmount } from "@/shared/lib";
 import { Text } from "@/shared/ui";
 import {
@@ -20,7 +20,7 @@ import {
 import { buildTransactionStats } from "../lib/build-transaction-stats";
 
 type DepositHistoryStatsProps = {
-  items: BalanceTransaction[];
+  items: BalanceTransactionType[];
 };
 
 function SummaryCard({
