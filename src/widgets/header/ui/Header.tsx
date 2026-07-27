@@ -1,16 +1,13 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { logout } from "@/features/auth/api";
 import { UserBalance, UserMiniProfile } from "@/entities/user";
-import { getRouteTitle } from "@/shared/lib";
-import { TextTitle } from "@/shared/ui";
+import { SidebarToggle } from "@/widgets/sidebar";
 
 export function Header() {
-  const pathname = usePathname();
   const router = useRouter();
-  const title = getRouteTitle(pathname);
 
   async function handleLogout() {
     await logout();
@@ -20,7 +17,9 @@ export function Header() {
 
   return (
     <header className="flex shrink-0 items-center justify-between gap-4 px-4 py-3">
-      <TextTitle className="min-w-0 truncate">{title}</TextTitle>
+      <div className="flex min-w-0 items-center gap-3">
+        <SidebarToggle />
+      </div>
 
       <div className="flex items-center gap-4 rounded-full bg-(--surface) px-3 py-2">
         <UserBalance />
