@@ -44,6 +44,9 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
   return (
     <section className={`flex w-full flex-col gap-4 ${className}`}>
+      <div className="text-red-500 text-2xl">
+        FORM IS NOT AVAILABLE WAIT FOR BUILD
+      </div>
       <TextTitle>История проверок</TextTitle>
       <div className="flex flex-col gap-4">
         <TableCheck
