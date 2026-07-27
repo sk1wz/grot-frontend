@@ -22,7 +22,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <LogoName />
       </Link>
 
-      <nav className="flex flex-1 flex-col gap-2 overflow-y-auto px-1">
+      <nav className="flex flex-1 flex-col overflow-y-auto px-1">
         {sidebarNav.map((item) => {
           const active = isActive(pathname, item.href);
 
