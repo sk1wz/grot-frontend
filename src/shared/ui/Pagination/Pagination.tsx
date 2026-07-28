@@ -75,7 +75,7 @@ export function Pagination({
         {summaryText ? `${summaryText}: ${total}` : null}
       </span>
 
-      <div className="flex items-center justify-beetwen lg:justify-center gap-1">
+      <div className="flex items-center justify-center gap-1">
         {totalPages > 1 ? (
           <>
             <button
