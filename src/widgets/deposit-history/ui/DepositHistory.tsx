@@ -7,7 +7,7 @@ import {
 } from "@/entities/balance";
 import type { BalanceTransactionType } from "@/entities/balance";
 import { useFilter } from "@/features/options";
-import { Pagination, SelectField, TableDeposit, TextTitle } from "@/shared/ui";
+import { Pagination, SelectField, TableDeposit } from "@/shared/ui";
 import {
   ALL_TRANSACTIONS_FILTER,
   matchTransactionFilter,
@@ -66,9 +66,7 @@ export function DepositHistory() {
 
   return (
     <section className="flex w-full flex-col gap-4">
-      <TextTitle>История транзакций</TextTitle>
       <DepositHistoryStats items={items} />
-
       <div className="flex flex-col gap-4">
         <SelectField<TransactionFilter>
           value={filter}

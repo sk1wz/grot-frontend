@@ -22,7 +22,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <LogoName />
       </Link>
 
-      <nav className="flex flex-1 flex-col overflow-y-auto px-1">
+      <nav className="flex flex-1 flex-col gap-2 overflow-y-auto px-1">
         {sidebarNav.map((item) => {
           const active = isActive(pathname, item.href);
 
@@ -33,7 +33,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
               onClick={onNavigate}
               className={`flex items-center justify-center rounded-[20px] border-2 border-[#ffffff] px-3 py-2.5 text-center text-sm font-medium transition-colors shadow-[inset_2_4px_0_rgba(255,1,255,0.8)] ${
                 active
-                  ? "bg-gray-400/20 text-(--foreground) shadow-(--panel-shadow)"
+                  ? "bg-gray-400/15 text-(--foreground) shadow-(--panel-shadow)"
                   : "bg-transparent text-(--foreground) hover:bg-white/45"
               }`}
             >
