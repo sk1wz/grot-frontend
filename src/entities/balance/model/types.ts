@@ -7,6 +7,16 @@ export enum BalanceTransactionStatus {
   BALANCE_FAILED = "BALANCE_FAILED",
 }
 
+export const BalanceTransactionStatusLabel: Record<
+  BalanceTransactionStatus,
+  string
+> = {
+  [BalanceTransactionStatus.BALANCE_PURCHASE]: "Списание",
+  [BalanceTransactionStatus.BALANCE_REFUND]: "Возврат",
+  [BalanceTransactionStatus.BALANCE_TOPUP]: "Пополнение",
+  [BalanceTransactionStatus.BALANCE_FAILED]: "Ошибка",
+};
+
 const BalanceTransactionSchema = z.object({
   id: z.uuid(),
   userId: z.uuid().optional(),
