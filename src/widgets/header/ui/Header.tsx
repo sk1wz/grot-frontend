@@ -16,7 +16,7 @@ export function Header() {
   }
 
   return (
-    <header className="flex shrink-0 items-center justify-between gap-4">
+    <header className="flex shrink-0 items-center justify-between gap-4 h-12">
       <div className="flex min-w-0 items-center gap-3">
         <SidebarToggle />
       </div>

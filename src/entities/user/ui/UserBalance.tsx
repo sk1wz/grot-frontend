@@ -17,7 +17,7 @@ export function UserBalance({
   const balance = useUserStore((state) => state.user?.balance);
 
   if (!balance) {
-    return <Skeleton className={`h-6 w-20 rounded-full ${className}`} />;
+    return <Skeleton className={`h-8 w-20 rounded-full! ${className}`} />;
   }
 
   return (

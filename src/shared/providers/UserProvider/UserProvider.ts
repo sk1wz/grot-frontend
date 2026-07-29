@@ -1,16 +1,18 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useUserStore, UserSchema } from "@/entities/user";
 import { baseURL } from "@/shared/api/config";
+import { logout } from "@/features/auth/api";
 
 type UserProviderProps = {
   children: ReactNode;
 };
 
-/* Провайдер для получения информации о текущем пользователе из API */
 export function UserProvider({ children }: UserProviderProps) {
-  const setUser = useUserStore((s) => s.setUser);
+  const setUser = useUserStore((state) => state.setUser);
+  const router = useRouter();
 
   useEffect(() => {
     const loadCurrentUser = async () => {
@@ -18,17 +20,20 @@ export function UserProvider({ children }: UserProviderProps) {
         const response = await fetch(`${baseURL}/user/me`, {
           method: "GET",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
         });
 
-        if (!response.ok) {
+        if (response.status === 401) {
           setUser(null);
+          await logout();
+          router.replace("/login");
           return;
         }
 
-        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(`Failed to load user: ${response.status}`);
+        }
+
+        const data: unknown = await response.json();
         const parsedUser = UserSchema.safeParse(data);
 
         if (!parsedUser.success) {
@@ -37,12 +42,14 @@ export function UserProvider({ children }: UserProviderProps) {
         }
 
         setUser(parsedUser.data);
-      } catch {
+      } catch (error) {
+        console.error(error);
         setUser(null);
       }
     };
-    loadCurrentUser();
-  }, [setUser]);
+
+    void loadCurrentUser();
+  }, [router, setUser]);
 
   return children;
 }

@@ -11,7 +11,7 @@ export default function DashboardLayout({
     <MainProvider>
       <div className="flex h-full min-h-0 overflow-hidden">
         <Sidebar />
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-hidden p-2">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-hidden p-4">
           <Header />
           <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
             {children}
