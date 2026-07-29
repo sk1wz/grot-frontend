@@ -1,7 +1,9 @@
 "use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { CheckModule, getChecks, useChecksStore } from "@/entities/check";
-import { Pagination, TableCheck, TextTitle } from "@/shared/ui";
+import { Pagination, SmartTable, TextTitle } from "@/shared/ui";
+import { checkColumns } from "../lib/check-history-column";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -18,7 +20,7 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
   const filteredItems = useMemo(
     () => items.filter((check) => check.module === module),
-    [items, module]
+    [items, module],
   );
 
   const totalItems = filteredItems.length;
@@ -28,12 +30,14 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
   const paginatedItems = useMemo(() => {
     const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+
     return filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredItems, safeCurrentPage]);
 
   useEffect(() => {
     const fetchChecks = async () => {
       const response = await getChecks();
+
       if (response) {
         useChecksStore.getState().setChecks(response);
       }
@@ -44,16 +48,19 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
   return (
     <section className={`flex w-full flex-col gap-4 ${className}`}>
-      <div className="text-red-500 text-2xl">
+      <div className="text-2xl text-red-500">
         FORM IS NOT AVAILABLE WAIT FOR BUILD
       </div>
       <TextTitle>История проверок</TextTitle>
       <div className="flex flex-col gap-4">
-        <TableCheck
+        <SmartTable
           items={paginatedItems}
-          isLoading={isLoading && items.length === 0}
+          columns={checkColumns}
+          getRowKey={(check) => check.id}
+          isLoading={isLoading}
           isInitialized={isInitialized}
           emptyMessage="Нет проверок для отображения"
+          minWidth="840px"
         />
 
         <Pagination
