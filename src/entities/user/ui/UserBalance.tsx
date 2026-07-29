@@ -17,13 +17,13 @@ export function UserBalance({
   const balance = useUserStore((state) => state.user?.balance);
 
   if (!balance) {
-    return <Skeleton className={`h-5 w-24 rounded-full ${className}`} />;
+    return <Skeleton className={`h-6 w-20 rounded-full ${className}`} />;
   }
 
   return (
     <Link
       href={href}
-      className={`rounded-full border-3 border-(--accent) px-4 py-2 text-sm font-semibold text-(--foreground) transition-colors hover:bg-(--accent)/70 ${className}`}
+      className={`rounded-full border-3 border-(--accent) px-4 py-2 text-xs font-semibold text-(--foreground) transition-colors hover:bg-(--accent)/70 ${className}`}
     >
       {formatAmount(balance)}
     </Link>

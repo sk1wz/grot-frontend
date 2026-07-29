@@ -16,12 +16,12 @@ export function Header() {
   }
 
   return (
-    <header className="flex shrink-0 items-center justify-between gap-4 px-4 py-3">
+    <header className="flex shrink-0 items-center justify-between gap-4">
       <div className="flex min-w-0 items-center gap-3">
         <SidebarToggle />
       </div>
 
-      <div className="flex items-center gap-4 rounded-full bg-(--surface) px-3 py-2">
+      <div className="flex items-center gap-4 rounded-full bg-(--surface)">
         <UserBalance />
         <UserMiniProfile
           slot={

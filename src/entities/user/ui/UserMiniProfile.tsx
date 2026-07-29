@@ -18,9 +18,9 @@ export function UserMiniProfile({
 
   if (!user) {
     return (
-      <div className={`flex min-w-0 items-center gap-2.5 pr-1 ${className}`}>
+      <div className={`flex min-w-0 items-center gap-2.5 ${className}`}>
         <Skeleton className="size-6 shrink-0 rounded-full" />
-        <Skeleton className="h-4 w-36" />
+        <Skeleton className="h-4 w-20" />
         {slot ? <Skeleton className="size-6 shrink-0 rounded-full" /> : null}
       </div>
     );
