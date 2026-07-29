@@ -69,9 +69,9 @@ export function Pagination({
   return (
     <nav
       aria-label="Пагинация"
-      className={`grid sm:grid-cols-2 lg:grid-cols-3 items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 ${className}`}
+      className={`grid grid-cols-3 items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 ${className}`}
     >
-      <span className="hidden lg:block justify-self-start text-sm text-(--foreground)">
+      <span className="justify-self-start text-sm text-(--foreground)">
         {summaryText ? `${summaryText}: ${total}` : null}
       </span>
 
@@ -139,7 +139,7 @@ export function Pagination({
         ) : null}
       </div>
 
-      <span className="hidden sm:block justify-self-end text-sm text-(--foreground)">
+      <span className="justify-self-end text-sm text-(--foreground)">
         Страница {safePage} из {Math.max(totalPages, 1)}
       </span>
     </nav>

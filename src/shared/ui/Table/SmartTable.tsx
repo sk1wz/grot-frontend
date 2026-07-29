@@ -68,7 +68,7 @@ export function SmartTable<T>({
 
         <tbody>
           {showSkeleton &&
-            Array.from({ length: 5 }, (_, rowIndex) => (
+            Array.from({ length: 6 }, (_, rowIndex) => (
               <tr key={rowIndex}>
                 {columns.map((column) => (
                   <td key={column.key} className={cellClass}>

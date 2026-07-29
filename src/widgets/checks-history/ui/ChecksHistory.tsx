@@ -60,7 +60,6 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
           isLoading={isLoading}
           isInitialized={isInitialized}
           emptyMessage="Нет проверок для отображения"
-          minWidth="840px"
         />
 
         <Pagination

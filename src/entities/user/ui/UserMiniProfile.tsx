@@ -27,17 +27,17 @@ export function UserMiniProfile({
   }
 
   return (
-    <div className={`flex min-w-0 items-center gap-2.5 pr-1 ${className}`}>
+    <div className={`flex min-w-0 items-center gap-2.5 ${className}`}>
       <Avatar
         src={user.picture}
         alt={user.email}
         fallbackLabel={user.email}
         size="sm"
       />
-      <span className="max-w-[200px] truncate text-sm text-(--foreground)">
+      <span className="max-w-50 truncate text-sm text-(--foreground)">
         {user.email}
       </span>
-      {slot ? <div className="ml-1 shrink-0">{slot}</div> : null}
+      {slot ? <div className="shrink-0">{slot}</div> : null}
     </div>
   );
 }
