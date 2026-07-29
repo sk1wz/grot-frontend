@@ -8,7 +8,6 @@ import {
   useBalanceTransactionsStore,
 } from "@/entities/balance";
 import { CheckSchema, useChecksStore } from "@/entities/check";
-import { playSound } from "@/shared/lib";
 
 export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   const userId = useUserStore((state) => state.user?.id);
@@ -27,7 +26,6 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       if (!parsed.success) return;
 
       useChecksStore.getState().upsertCheck(parsed.data);
-      playSound("/notify-sound.mp3");
     });
 
     sockets.balance.on("balance.updated", (payload: unknown) => {
