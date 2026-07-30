@@ -49,7 +49,13 @@ export function LoginForm() {
           type="email"
           placeholder="Email"
           required
-          autoComplete="off"
+          autoComplete="new-password"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          data-lpignore="true"
+          data-1p-ignore="true"
+          data-form-type="other"
           suppressHydrationWarning
           className="w-full rounded-full bg-white px-5 py-3.5 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
         />
@@ -66,7 +72,13 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             placeholder="Пароль"
             required
-            autoComplete="off"
+            autoComplete="new-password"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            data-lpignore="true"
+            data-1p-ignore="true"
+            data-form-type="other"
             suppressHydrationWarning
             className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
           />

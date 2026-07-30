@@ -37,6 +37,12 @@ function PasswordField({
           required
           minLength={6}
           autoComplete={autoComplete}
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          data-lpignore="true"
+          data-1p-ignore="true"
+          data-form-type="other"
           suppressHydrationWarning
           className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-[#3e3c4b] shadow-(--shadow-2) outline-none placeholder:text-[#3e3c4b]"
         />
@@ -114,7 +120,13 @@ export function RegisterForm() {
           type="email"
           placeholder="Email"
           required
-          autoComplete="off"
+          autoComplete="new-password"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          data-lpignore="true"
+          data-1p-ignore="true"
+          data-form-type="other"
           suppressHydrationWarning
           className="w-full rounded-full bg-white px-5 py-3.5 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
         />
@@ -127,7 +139,7 @@ export function RegisterForm() {
         placeholder="Пароль"
         show={showPassword}
         onToggle={() => setShowPassword((value) => !value)}
-        autoComplete="off"
+        autoComplete="new-password"
       />
 
       <PasswordField
@@ -137,7 +149,7 @@ export function RegisterForm() {
         placeholder="Пароль"
         show={showConfirmPassword}
         onToggle={() => setShowConfirmPassword((value) => !value)}
-        autoComplete="off"
+        autoComplete="new-password"
       />
 
       <label className="flex items-start gap-3 pt-1">
