@@ -141,7 +141,7 @@ export function RegisterForm() {
           name="consent"
           type="checkbox"
           required
-          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded-md border border-(--border)"
+          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded-lg border border-(--border)"
         />
         <span className="text-xs leading-snug text-(--foreground)">
           Я даю согласие на обработку персональных данных в соответствии с
