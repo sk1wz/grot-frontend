@@ -14,6 +14,8 @@ export type PaginationProps = {
   onPageChange?: (page: number) => void;
   className?: string;
   summaryText?: string;
+  summaryClassName?: string;
+  compactOnMobile?: boolean;
 };
 
 function getTotalPages(total: number, limit: number) {
@@ -46,6 +48,8 @@ export function Pagination({
   onPageChange,
   className = "",
   summaryText,
+  summaryClassName = "",
+  compactOnMobile = false,
 }: PaginationProps) {
   const totalPages = getTotalPages(total, limit);
   const safePage = Math.min(Math.max(page, 1), Math.max(totalPages, 1));
@@ -69,13 +73,17 @@ export function Pagination({
   return (
     <nav
       aria-label="Пагинация"
-      className={`grid grid-cols-3 items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 ${className}`}
+      className={`grid ${compactOnMobile ? "grid-cols-2 md:grid-cols-3" : "grid-cols-3"} items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 ${className}`}
     >
-      <span className="justify-self-start text-sm text-(--foreground)">
+      <span
+        className={`justify-self-start text-sm text-(--foreground) ${summaryClassName}`}
+      >
         {summaryText ? `${summaryText}: ${total}` : null}
       </span>
 
-      <div className="flex items-center justify-center gap-1">
+      <div
+        className={`flex items-center gap-1 ${compactOnMobile ? "justify-start md:justify-center" : "justify-center"}`}
+      >
         {totalPages > 1 ? (
           <>
             <button

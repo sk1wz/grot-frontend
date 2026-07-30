@@ -7,6 +7,27 @@ import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
 import { formatCheckSubject } from "@/shared/ui/Table/lib/format-check-subject";
 import { Eye } from "lucide-react";
 
+export function CheckActions({ check }: { check: Check }) {
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        className="text-sm underline"
+        onClick={() => console.log(check.id)}
+      >
+        <Eye />
+      </button>
+      <button
+        type="button"
+        className="text-sm underline"
+        onClick={() => console.log(check.id)}
+      >
+        Скачать
+      </button>
+    </div>
+  );
+}
+
 export const checkColumns: TableColumn<Check>[] = [
   {
     key: "createdAt",
@@ -42,23 +63,6 @@ export const checkColumns: TableColumn<Check>[] = [
     key: "actions",
     title: "Действия",
     width: "16%",
-    render: (check) => (
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          className="text-sm underline"
-          onClick={() => console.log(check.id)}
-        >
-          <Eye />
-        </button>
-        <button
-          type="button"
-          className="text-sm underline"
-          onClick={() => console.log(check.id)}
-        >
-          Cкачать
-        </button>
-      </div>
-    ),
+    render: (check) => <CheckActions check={check} />,
   },
 ];
