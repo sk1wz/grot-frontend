@@ -14,9 +14,9 @@ export function UserBalance({
   className = "",
   href = "/dashboard/deposit-history",
 }: UserBalanceProps) {
-  const balance = useUserStore((state) => state.user?.balance);
+  const user = useUserStore((state) => state.user);
 
-  if (!balance) {
+  if (!user) {
     return <Skeleton className={`h-8 w-20 rounded-full! ${className}`} />;
   }
 
@@ -25,7 +25,7 @@ export function UserBalance({
       href={href}
       className={`rounded-full border-3 border-(--accent) px-4 py-2 text-xs font-semibold text-(--foreground) transition-colors hover:bg-(--accent)/70 ${className}`}
     >
-      {formatAmount(balance)}
+      {formatAmount(user.balance)}
     </Link>
   );
 }
