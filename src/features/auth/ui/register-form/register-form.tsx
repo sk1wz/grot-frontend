@@ -172,7 +172,7 @@ export function RegisterForm() {
         Зарегистрироваться
       </button>
 
-      <div className="flex items-end justify-between gap-4 pt-2">
+      <div className="flex items-end justify-around gap-4 pt-2">
         <div className="text-left text-sm text-(--foreground)">
           <p>У вас уже есть аккаунт?</p>
           <Text>Войти</Text>
