@@ -14,7 +14,7 @@ export function AuthCardShell({
   children: ReactNode;
 }) {
   return (
-    <div className="relative flex h-full w-full items-center justify-center p-2">
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden p-2">
       {/* Общая ширина с карточкой — % и translate считаются от неё, а не от экрана */}
       <div className="relative w-full max-w-[550px]">
         <Image
