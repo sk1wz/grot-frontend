@@ -3,7 +3,7 @@ import {
   type BalanceTransactionType,
 } from "@/entities/balance";
 import { formatAmount, formatDate } from "@/shared/lib";
-import { BadgeTransaction, type TableColumn } from "@/shared/ui";
+import { BadgeTransaction, CopyText, type TableColumn } from "@/shared/ui";
 
 export function formatTransactionAmount(transaction: BalanceTransactionType) {
   const amount = formatAmount(Math.abs(transaction.amount));
@@ -45,7 +45,15 @@ export const transactionColumns: TableColumn<BalanceTransactionType>[] = [
     title: "ID транзакции",
     width: "22%",
     className: "truncate",
-    render: (transaction) => transaction.id,
+    render: (transaction) => (
+      <CopyText
+        value={transaction.id}
+        title="Скопировать ID транзакции"
+        className="max-w-full text-sm text-(--foreground)"
+      >
+        {transaction.id}
+      </CopyText>
+    ),
   },
   {
     key: "status",

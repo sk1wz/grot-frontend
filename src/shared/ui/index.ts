@@ -11,6 +11,7 @@ export * from "./Text/Text";
 export * from "./Text/TextTitle";
 export * from "./Skeleton/Skeleton";
 export * from "./Cards";
+export * from "./CopyText";
 export * from "./Pwa";
 export * from "./Table";
 export * from "./Logo/Logo";

@@ -1,6 +1,7 @@
 import { BalanceTransactionStatus, type BalanceTransactionType } from "@/entities/balance";
 import { formatAmount, formatDate } from "@/shared/lib";
 import { BadgeTransaction } from "@/shared/ui/Badge/BadgeTransaction";
+import { CopyText } from "@/shared/ui/CopyText";
 
 type DepositCardProps = {
   transaction: BalanceTransactionType;
@@ -55,9 +56,13 @@ export function DepositCard({ transaction }: DepositCardProps) {
       <div className="mt-3 grid gap-3 border-t border-(--border) pt-3">
         <div className="min-w-0">
           <p className="text-xs text-(--foreground)">ID транзакции</p>
-          <p className="mt-1 truncate text-sm text-(--foreground)">
+          <CopyText
+            value={transaction.id}
+            title="Скопировать ID транзакции"
+            className="mt-1 max-w-full text-sm text-(--foreground)"
+          >
             {transaction.id}
-          </p>
+          </CopyText>
         </div>
         <div>
           <p className="text-xs text-(--foreground)">Статус</p>
