@@ -23,7 +23,7 @@ function PasswordField({
   placeholder: string;
   show: boolean;
   onToggle: () => void;
-  autoComplete: "new-password" | "current-password";
+  autoComplete: "off" | "new-password" | "current-password";
 }) {
   return (
     <label className="flex flex-col gap-2" htmlFor={id}>
@@ -99,7 +99,11 @@ export function RegisterForm() {
   };
 
   return (
-    <form className="flex flex-1 flex-col gap-4" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-1 flex-col gap-4"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
       <label className="flex flex-col gap-2" htmlFor="email">
         <span className="text-sm font-medium text-(--foreground)">
           Введите Email
@@ -110,7 +114,7 @@ export function RegisterForm() {
           type="email"
           placeholder="Email"
           required
-          autoComplete="email"
+          autoComplete="off"
           suppressHydrationWarning
           className="w-full rounded-full bg-white px-5 py-3.5 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
         />
@@ -123,7 +127,7 @@ export function RegisterForm() {
         placeholder="Пароль"
         show={showPassword}
         onToggle={() => setShowPassword((value) => !value)}
-        autoComplete="new-password"
+        autoComplete="off"
       />
 
       <PasswordField
@@ -133,7 +137,7 @@ export function RegisterForm() {
         placeholder="Пароль"
         show={showConfirmPassword}
         onToggle={() => setShowConfirmPassword((value) => !value)}
-        autoComplete="new-password"
+        autoComplete="off"
       />
 
       <label className="flex items-start gap-3 pt-1">

@@ -34,7 +34,11 @@ export function LoginForm() {
     }
   };
   return (
-    <form className="flex flex-1 flex-col gap-4" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-1 flex-col gap-4"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
       <label className="flex flex-col gap-2" htmlFor="email">
         <span className="text-sm font-medium text-(--foreground)">
           Введите Email
@@ -45,7 +49,7 @@ export function LoginForm() {
           type="email"
           placeholder="Email"
           required
-          autoComplete="email"
+          autoComplete="off"
           suppressHydrationWarning
           className="w-full rounded-full bg-white px-5 py-3.5 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
         />
@@ -62,7 +66,7 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             placeholder="Пароль"
             required
-            autoComplete="current-password"
+            autoComplete="off"
             suppressHydrationWarning
             className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
           />
