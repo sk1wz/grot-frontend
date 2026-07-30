@@ -1,5 +1,6 @@
 import {
   BalanceTransactionStatus,
+  BalanceTransactionStatusLabel,
   type BalanceTransactionType,
 } from "@/entities/balance";
 
@@ -12,14 +13,6 @@ export const TRANSACTION_CHART_COLORS: Record<
   [BalanceTransactionStatus.BALANCE_REFUND]: "#0284c7",
   [BalanceTransactionStatus.BALANCE_FAILED]: "#78716c",
 };
-
-export const TRANSACTION_TYPE_LABELS: Record<BalanceTransactionStatus, string> =
-  {
-    [BalanceTransactionStatus.BALANCE_TOPUP]: "Пополнения",
-    [BalanceTransactionStatus.BALANCE_PURCHASE]: "Списания",
-    [BalanceTransactionStatus.BALANCE_REFUND]: "Возвраты",
-    [BalanceTransactionStatus.BALANCE_FAILED]: "Ошибки",
-  };
 
 export type TransactionSummary = {
   totalTopup: number;
@@ -55,11 +48,13 @@ export type TransactionStats = {
 function getMonthKey(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
+
   return `${year}-${month}`;
 }
 
 function getMonthLabel(key: string) {
   const [year, month] = key.split("-").map(Number);
+
   return new Intl.DateTimeFormat("ru-RU", {
     month: "short",
     year: "numeric",
@@ -77,21 +72,18 @@ export function buildTransactionStats(
     totalCount: items.length,
     netChange: 0,
   };
-
   const amountsByStatus: Record<BalanceTransactionStatus, number> = {
     [BalanceTransactionStatus.BALANCE_TOPUP]: 0,
     [BalanceTransactionStatus.BALANCE_PURCHASE]: 0,
     [BalanceTransactionStatus.BALANCE_REFUND]: 0,
     [BalanceTransactionStatus.BALANCE_FAILED]: 0,
   };
-
   const countsByStatus: Record<BalanceTransactionStatus, number> = {
     [BalanceTransactionStatus.BALANCE_TOPUP]: 0,
     [BalanceTransactionStatus.BALANCE_PURCHASE]: 0,
     [BalanceTransactionStatus.BALANCE_REFUND]: 0,
     [BalanceTransactionStatus.BALANCE_FAILED]: 0,
   };
-
   const monthMap = new Map<
     string,
     { topup: number; purchase: number; refund: number }
@@ -143,13 +135,12 @@ export function buildTransactionStats(
   const byType = Object.values(BalanceTransactionStatus)
     .map((status) => ({
       status,
-      label: TRANSACTION_TYPE_LABELS[status],
+      label: BalanceTransactionStatusLabel[status],
       amount: amountsByStatus[status],
       count: countsByStatus[status],
       color: TRANSACTION_CHART_COLORS[status],
     }))
     .filter((entry) => entry.count > 0);
-
   const byMonth = Array.from(monthMap.entries())
     .sort(([left], [right]) => left.localeCompare(right))
     .slice(-6)
