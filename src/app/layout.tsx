@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@/shared/styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import { roboto } from "@/shared/fonts/roboto";
-import { ServiceWorkerRegistration } from "@/shared/ui";
+import { ServiceWorkerRegistration, TouchHoverReset } from "@/shared/ui";
 
 export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
@@ -37,6 +37,7 @@ export default function RootLayout({
     >
       <body>
         <ServiceWorkerRegistration />
+        <TouchHoverReset />
         <ToastContainer
           position="bottom-right"
           autoClose={1000}
