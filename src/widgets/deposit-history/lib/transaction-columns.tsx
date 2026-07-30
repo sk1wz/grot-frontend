@@ -1,22 +1,11 @@
 import {
   BalanceTransactionStatus,
-  BalanceTransactionStatusLabel,
   type BalanceTransactionType,
 } from "@/entities/balance";
 import { formatAmount, formatDate } from "@/shared/lib";
-import { Badge, type BadgeVariant, type TableColumn } from "@/shared/ui";
+import { BadgeTransaction, type TableColumn } from "@/shared/ui";
 
-const transactionStatusVariants: Record<
-  BalanceTransactionStatus,
-  BadgeVariant
-> = {
-  [BalanceTransactionStatus.BALANCE_TOPUP]: "success",
-  [BalanceTransactionStatus.BALANCE_REFUND]: "info",
-  [BalanceTransactionStatus.BALANCE_FAILED]: "danger",
-  [BalanceTransactionStatus.BALANCE_PURCHASE]: "warning",
-};
-
-function formatTransactionAmount(transaction: BalanceTransactionType) {
+export function formatTransactionAmount(transaction: BalanceTransactionType) {
   const amount = formatAmount(Math.abs(transaction.amount));
 
   if (transaction.status === BalanceTransactionStatus.BALANCE_TOPUP) {
@@ -28,6 +17,20 @@ function formatTransactionAmount(transaction: BalanceTransactionType) {
   }
 
   return amount;
+}
+
+export function transactionAmountClassName(
+  transaction: BalanceTransactionType
+) {
+  if (transaction.status === BalanceTransactionStatus.BALANCE_TOPUP) {
+    return "text-emerald-700";
+  }
+
+  if (transaction.status === BalanceTransactionStatus.BALANCE_PURCHASE) {
+    return "text-rose-700";
+  }
+
+  return "text-(--foreground)";
 }
 
 export const transactionColumns: TableColumn<BalanceTransactionType>[] = [
@@ -48,11 +51,7 @@ export const transactionColumns: TableColumn<BalanceTransactionType>[] = [
     key: "status",
     title: "Тип операции",
     width: "20%",
-    render: (transaction) => (
-      <Badge variant={transactionStatusVariants[transaction.status]}>
-        {BalanceTransactionStatusLabel[transaction.status]}
-      </Badge>
-    ),
+    render: (transaction) => <BadgeTransaction status={transaction.status} />,
   },
   {
     key: "action",
@@ -67,15 +66,7 @@ export const transactionColumns: TableColumn<BalanceTransactionType>[] = [
     width: "15%",
     className: "whitespace-nowrap text-right font-semibold",
     render: (transaction) => (
-      <span
-        className={
-          transaction.status === BalanceTransactionStatus.BALANCE_TOPUP
-            ? "text-emerald-700"
-            : transaction.status === BalanceTransactionStatus.BALANCE_PURCHASE
-            ? "text-rose-700"
-            : undefined
-        }
-      >
+      <span className={transactionAmountClassName(transaction)}>
         {formatTransactionAmount(transaction)}
       </span>
     ),

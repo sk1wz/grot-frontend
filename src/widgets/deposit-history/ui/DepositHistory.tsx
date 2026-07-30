@@ -5,7 +5,7 @@ import {
   getBalanceTransactions,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
-import { Pagination, SmartTable, TextTitle } from "@/shared/ui";
+import { DepositCard, Pagination, Skeleton, SmartTable, TextTitle } from "@/shared/ui";
 import { transactionColumns } from "../lib/transaction-columns";
 import { DepositHistoryStats } from "./DepositHistoryStats";
 
@@ -29,6 +29,7 @@ export function DepositHistory() {
 
     return items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [items, safeCurrentPage]);
+  const showCardsSkeleton = !isInitialized || (isLoading && items.length === 0);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -47,14 +48,40 @@ export function DepositHistory() {
       <DepositHistoryStats items={items} />
       <TextTitle>История транзакций</TextTitle>
       <div className="flex flex-col gap-4">
-        <SmartTable
-          items={paginatedItems}
-          columns={transactionColumns}
-          getRowKey={(transaction) => transaction.id}
-          isLoading={isLoading}
-          isInitialized={isInitialized}
-          emptyMessage="Нет операций для отображения"
-        />
+        <div className="hidden md:block">
+          <SmartTable
+            items={paginatedItems}
+            columns={transactionColumns}
+            getRowKey={(transaction) => transaction.id}
+            isLoading={isLoading}
+            isInitialized={isInitialized}
+            emptyMessage="Нет операций для отображения"
+          />
+        </div>
+
+        <div className="md:hidden">
+          {showCardsSkeleton ? (
+            <div className="space-y-3">
+              {Array.from({ length: 3 }, (_, index) => (
+                <div key={index} className="rounded-lg border border-(--border) p-3">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="mt-3 h-4 w-full" />
+                  <Skeleton className="mt-3 h-6 w-24" />
+                </div>
+              ))}
+            </div>
+          ) : paginatedItems.length > 0 ? (
+            <div className="space-y-3">
+              {paginatedItems.map((transaction) => (
+                <DepositCard key={transaction.id} transaction={transaction} />
+              ))}
+            </div>
+          ) : (
+            <p className="py-10 text-center text-sm text-(--foreground)">
+              Нет операций для отображения
+            </p>
+          )}
+        </div>
 
         <Pagination
           total={totalItems}
