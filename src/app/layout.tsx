@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@/shared/styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import { roboto } from "@/shared/fonts/roboto";
+import { ServiceWorkerRegistration } from "@/shared/ui";
 
 export const metadata: Metadata = {
   title: "InfoFusion",
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
     shortcut: "/logo.svg",
     apple: "/logo.svg",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#c8ddd5",
 };
 
 export default function RootLayout({
@@ -25,6 +30,7 @@ export default function RootLayout({
       className={`${roboto.variable}  h-full antialiased`}
     >
       <body>
+        <ServiceWorkerRegistration />
         <ToastContainer
           position="bottom-right"
           autoClose={1000}
