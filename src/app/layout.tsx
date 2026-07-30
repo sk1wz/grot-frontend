@@ -5,8 +5,14 @@ import { roboto } from "@/shared/fonts/roboto";
 import { ServiceWorkerRegistration } from "@/shared/ui";
 
 export const metadata: Metadata = {
+  manifest: "/manifest.webmanifest",
   title: "InfoFusion",
   description: "InfoFusion",
+  appleWebApp: {
+    capable: true,
+    title: "InfoFusion",
+    statusBarStyle: "default",
+  },
   icons: {
     icon: "/logo.svg",
     shortcut: "/logo.svg",
@@ -25,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ru"
       suppressHydrationWarning
       className={`${roboto.variable}  h-full antialiased`}
     >
