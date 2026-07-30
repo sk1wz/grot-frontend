@@ -96,7 +96,6 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
           page={safeCurrentPage}
           onPageChange={setCurrentPage}
           summaryText="Всего проверок"
-          summaryClassName="hidden md:block"
           compactOnMobile
         />
       </div>

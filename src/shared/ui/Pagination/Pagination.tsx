@@ -73,16 +73,16 @@ export function Pagination({
   return (
     <nav
       aria-label="Пагинация"
-      className={`grid ${compactOnMobile ? "grid-cols-2 md:grid-cols-3" : "grid-cols-3"} items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 ${className}`}
+      className={`grid grid-cols-[1fr_auto] items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 lg:grid-cols-3 ${className}`}
     >
       <span
-        className={`justify-self-start text-sm text-(--foreground) ${summaryClassName}`}
+        className={`hidden justify-self-start text-sm text-(--foreground) lg:block ${summaryClassName}`}
       >
         {summaryText ? `${summaryText}: ${total}` : null}
       </span>
 
       <div
-        className={`flex items-center gap-1 ${compactOnMobile ? "justify-start md:justify-center" : "justify-center"}`}
+        className={`flex min-w-0 items-center gap-1 justify-self-start ${compactOnMobile ? "justify-start lg:justify-self-center lg:justify-center" : "justify-center lg:justify-self-center"}`}
       >
         {totalPages > 1 ? (
           <>
