@@ -1,18 +1,33 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { logout } from "@/features/auth/api";
-import { UserBalance, UserMiniProfile } from "@/entities/user";
+import { useUserStore, UserBalance, UserMiniProfile } from "@/entities/user";
 import { SidebarToggle } from "@/widgets/sidebar";
 
 export function Header() {
   const router = useRouter();
+  const setUser = useUserStore((state) => state.setUser);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   async function handleLogout() {
-    await logout();
+    if (isLoggingOut) {
+      return;
+    }
 
-    router.push("/login");
+    setIsLoggingOut(true);
+
+    try {
+      await logout();
+      setUser(null);
+      router.replace("/login");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      setIsLoggingOut(false);
+    }
   }
 
   return (
@@ -29,7 +44,8 @@ export function Header() {
               type="button"
               aria-label="Выйти"
               onClick={handleLogout}
-              className="flex size-8 cursor-pointer items-center justify-center rounded-full text-(--foreground) transition-colors hover:bg-white/70"
+              disabled={isLoggingOut}
+              className="flex size-8 cursor-pointer items-center justify-center rounded-full text-(--foreground) transition-colors hover:bg-white/70 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <LogOut size={16} />
             </button>
