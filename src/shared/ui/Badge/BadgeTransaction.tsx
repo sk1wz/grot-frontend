@@ -19,10 +19,7 @@ const statusStyles: Record<BalanceTransactionStatus, string> = {
     "bg-amber-50 text-amber-700 ring-amber-200",
 };
 
-export function BadgeTransaction({
-  status,
-  className,
-}: BadgeTransactionProps) {
+export function BadgeTransaction({ status, className }: BadgeTransactionProps) {
   return (
     <span
       className={`inline-flex max-w-full items-center truncate rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${statusStyles[status]} ${className ?? ""}`}
