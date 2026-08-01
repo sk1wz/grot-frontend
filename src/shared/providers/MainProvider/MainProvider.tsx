@@ -1,7 +1,7 @@
 "use client";
 import { connectRealtime } from "@/shared/api/connectRealTime";
 import { UserProvider } from "../UserProvider/UserProvider";
-import { useUserStore } from "@/entities/user";
+import { useUserStore, type UserType } from "@/entities/user";
 import { useEffect } from "react";
 import {
   BalanceTransactionType,
@@ -9,7 +9,7 @@ import {
 } from "@/entities/balance";
 import { CheckSchema, useChecksStore } from "@/entities/check";
 
-export const MainProvider = ({ children }: { children: React.ReactNode }) => {
+function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const userId = useUserStore((state) => state.user?.id);
 
   useEffect(() => {
@@ -52,9 +52,21 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [userId]);
 
+  return children;
+}
+
+export const MainProvider = ({
+  children,
+  initialUser,
+}: {
+  children: React.ReactNode;
+  initialUser: UserType | null;
+}) => {
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden">
-      <UserProvider>{children}</UserProvider>
+      <UserProvider initialUser={initialUser}>
+        <RealtimeProvider>{children}</RealtimeProvider>
+      </UserProvider>
     </div>
   );
 };

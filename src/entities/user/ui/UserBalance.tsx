@@ -3,18 +3,21 @@
 import Link from "next/link";
 import { formatAmount } from "@/shared/lib";
 import { Skeleton } from "@/shared/ui";
-import { useUserStore } from "../model";
+import { useUserStore, type UserType } from "../model";
 
 export type UserBalanceProps = {
   className?: string;
   href?: string;
+  initialUser?: UserType | null;
 };
 
 export function UserBalance({
   className = "",
   href = "/dashboard/deposit-history",
+  initialUser = null,
 }: UserBalanceProps) {
-  const user = useUserStore((state) => state.user);
+  const storeUser = useUserStore((state) => state.user);
+  const user = storeUser ?? initialUser;
 
   if (!user) {
     return <Skeleton className={`h-8 w-20 rounded-full! ${className}`} />;

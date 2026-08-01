@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { logout } from "@/features/auth/api";
-import { UserBalance, UserMiniProfile } from "@/entities/user";
+import { UserBalance, UserMiniProfile, type UserType } from "@/entities/user";
 import { SidebarToggle } from "@/widgets/sidebar";
 
-export function Header() {
+export function Header({ initialUser }: { initialUser: UserType }) {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -35,8 +35,9 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4 rounded-full bg-(--surface)">
-        <UserBalance />
+        <UserBalance initialUser={initialUser} />
         <UserMiniProfile
+          initialUser={initialUser}
           slot={
             <button
               type="button"

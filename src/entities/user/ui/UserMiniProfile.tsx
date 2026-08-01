@@ -2,19 +2,22 @@
 
 import type { ReactNode } from "react";
 import { Avatar, Skeleton } from "@/shared/ui";
-import { useUserStore } from "../model";
+import { useUserStore, type UserType } from "../model";
 
 export type UserMiniProfileProps = {
   className?: string;
+  initialUser?: UserType | null;
   /** Слот справа от email (например, кнопка logout) */
   slot?: ReactNode;
 };
 
 export function UserMiniProfile({
   className = "",
+  initialUser = null,
   slot,
 }: UserMiniProfileProps) {
-  const user = useUserStore((state) => state.user);
+  const storeUser = useUserStore((state) => state.user);
+  const user = storeUser ?? initialUser;
 
   if (!user) {
     return (
