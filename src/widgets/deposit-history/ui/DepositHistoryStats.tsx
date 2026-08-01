@@ -37,7 +37,7 @@ function SummaryCard({
 }) {
   return (
     <div className="rounded-lg bg-(--surface) p-4">
-      <Text className="text-xs font-medium uppercase tracking-wide text-(--foreground)">
+      <Text className="font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
       {isLoading ? (
