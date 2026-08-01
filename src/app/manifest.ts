@@ -4,15 +4,14 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "InfoFusion",
     short_name: "InfoFusion",
-    description: "Система проверки и обработки данных",
+    description: "InfoFusion - сервис проверки, обработки и анализа данных.",
     start_url: "/login",
     scope: "/",
     id: "/login",
-    display: "fullscreen",
-    display_override: ["fullscreen", "standalone"],
+    display: "standalone",
     orientation: "portrait",
     background_color: "#ffffff",
-    theme_color: "#c8ddd5",
+    theme_color: "#ffffff",
     categories: ["business", "productivity"],
     icons: [
       {

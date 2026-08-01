@@ -7,7 +7,7 @@ import { ServiceWorkerRegistration, TouchHoverReset } from "@/shared/ui";
 export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   title: "InfoFusion",
-  description: "InfoFusion",
+  description: "InfoFusion - сервис проверки, обработки и анализа данных.",
   appleWebApp: {
     capable: true,
     title: "InfoFusion",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#c8ddd5",
+  themeColor: "#ffffff",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
