@@ -2,14 +2,36 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
+  BalanceTransactionStatus,
+  BalanceTransactionStatusLabel,
   getBalanceTransactions,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
-import { DepositCard, Pagination, Skeleton, SmartTable, TextTitle } from "@/shared/ui";
+import { filterItems, searchItems } from "@/features/options";
+import {
+  DepositCard,
+  Pagination,
+  SearchField,
+  SelectField,
+  Skeleton,
+  SmartTable,
+  TextTitle,
+} from "@/shared/ui";
 import { transactionColumns } from "../lib/transaction-columns";
 import { DepositHistoryStats } from "./DepositHistoryStats";
 
 const ITEMS_PER_PAGE = 10;
+const ALL_STATUSES = "all";
+
+type StatusFilter = BalanceTransactionStatus | typeof ALL_STATUSES;
+
+const statusOptions: { value: StatusFilter; label: string }[] = [
+  { value: ALL_STATUSES, label: "Все статусы" },
+  ...Object.values(BalanceTransactionStatus).map((status) => ({
+    value: status,
+    label: BalanceTransactionStatusLabel[status],
+  })),
+];
 
 export function DepositHistory() {
   const items = useBalanceTransactionsStore((state) => state.items);
@@ -18,8 +40,23 @@ export function DepositHistory() {
     (state) => state.isInitialized
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(ALL_STATUSES);
 
-  const totalItems = items.length;
+  const filteredItems = useMemo(() => {
+    const foundItems = searchItems(items, searchQuery, (transaction, query) =>
+      transaction.id.toLowerCase().includes(query)
+    );
+
+    return filterItems(
+      foundItems,
+      statusFilter,
+      ALL_STATUSES,
+      (transaction, status) => transaction.status === status
+    );
+  }, [items, searchQuery, statusFilter]);
+
+  const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const safeCurrentPage =
     totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
@@ -27,8 +64,8 @@ export function DepositHistory() {
   const paginatedItems = useMemo(() => {
     const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
 
-    return items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [items, safeCurrentPage]);
+    return filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredItems, safeCurrentPage]);
   const showCardsSkeleton = !isInitialized || (isLoading && items.length === 0);
 
   useEffect(() => {
@@ -43,10 +80,38 @@ export function DepositHistory() {
     fetchTransactions();
   }, []);
 
+  function handleSearchChange(value: string) {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  }
+
+  function handleStatusChange(value: StatusFilter) {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  }
+
   return (
     <section className="flex w-full flex-col gap-4">
-      <DepositHistoryStats items={items} />
+      <DepositHistoryStats items={filteredItems} />
       <TextTitle>История транзакций</TextTitle>
+      <div className="flex flex-col gap-4 md:flex-row">
+        <SearchField
+          id="transaction-id-search"
+          label="Поиск по ID"
+          placeholder="Введите ID транзакции"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="md:max-w-md"
+        />
+        <SelectField
+          id="transaction-status-filter"
+          label="Статус"
+          value={statusFilter}
+          options={statusOptions}
+          onChange={handleStatusChange}
+          className="md:max-w-xs"
+        />
+      </div>
       <div className="flex flex-col gap-4">
         <div className="hidden md:block">
           <SmartTable
