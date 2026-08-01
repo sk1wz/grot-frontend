@@ -93,6 +93,7 @@ export function DepositHistory() {
 
   return (
     <section className="flex w-full flex-col gap-4">
+        <TextTitle>Статистика за всё время</TextTitle>
       <DepositHistoryStats
         items={items}
         isLoading={showStatsSkeleton}
