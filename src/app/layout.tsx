@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "InfoFusion",
   description: "InfoFusion - сервис проверки, обработки и анализа данных.",
   appleWebApp: {
-    capable: true,
+    capable: false,
     title: "InfoFusion",
     statusBarStyle: "default",
   },

@@ -68,7 +68,18 @@ self.addEventListener("install", () => {
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(clients.claim());
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((name) => name === "info-fusion-v1")
+            .map((name) => caches.delete(name)),
+        ),
+      )
+      .then(() => clients.claim()),
+  );
 });
 
 self.addEventListener("fetch", async (event) => {
