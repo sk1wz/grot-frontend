@@ -43,7 +43,7 @@ function SummaryCard({
       {isLoading ? (
         <Skeleton className="mt-3 h-7 w-24 rounded-md" />
       ) : (
-        <p className={`mt-2 text-xl font-semibold ${accentClassName}`}>
+        <p className={`mt-2 text-sm md:text-lg font-semibold ${accentClassName}`}>
           {value}
         </p>
       )}
