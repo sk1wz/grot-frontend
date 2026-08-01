@@ -67,6 +67,7 @@ export function DepositHistory() {
     return filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredItems, safeCurrentPage]);
   const showCardsSkeleton = !isInitialized || (isLoading && items.length === 0);
+  const showStatsSkeleton = !isInitialized || (isLoading && items.length === 0);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -92,7 +93,10 @@ export function DepositHistory() {
 
   return (
     <section className="flex w-full flex-col gap-4">
-      <DepositHistoryStats items={filteredItems} />
+      <DepositHistoryStats
+        items={items}
+        isLoading={showStatsSkeleton}
+      />
       <TextTitle>История транзакций</TextTitle>
       <div className="flex flex-col gap-4 md:flex-row">
         <SearchField

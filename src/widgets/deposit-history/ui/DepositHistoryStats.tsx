@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import type { BalanceTransactionType } from "@/entities/balance";
 import { formatAmount } from "@/shared/lib";
-import { Text } from "@/shared/ui";
+import { Skeleton, Text } from "@/shared/ui";
 import {
   Bar,
   BarChart,
@@ -21,23 +21,32 @@ import { buildTransactionStats } from "../lib/build-transaction-stats";
 
 type DepositHistoryStatsProps = {
   items: BalanceTransactionType[];
+  isLoading?: boolean;
 };
 
 function SummaryCard({
   label,
   value,
   accentClassName,
+  isLoading,
 }: {
   label: string;
   value: string;
   accentClassName: string;
+  isLoading?: boolean;
 }) {
   return (
     <div className="rounded-lg bg-(--surface) p-4">
       <Text className="text-xs font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
-      <p className={`mt-2 text-xl font-semibold ${accentClassName}`}>{value}</p>
+      {isLoading ? (
+        <Skeleton className="mt-3 h-7 w-24 rounded-md" />
+      ) : (
+        <p className={`mt-2 text-xl font-semibold ${accentClassName}`}>
+          {value}
+        </p>
+      )}
     </div>
   );
 }
@@ -50,7 +59,10 @@ function ChartEmptyState() {
   );
 }
 
-export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
+export function DepositHistoryStats({
+  items,
+  isLoading = false,
+}: DepositHistoryStatsProps) {
   const stats = useMemo(() => buildTransactionStats(items), [items]);
 
   return (
@@ -60,16 +72,19 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
           label="Пополнения"
           value={formatAmount(stats.summary.totalTopup)}
           accentClassName="text-emerald-700"
+          isLoading={isLoading}
         />
         <SummaryCard
           label="Списания"
           value={formatAmount(stats.summary.totalPurchase)}
           accentClassName="text-rose-700"
+          isLoading={isLoading}
         />
         <SummaryCard
           label="Возвраты"
           value={formatAmount(stats.summary.totalRefund)}
           accentClassName="text-sky-700"
+          isLoading={isLoading}
         />
         <SummaryCard
           label="Чистое изменение"
@@ -77,6 +92,7 @@ export function DepositHistoryStats({ items }: DepositHistoryStatsProps) {
           accentClassName={
             stats.summary.netChange >= 0 ? "text-emerald-700" : "text-rose-700"
           }
+          isLoading={isLoading}
         />
       </div>
 
