@@ -73,7 +73,7 @@ export function Pagination({
   return (
     <nav
       aria-label="Пагинация"
-      className={`grid grid-cols-[1fr_auto] items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 lg:grid-cols-3 ${className}`}
+      className={`grid grid-cols-1 items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 lg:grid-cols-3 ${className}`}
     >
       <span
         className={`hidden justify-self-start text-sm text-(--foreground) lg:block ${summaryClassName}`}
@@ -82,7 +82,7 @@ export function Pagination({
       </span>
 
       <div
-        className={`flex min-w-0 items-center gap-1 justify-self-start ${compactOnMobile ? "justify-start lg:justify-self-center lg:justify-center" : "justify-center lg:justify-self-center"}`}
+        className={`flex min-w-0 items-center gap-1 justify-self-center ${compactOnMobile ? "justify-start lg:justify-self-center lg:justify-center" : "justify-center lg:justify-self-center"}`}
       >
         {totalPages > 1 ? (
           <>
@@ -147,7 +147,7 @@ export function Pagination({
         ) : null}
       </div>
 
-      <span className="justify-self-end text-sm text-(--foreground)">
+      <span className="justify-self-center text-sm text-(--foreground) lg:justify-self-end">
         Страница {safePage} из {Math.max(totalPages, 1)}
       </span>
     </nav>
