@@ -5,5 +5,5 @@ export const Text = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  return <span className={`text-(--foreground) ${className}`}>{children}</span>;
+  return <span className={`text-(--foreground) text-sm md:text-base  ${className}`}>{children}</span>;
 };

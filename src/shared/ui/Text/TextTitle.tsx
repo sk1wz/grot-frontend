@@ -7,7 +7,7 @@ export const TextTitle = ({
 }) => {
   return (
     <h1
-      className={`text-(--foreground) text-sm font-semibold tracking-tight ${className}`}
+      className={`text-(--foreground) text-base md:text-lg font-semibold tracking-tight ${className}`}
     >
       {children}
     </h1>
