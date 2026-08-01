@@ -41,9 +41,9 @@ function SummaryCard({
         {label}
       </Text>
       {isLoading ? (
-        <Skeleton className="mt-3 h-7 w-24 rounded-md" />
+        <Skeleton className="mt-3 h-5 w-24 rounded-md" />
       ) : (
-        <p className={`mt-2 text-sm md:text-lg font-semibold ${accentClassName}`}>
+        <p className={`mt-2 font-semibold text-(--foreground) text-base ${accentClassName}`}>
           {value}
         </p>
       )}
@@ -54,7 +54,7 @@ function SummaryCard({
 function ChartEmptyState() {
   return (
     <div className="flex h-full items-center justify-center">
-      <Text className="text-sm text-(--foreground)">Нет данных</Text>
+      <Text>Нет данных</Text>
     </div>
   );
 }
@@ -98,7 +98,7 @@ export function DepositHistoryStats({
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-lg bg-(--surface) p-4">
-          <Text className="text-sm font-medium text-(--foreground)">
+          <Text className="font-medium">
             Распределение по типам
           </Text>
           <div className="mt-4 h-64">
@@ -135,7 +135,7 @@ export function DepositHistoryStats({
         </div>
 
         <div className="rounded-lg bg-(--surface) p-4">
-          <Text className="text-sm font-medium text-(--foreground)">
+          <Text className="font-medium">
             Динамика по месяцам
           </Text>
           <div className="mt-4 h-64">

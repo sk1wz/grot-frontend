@@ -7,6 +7,7 @@ import {
   Pagination,
   Skeleton,
   SmartTable,
+  Text,
   TextTitle,
 } from "@/shared/ui";
 import { CheckActions, checkColumns } from "../lib/check-history-column";
@@ -85,9 +86,9 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
               ))}
             </div>
           ) : (
-            <p className="py-10 text-center text-sm text-(--foreground)">
+            <Text className="py-10 text-center">
               Нет проверок для отображения
-            </p>
+            </Text>
           )}
         </div>
         <Pagination

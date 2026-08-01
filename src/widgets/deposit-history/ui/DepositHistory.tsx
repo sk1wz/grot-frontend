@@ -15,6 +15,7 @@ import {
   SelectField,
   Skeleton,
   SmartTable,
+  Text,
   TextTitle,
 } from "@/shared/ui";
 import { transactionColumns } from "../lib/transaction-columns";
@@ -147,9 +148,9 @@ export function DepositHistory() {
               ))}
             </div>
           ) : (
-            <p className="py-10 text-center text-sm text-(--foreground)">
+            <Text className="py-10 text-center">
               Нет операций для отображения
-            </p>
+            </Text>
           )}
         </div>
 
