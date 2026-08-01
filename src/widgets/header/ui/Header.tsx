@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
-import { logout } from "@/features/auth/api";
+import { logout } from "@/features/auth";
 import { UserBalance, UserMiniProfile, type UserType } from "@/entities/user";
 import { SidebarToggle } from "@/widgets/sidebar";
 
