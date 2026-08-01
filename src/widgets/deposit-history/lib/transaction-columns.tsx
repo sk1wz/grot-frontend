@@ -71,7 +71,7 @@ export const transactionColumns: TableColumn<BalanceTransactionType>[] = [
   {
     key: "amount",
     title: "Сумма",
-    width: "15%",
+    width: "10%",
     className: "whitespace-nowrap text-right font-semibold",
     render: (transaction) => (
       <span className={transactionAmountClassName(transaction)}>
