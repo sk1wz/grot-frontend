@@ -1,0 +1,212 @@
+"use client";
+
+import { useMemo, useRef, useState } from "react";
+import { Download } from "lucide-react";
+import { toast } from "react-toastify";
+import { startCheck } from "../api";
+import { buildCheckBody } from "../model";
+import {
+  bankruptcyConfig,
+  fsspConfig,
+  gibddConfig,
+  gistorgiConfig,
+  innConfig,
+} from "../model/configs";
+import type { CheckConfig, FieldDef, FieldValues, ModeDef } from "../model/types";
+
+type CheckFormProps = {
+  config: CheckConfig;
+};
+
+type CheckFormByIdProps = {
+  configId: CheckConfig["id"];
+};
+
+const configsById: Record<string, CheckConfig> = {
+  [bankruptcyConfig.id]: bankruptcyConfig,
+  [fsspConfig.id]: fsspConfig,
+  [gibddConfig.id]: gibddConfig,
+  [gistorgiConfig.id]: gistorgiConfig,
+  [innConfig.id]: innConfig,
+};
+
+function getFields(config: CheckConfig, mode?: ModeDef): FieldDef[] {
+  return mode?.fields ?? config.fields ?? [];
+}
+
+function getDefaultValues(fields: FieldDef[]): FieldValues {
+  return fields.reduce<FieldValues>((values, field) => {
+    values[field.name] = field.type === "checkbox" ? false : "";
+    return values;
+  }, {});
+}
+
+function formatError(error: unknown): string {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "issues" in error &&
+    Array.isArray(error.issues) &&
+    error.issues[0] &&
+    typeof error.issues[0] === "object" &&
+    "message" in error.issues[0]
+  ) {
+    return String(error.issues[0].message);
+  }
+
+  return "Проверьте заполнение полей";
+}
+
+function getStringValue(values: FieldValues, name: string): string {
+  const value = values[name];
+  return typeof value === "string" ? value : "";
+}
+
+export function CheckForm({ config }: CheckFormProps) {
+  const [activeModeId, setActiveModeId] = useState(config.modes?.[0]?.id);
+  const activeMode = config.modes?.find((mode) => mode.id === activeModeId);
+  const fields = useMemo(() => getFields(config, activeMode), [config, activeMode]);
+  const [values, setValues] = useState<FieldValues>(() => getDefaultValues(fields));
+  const [fileName, setFileName] = useState("Файл не выбран");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function selectMode(mode: ModeDef) {
+    setActiveModeId(mode.id);
+    setValues(getDefaultValues(mode.fields));
+  }
+
+  function updateValue(field: FieldDef, value: string | boolean) {
+    setValues((current) => ({
+      ...current,
+      [field.name]: value,
+    }));
+  }
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const schema = activeMode?.schema ?? config.schema;
+    const parsed = schema?.safeParse(values);
+
+    if (parsed && !parsed.success) {
+      toast.error(formatError(parsed.error));
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await startCheck(config.endpoint, buildCheckBody(config, values, activeMode));
+      toast.success("Проверка успешно зарегистрирована");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Не удалось зарегистрировать проверку");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="mb-6 rounded-[18px] border border-[#d7e2ed] bg-white px-3 py-4 shadow-[0_10px_24px_rgba(15,23,42,0.08)] sm:px-5"
+    >
+      {config.modes && config.modes.length > 0 ? (
+        <div className="mb-6 grid overflow-hidden rounded-lg bg-[#f4f8fc] shadow-[inset_0_1px_6px_rgba(15,23,42,0.12)] sm:grid-cols-[repeat(var(--tabs),minmax(0,1fr))]" style={{ "--tabs": config.modes.length } as React.CSSProperties}>
+          {config.modes.map((mode) => (
+            <button
+              key={mode.id}
+              type="button"
+              onClick={() => selectMode(mode)}
+              className={`min-h-9 border-[#e2e8f0] px-3 text-xs font-semibold text-[#1f2937] transition sm:border-r last:border-r-0 ${
+                mode.id === activeModeId
+                  ? "bg-[#d7e6f5] shadow-[inset_0_8px_16px_rgba(148,163,184,0.35)]"
+                  : "bg-white/50 hover:bg-white"
+              }`}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      <div className={`grid gap-5 ${fields.length > 1 ? "sm:grid-cols-2" : ""}`}>
+        {fields.map((field) =>
+          field.type === "checkbox" ? (
+            <label
+              key={field.name}
+              className="flex min-h-11 items-center gap-3 rounded-lg bg-white px-4 text-sm font-medium text-[#1f2937] shadow-[0_3px_9px_rgba(15,23,42,0.18)]"
+            >
+              <input
+                type="checkbox"
+                checked={values[field.name] === true}
+                onChange={(event) => updateValue(field, event.target.checked)}
+                className="size-4 accent-[#bdd8cf]"
+              />
+              <span>{field.label}</span>
+            </label>
+          ) : (
+            <input
+              key={field.name}
+              name={field.name}
+              type={field.type === "date" ? "text" : "text"}
+              value={getStringValue(values, field.name)}
+              placeholder={field.placeholder ?? field.label}
+              onChange={(event) => updateValue(field, event.target.value)}
+              className="min-h-11 rounded-lg bg-white px-4 text-sm text-[#1f2937] outline-none shadow-[0_3px_9px_rgba(15,23,42,0.18)] placeholder:text-[#d5e0ec]"
+            />
+          )
+        )}
+      </div>
+
+      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="min-h-10 rounded-lg bg-[#c5ddd5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-[0_4px_8px_rgba(15,23,42,0.25)] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isSubmitting ? "Запуск..." : "Проверить"}
+        </button>
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="min-h-10 rounded-lg bg-[#c8ced5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-[0_4px_8px_rgba(15,23,42,0.25)] transition hover:brightness-95"
+        >
+          Загрузить Excel
+        </button>
+      </div>
+
+      <div className="mt-5 flex items-center justify-between gap-4 text-xs font-medium text-[#1f2937]">
+        <span className="truncate">{fileName}</span>
+        <a
+          href={config.templateUrl ?? "#"}
+          className={`inline-flex shrink-0 items-center gap-2 ${
+            config.templateUrl ? "hover:underline" : "pointer-events-none opacity-70"
+          }`}
+        >
+          Скачать шаблон
+          <Download className="size-5 rounded bg-[#edf2f7] p-0.5 shadow-[0_1px_4px_rgba(15,23,42,0.25)]" />
+        </a>
+      </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".xlsx,.xls"
+        className="hidden"
+        onChange={(event) => {
+          setFileName(event.target.files?.[0]?.name ?? "Файл не выбран");
+        }}
+      />
+    </form>
+  );
+}
+
+export function CheckFormById({ configId }: CheckFormByIdProps) {
+  const config = configsById[configId];
+
+  if (!config) {
+    return null;
+  }
+
+  return <CheckForm config={config} />;
+}
