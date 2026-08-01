@@ -4,12 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { logout } from "@/features/auth/api";
-import { useUserStore, UserBalance, UserMiniProfile } from "@/entities/user";
+import { UserBalance, UserMiniProfile } from "@/entities/user";
 import { SidebarToggle } from "@/widgets/sidebar";
 
 export function Header() {
   const router = useRouter();
-  const setUser = useUserStore((state) => state.setUser);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   async function handleLogout() {
@@ -21,7 +20,6 @@ export function Header() {
 
     try {
       await logout();
-      setUser(null);
       router.replace("/login");
       router.refresh();
     } catch (error) {
