@@ -1,13 +1,11 @@
-import type { CheckConfig } from "../types";
-import { innPassportSchema, innTextSchema, pickString } from "../schemas";
+import type { CheckConfig } from "../../types";
+import { pickString } from "../../schemas";
+import { innPassportSchema, innTextSchema } from "./schema";
 
 export const innConfig: CheckConfig = {
   id: "inn",
   title: "ИНН по паспорту",
-  description: "Поиск ИНН по паспорту и ФИО",
   endpoint: "/checks/inn",
-  price: 10,
-  eta: "~1с",
   modes: [
     {
       id: "structured",
@@ -16,12 +14,12 @@ export const innConfig: CheckConfig = {
         {
           name: "fio",
           label: "ФИО",
-          placeholder: "ФИО (Фамилия Имя Отчество)",
+          placeholder: "Фамилия Имя Отчество",
         },
         {
           name: "dob",
           label: "Дата рождения",
-          placeholder: "Дата рождения (ДД.ММ.ГГГГ)",
+          placeholder: "дд.мм.гггг",
           type: "date",
         },
         {

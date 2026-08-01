@@ -1,19 +1,11 @@
-import type { CheckConfig } from "../types";
-import {
-  docIdSchema,
-  fioDobSchema,
-  innSchema,
-  ipSchema,
-  pickString,
-} from "../schemas";
+import type { CheckConfig } from "../../types";
+import { pickString } from "../../schemas";
+import { docIdSchema, fioDobSchema, innSchema, ipSchema } from "./schema";
 
 export const fsspConfig: CheckConfig = {
   id: "fssp",
   title: "ФССП",
-  description: "Проверка исполнительных производств",
   endpoint: "/checks/fssp",
-  price: 10,
-  eta: "~3с",
   includeModeInBody: true,
   modes: [
     {
@@ -23,12 +15,12 @@ export const fsspConfig: CheckConfig = {
         {
           name: "fio",
           label: "ФИО",
-          placeholder: "ФИО (Фамилия Имя Отчество)",
+          placeholder: "Фамилия Имя Отчество",
         },
         {
           name: "dob",
           label: "Дата рождения",
-          placeholder: "Дата рождения (ДД.ММ.ГГГГ)",
+          placeholder: "дд.мм.гггг",
           type: "date",
         },
       ],
@@ -53,7 +45,7 @@ export const fsspConfig: CheckConfig = {
     },
     {
       id: "ip",
-      label: "Номер исполнительного производства",
+      label: "Номер ИП",
       fields: [
         {
           name: "ip",
@@ -66,11 +58,11 @@ export const fsspConfig: CheckConfig = {
     },
     {
       id: "doc_id",
-      label: "Номер исполнительного листа",
+      label: "Номер ИД",
       fields: [
         {
           name: "doc_id",
-          label: "Номер листа",
+          label: "Номер ИД",
           placeholder: "ФС-012345678",
         },
       ],

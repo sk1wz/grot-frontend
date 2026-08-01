@@ -1,22 +1,20 @@
-import type { CheckConfig } from "../types";
-import { gibddSchema, pickString } from "../schemas";
+import type { CheckConfig } from "../../types";
+import { pickString } from "../../schemas";
+import { gibddSchema } from "./schema";
 
 export const gibddConfig: CheckConfig = {
   id: "gibdd",
   title: "Транспорт",
-  description: "Проверка транспорта по VIN",
   endpoint: "/checks/gibdd",
-  price: 50,
-  eta: "1–3 мин",
   fields: [
     {
       name: "vin",
       label: "VIN",
-      placeholder: "VIN",
+      placeholder: "Введите VIN",
     },
     {
       name: "osago",
-      label: "Запрашивать ОСАГО (+1–2 мин)",
+      label: "Запрашивать ОСАГО (+1-2 мин)",
       type: "checkbox",
     },
   ],
@@ -25,9 +23,11 @@ export const gibddConfig: CheckConfig = {
     const subject: Record<string, unknown> = {
       vin: pickString(values, "vin"),
     };
+
     if (values.osago === true) {
       subject.osago = true;
     }
+
     return subject;
   },
 };

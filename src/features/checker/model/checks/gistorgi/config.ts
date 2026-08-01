@@ -1,20 +1,18 @@
-import type { CheckConfig } from "../types";
-import { pickString, vinSchema } from "../schemas";
+import type { CheckConfig } from "../../types";
+import { pickString } from "../../schemas";
+import { gistorgiSchema } from "./schema";
 
 export const gistorgiConfig: CheckConfig = {
   id: "gistorgi",
   title: "ГИС Торги",
-  description: "Проверка по VIN в реестре торгов",
   endpoint: "/checks/gistorgi",
-  price: 10,
-  eta: "~2с",
   fields: [
     {
       name: "vin",
       label: "VIN",
-      placeholder: "VIN",
+      placeholder: "Введите VIN",
     },
   ],
-  schema: vinSchema,
+  schema: gistorgiSchema,
   buildSubject: (values) => ({ vin: pickString(values, "vin") }),
 };

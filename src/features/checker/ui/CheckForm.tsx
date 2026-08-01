@@ -117,7 +117,7 @@ export function CheckForm({ config }: CheckFormProps) {
               key={mode.id}
               type="button"
               onClick={() => selectMode(mode)}
-              className={`min-h-9 border-[#e2e8f0] px-3 text-xs font-semibold text-[#1f2937] transition sm:border-r last:border-r-0 ${
+              className={`min-h-9 cursor-pointer border-[#e2e8f0] px-3 text-xs font-semibold text-[#1f2937] transition hover:brightness-95 sm:border-r last:border-r-0 ${
                 mode.id === activeModeId
                   ? "bg-[#d7e6f5] shadow-[inset_0_8px_16px_rgba(148,163,184,0.35)]"
                   : "bg-white/50 hover:bg-white"
@@ -162,14 +162,14 @@ export function CheckForm({ config }: CheckFormProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="min-h-10 rounded-lg bg-[#c5ddd5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-[0_4px_8px_rgba(15,23,42,0.25)] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+          className="min-h-10 cursor-pointer rounded-lg bg-[#c5ddd5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-[0_4px_8px_rgba(15,23,42,0.25)] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? "Запуск..." : "Проверить"}
         </button>
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="min-h-10 rounded-lg bg-[#c8ced5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-[0_4px_8px_rgba(15,23,42,0.25)] transition hover:brightness-95"
+          className="min-h-10 cursor-pointer rounded-lg bg-[#c8ced5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-[0_4px_8px_rgba(15,23,42,0.25)] transition hover:brightness-95"
         >
           Загрузить Excel
         </button>

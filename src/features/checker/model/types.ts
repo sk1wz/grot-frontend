@@ -23,10 +23,7 @@ export type ModeDef = {
 export type CheckConfig = {
   id: string;
   title: string;
-  description: string;
   endpoint: string;
-  price: number;
-  eta: string;
   modes?: ModeDef[];
   fields?: FieldDef[];
   schema?: z.ZodType<FieldValues>;

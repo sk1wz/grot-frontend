@@ -1,13 +1,11 @@
-import type { CheckConfig } from "../types";
-import { fioSchema, innSchema, pickString } from "../schemas";
+import type { CheckConfig } from "../../types";
+import { pickString } from "../../schemas";
+import { fioSchema, innSchema } from "./schema";
 
 export const bankruptcyConfig: CheckConfig = {
   id: "bankruptcy",
   title: "Банкротства",
-  description: "Проверка на банкротство",
   endpoint: "/checks/bancrupcy",
-  price: 10,
-  eta: "~10с",
   modes: [
     {
       id: "inn",
@@ -29,7 +27,7 @@ export const bankruptcyConfig: CheckConfig = {
         {
           name: "fio",
           label: "ФИО",
-          placeholder: "ФИО (Фамилия Имя Отчество)",
+          placeholder: "Фамилия Имя Отчество",
         },
       ],
       schema: fioSchema,
