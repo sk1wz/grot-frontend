@@ -2,7 +2,7 @@ import { useUserStore } from "@/entities/user";
 import { baseURL } from "@/shared/api/config";
 
 export async function logout(): Promise<void> {
-  const setUser = useUserStore((state) => state.setUser);
+  const setUser = useUserStore.getState().setUser;
   const response = await fetch(`${baseURL}/auth/logout`, {
     method: "POST",
     credentials: "include",
