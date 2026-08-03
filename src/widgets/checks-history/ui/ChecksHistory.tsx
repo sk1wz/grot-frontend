@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CheckModule, getChecks, useChecksStore } from "@/entities/check";
+import {
+  CheckModule,
+  CheckStatus,
+  CheckStatusLabel,
+  getChecks,
+  useChecksStore,
+} from "@/entities/check";
 import {
   CheckCard,
   Pagination,
+  SearchField,
+  Select,
   Skeleton,
   SmartTable,
   Text,
@@ -21,9 +29,20 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
   const isLoading = useChecksStore((state) => state.isLoading);
   const isInitialized = useChecksStore((state) => state.isInitialized);
   const [currentPage, setCurrentPage] = useState(1);
+  const [idQuery, setIdQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<CheckStatus | "">("");
   const filteredItems = useMemo(
-    () => items.filter((check) => check.module === module),
-    [items, module]
+    () => {
+      const normalizedQuery = idQuery.trim().toLowerCase();
+
+      return items.filter(
+        (check) =>
+          check.module === module &&
+          (!normalizedQuery || check.id.toLowerCase().includes(normalizedQuery)) &&
+          (!statusFilter || check.status === statusFilter)
+      );
+    },
+    [idQuery, items, module, statusFilter]
   );
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -48,6 +67,35 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
     <section className={`flex w-full flex-col gap-4 ${className}`}>
       <TextTitle>История проверок</TextTitle>
       <div className="flex flex-col gap-4">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <SearchField
+            id="check-id-search"
+            label="Поиск по ID"
+            placeholder="Введите ID проверки"
+            value={idQuery}
+            onChange={(value) => {
+              setIdQuery(value);
+              setCurrentPage(1);
+            }}
+          />
+          <label className="flex w-full flex-col gap-2 text-sm font-medium text-(--foreground)">
+            Статус
+            <Select
+              value={statusFilter}
+              onChange={(event) => {
+                setStatusFilter(event.target.value as CheckStatus | "");
+                setCurrentPage(1);
+              }}
+            >
+              <option value="">Все статусы</option>
+              {Object.values(CheckStatus).map((status) => (
+                <option key={status} value={status}>
+                  {CheckStatusLabel[status]}
+                </option>
+              ))}
+            </Select>
+          </label>
+        </div>
         <div className="hidden md:block">
           <SmartTable
             items={paginatedItems}
