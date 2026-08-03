@@ -85,7 +85,7 @@ export default function HomePage() {
           alt=""
           width={373}
           height={542}
-          className="pointer-events-none absolute top-[35%] left-[44%] z-10 w-[clamp(11rem,45vw,14rem)] -translate-x-1/2 -translate-y-1/2 max-[500px]:w-[clamp(10rem,39vw,13rem)] min-[950px]:top-[42%]"
+          className="pointer-events-none absolute top-[35%] left-[40%] z-10 w-[clamp(11rem,35vw,20rem)] -translate-x-1/2 -translate-y-1/2 max-[500px]:w-[clamp(10rem,39vw,13rem)] min-[950px]:left-[44%] min-[950px]:top-[42%]"
         />
         <Image
           src="/mainImages/hero_figure_1.png"
