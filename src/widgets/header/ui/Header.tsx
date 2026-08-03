@@ -35,7 +35,7 @@ export function Header({ initialUser }: { initialUser: UserType }) {
         <SidebarToggle />
       </div>
 
-      <div className="flex items-center gap-4 px-2">
+      <div className="flex items-center gap-4">
         <UserBalance initialUser={initialUser} />
         <UserMiniProfileWithMenu
           initialUser={initialUser}
