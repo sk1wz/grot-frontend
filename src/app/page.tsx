@@ -68,16 +68,16 @@ export default function HomePage() {
       <section className="relative h-150 w-full">
         <div className="absolute inset-0 w-full max-w-212.5 justify-self-center rounded-full bg-[#D4DDEA] blur-[50px]" />
         <span
-          className={`${montserratUnderline.className} absolute top-[12%] left-[10%] z-0 inline-block whitespace-nowrap px-2 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[3rem] font-extrabold leading-[1.1] tracking-normal text-transparent  sm:text-[clamp(3.25rem,7vw,7rem)] min-[950px]:top-[7%] min-[950px]:left-[23%]`}
+          className={`${montserratUnderline.className} absolute top-[12%] left-[10%] z-0 inline-block whitespace-nowrap px-2 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[3.5rem] font-extrabold leading-[1.1] tracking-normal text-transparent sm:text-[clamp(3.75rem,8vw,8rem)] min-[950px]:top-[7%] min-[950px]:left-[23%]`}
           style={{ filter: watermarkShadow }}
         >
           Авто
         </span>
         <span
-          className={`${montserratUnderline.className} absolute right-[0%] bottom-[49%] z-0 inline-block whitespace-nowrap px-2 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[3rem] font-extrabold leading-[1.1] tracking-normal text-transparent sm:text-[clamp(3.25rem,7vw,7rem)] min-[950px]:right-[20%] min-[950px]:bottom-[20%]`}
+          className={`${montserratUnderline.className} absolute right-[0%] bottom-[49%] z-0 inline-block whitespace-nowrap px-2 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[3.5rem] font-extrabold leading-[1.1] tracking-normal text-transparent sm:text-[clamp(3.75rem,8vw,8rem)] min-[950px]:right-[16%] min-[950px]:bottom-[20%]`}
           style={{ filter: watermarkShadow }}
         >
-          синтез
+          Синтез
         </span>
 
         <Image
