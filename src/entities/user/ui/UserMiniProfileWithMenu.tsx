@@ -41,7 +41,7 @@ export function UserMiniProfileWithMenu({
   }, []);
 
   return (
-    <div ref={menuRef} className="relative w-50 bg-(--surface) rounded-full">
+    <div ref={menuRef} className="relative w-45 bg-(--surface) rounded-full">
       <button
         type="button"
         aria-expanded={isOpen}
@@ -56,7 +56,7 @@ export function UserMiniProfileWithMenu({
       {isOpen ? (
         <div
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-50 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)]"
+          className="absolute right-0 top-full z-50 mt-2 w-45 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)]"
         >
           <button
             type="button"
