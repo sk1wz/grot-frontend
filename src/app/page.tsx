@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { Press_Start_2P } from "next/font/google";
+import { Montserrat_Underline } from "next/font/google";
 
 import { Logo, LogoName, Text } from "@/shared/ui";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-const pressStart2P = Press_Start_2P({
+const montserratUnderline = Montserrat_Underline({
   subsets: ["cyrillic"],
-  weight: "400",
+  weight: "800",
   display: "swap",
 });
 
@@ -51,7 +51,7 @@ function HeroButton({
 
 export default function HomePage() {
   return (
-    <div className="max-w-365 pt-6 px-6 mx-auto">
+    <div className="max-w-365 pt-6 px-6 mx-auto overflow-hidden">
       <header>
         <div className="flex items-center justify-between">
           <div>
@@ -67,13 +67,13 @@ export default function HomePage() {
       <section className="relative h-150 w-full">
         <div className="absolute inset-0 w-full max-w-212.5 justify-self-center rounded-full bg-[#D4DDEA] blur-[50px]" />
         <span
-          className={`${pressStart2P.className} absolute top-18 left-[calc(4rem+5%)] z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(3rem,9vw,8rem)] font-normal leading-[1.1] tracking-normal text-transparent lg:left-[calc(5rem+5%)]`}
+          className={`${montserratUnderline.className} absolute top-[12%] left-[10%] z-0 inline-block whitespace-nowrap px-2 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[3rem] font-extrabold leading-[1.1] tracking-normal text-transparent  sm:text-[clamp(3.25rem,7vw,7rem)] min-[950px]:top-[7%] min-[950px]:left-[23%]`}
           style={{ filter: watermarkShadow }}
         >
           Авто
         </span>
         <span
-          className={`${pressStart2P.className} absolute top-30 right-[calc(-2rem-5%)] z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(3rem,9vw,8rem)] font-normal leading-[1.1] tracking-normal text-transparent lg:top-auto lg:right-[calc(-2rem-5%)] lg:bottom-20`}
+          className={`${montserratUnderline.className} absolute right-[0%] bottom-[49%] z-0 inline-block whitespace-nowrap px-2 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[3rem] font-extrabold leading-[1.1] tracking-normal text-transparent sm:text-[clamp(3.25rem,7vw,7rem)] min-[950px]:right-[20%] min-[950px]:bottom-[20%]`}
           style={{ filter: watermarkShadow }}
         >
           синтез
@@ -84,7 +84,7 @@ export default function HomePage() {
           alt=""
           width={373}
           height={542}
-          className="pointer-events-none absolute top-1/2 left-[47%] z-10 w-[clamp(9rem,28vw,23rem)] -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-none absolute top-[35%] left-[44%] z-10 w-[clamp(11rem,45vw,14rem)] -translate-x-1/2 -translate-y-1/2 max-[500px]:w-[clamp(10rem,39vw,13rem)] min-[950px]:top-[42%]"
         />
         <Image
           src="/hero_figure_1.png"
@@ -95,10 +95,10 @@ export default function HomePage() {
         />
         <div className="absolute bottom-8 left-0 z-20 w-full max-w-[450px] rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border-[3px] border-[#C9D5E5]/40 bg-white/20 px-8 py-6 shadow-(--panel-shadow) backdrop-blur-(--panel-blur)">
           <div className="mb-4">
-            <Text className="text-base sm:text-xl font-semibold leading-relaxed">
+            <span className="text-sm font-semibold leading-relaxed text-(--foreground) min-[950px]:text-xl">
               Единая платформа для проверки данных через ГИБДД, ФССП и другие
               ведомства.
-            </Text>
+            </span>
           </div>
 
           <HeroButton
