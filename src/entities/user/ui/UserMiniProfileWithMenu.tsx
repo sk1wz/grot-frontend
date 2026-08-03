@@ -48,7 +48,7 @@ export function UserMiniProfileWithMenu({
         aria-haspopup="menu"
         aria-label="Open profile menu"
         onClick={() => setIsOpen((value) => !value)}
-        className="cursor-pointer rounded-full outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-(--accent-foreground)/30"
+        className="cursor-pointer w-full rounded-full outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-(--accent-foreground)/30"
       >
         <UserMiniProfile initialUser={initialUser} />
       </button>
