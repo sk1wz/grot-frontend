@@ -10,7 +10,7 @@ export const LogoName = () => {
       className="px-1 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-4xl font-bold text-transparent"
       style={{ filter: watermarkShadow }}
     >
-      InfoFusion
+      Автосинтез
     </h2>
   );
 };

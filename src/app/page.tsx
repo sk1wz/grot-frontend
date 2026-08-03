@@ -1,8 +1,15 @@
 import Image from "next/image";
+import { Press_Start_2P } from "next/font/google";
 
 import { Logo, LogoName, Text } from "@/shared/ui";
 import Link from "next/link";
 import { ReactNode } from "react";
+
+const pressStart2P = Press_Start_2P({
+  subsets: ["cyrillic"],
+  weight: "400",
+  display: "swap",
+});
 
 const watermarkShadow = [
   "drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.75))",
@@ -60,16 +67,16 @@ export default function HomePage() {
       <section className="relative h-150 w-full">
         <div className="absolute inset-0 w-full max-w-212.5 justify-self-center rounded-full bg-[#D4DDEA] blur-[50px]" />
         <span
-          className="absolute top-10 left-10 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent lg:left-80"
+          className={`${pressStart2P.className} absolute top-18 left-[calc(4rem+5%)] z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(3rem,9vw,8rem)] font-normal leading-[1.1] tracking-normal text-transparent lg:left-[calc(5rem+5%)]`}
           style={{ filter: watermarkShadow }}
         >
-          Info
+          Авто
         </span>
         <span
-          className="absolute top-30 right-10 z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(5rem,14vw,13rem)] font-black leading-[1.1] tracking-[-0.08em] text-transparent lg:top-auto lg:right-30 lg:bottom-20"
+          className={`${pressStart2P.className} absolute top-30 right-[calc(-2rem-5%)] z-0 inline-block whitespace-nowrap px-4 bg-[linear-gradient(90deg,rgba(62,60,75,0.2)_0%,#D4DDEA_4%,#FFFFFF_31%,#FFFFFF_60%,#D4DDEA_85%,rgba(62,60,75,0.2)_100%)] bg-clip-text bg-center bg-no-repeat bg-size-[calc(100%+1rem)_100%] text-[clamp(3rem,9vw,8rem)] font-normal leading-[1.1] tracking-normal text-transparent lg:top-auto lg:right-[calc(-2rem-5%)] lg:bottom-20`}
           style={{ filter: watermarkShadow }}
         >
-          Fusion
+          синтез
         </span>
 
         <Image
