@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "InfoFusion",
-    short_name: "InfoFusion",
-    description: "InfoFusion - сервис проверки, обработки и анализа данных.",
+    name: "Автосинтез",
+    short_name: "Автосинтез",
+    description: "Автосинтез - сервис проверки, обработки и анализа данных.",
     start_url: "/login",
     scope: "/",
     id: "/login",

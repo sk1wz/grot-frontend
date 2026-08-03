@@ -6,11 +6,11 @@ import { ServiceWorkerRegistration, TouchHoverReset } from "@/shared/ui";
 
 export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
-  title: "InfoFusion",
-  description: "InfoFusion - сервис проверки, обработки и анализа данных.",
+  title: "Автосинтез",
+  description: "Автосинтез - сервис проверки, обработки и анализа данных.",
   appleWebApp: {
     capable: false,
-    title: "InfoFusion",
+    title: "Автосинтез",
     statusBarStyle: "default",
   },
   icons: {
