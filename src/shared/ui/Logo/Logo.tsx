@@ -18,7 +18,7 @@ export const Logo = () => {
       style={{ boxShadow: dropShadow }}
     >
       <Image
-        src="/logo.svg"
+        src="/images/logo.svg"
         alt="Logo"
         width={60}
         height={60}
