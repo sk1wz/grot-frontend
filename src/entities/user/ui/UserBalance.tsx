@@ -13,7 +13,6 @@ export type UserBalanceProps = {
 
 export function UserBalance({
   className = "",
-  href = "/dashboard/deposit-history",
   initialUser = null,
 }: UserBalanceProps) {
   const storeUser = useUserStore((state) => state.user);
@@ -24,11 +23,10 @@ export function UserBalance({
   }
 
   return (
-    <Link
-      href={href}
+    <span
       className={`rounded-full border-3 border-(--accent) px-4 py-2 text-xs font-semibold text-(--foreground) transition-colors hover:bg-(--accent)/70 ${className}`}
     >
       {formatAmount(user.balance)}
-    </Link>
+    </span>
   );
 }
