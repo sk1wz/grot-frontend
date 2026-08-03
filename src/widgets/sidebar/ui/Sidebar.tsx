@@ -33,8 +33,8 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
               onClick={onNavigate}
               className={`flex items-center justify-center rounded-[20px] border-2 border-[#ffffff] px-3 py-2.5 text-center text-xs md:text-sm font-medium transition-colors shadow-[inset_2_4px_0_rgba(255,1,255,0.8)] ${
                 active
-                  ? "bg-gray-400/15 text-(--foreground) shadow-(--panel-shadow)"
-                  : "bg-transparent text-(--foreground) hover:bg-white/45"
+                  ? "[background:var(--sidebar-menu-hover)] text-(--foreground) shadow-(--panel-shadow)"
+                  : "bg-transparent text-(--foreground) hover:[background:var(--sidebar-menu-hover)]"
               }`}
             >
               {item.label}
