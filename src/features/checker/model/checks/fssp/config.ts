@@ -58,11 +58,11 @@ export const fsspConfig: CheckConfig = {
     },
     {
       id: "doc_id",
-      label: "Номер ИД",
+      label: "Номер ИЛ",
       fields: [
         {
           name: "doc_id",
-          label: "Номер ИД",
+          label: "Номер ИЛ",
           placeholder: "ФС-012345678",
         },
       ],

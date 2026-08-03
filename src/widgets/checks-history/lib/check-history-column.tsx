@@ -5,7 +5,7 @@ import {
   CheckStatusLabel,
 } from "@/entities/check";
 import { formatDate } from "@/shared/lib";
-import { TableColumn } from "@/shared/ui";
+import { CopyText, TableColumn } from "@/shared/ui";
 import { Badge } from "@/shared/ui/Badge/Badge";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
 import { formatCheckSubject } from "@/shared/ui/Table/lib/format-check-subject";
@@ -39,19 +39,31 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "createdAt",
     title: "Дата и время",
-    width: "22%",
+    width: "18%",
     render: (check) => formatDate(check.createdAt),
+  },
+  {
+    key: "id",
+    title: "ID проверки",
+    width: "14%",
+    render: (check) => (
+      <CopyText
+        value={check.id}
+        title="Copy ID"
+        className="max-w-full text-xs text-(--foreground)"
+      />
+    ),
   },
   {
     key: "module",
     title: "Модуль",
-    width: "18%",
+    width: "15%",
     render: (check) => CheckModuleLabel[check.module],
   },
   {
     key: "subject",
     title: "Тело запроса",
-    width: "28%",
+    width: "22%",
     render: (check) => (
       <div className="truncate">{formatCheckSubject(check.subject)}</div>
     ),
@@ -59,7 +71,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "status",
     title: "Статус",
-    width: "16%",
+    width: "13%",
     render: (check) => (
       <Badge variant={checkStatusVariants[check.status]}>
         {CheckStatusLabel[check.status]}
@@ -69,7 +81,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "actions",
     title: "Действия",
-    width: "16%",
+    width: "18%",
     render: (check) => <CheckActions check={check} />,
   },
 ];
