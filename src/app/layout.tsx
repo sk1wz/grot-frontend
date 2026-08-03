@@ -42,7 +42,7 @@ export default function RootLayout({
         <ServiceWorkerRegistration />
         <TouchHoverReset />
         <ToastContainer
-          position="bottom-right"
+          position="top-center"
           autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
