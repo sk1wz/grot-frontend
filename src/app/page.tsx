@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Montserrat_Underline } from "next/font/google";
+import { FastForward, Orbit, ShieldCheck } from "lucide-react";
 
 import { Logo, LogoName, Text } from "@/shared/ui";
 import Link from "next/link";
@@ -110,21 +111,28 @@ export default function HomePage() {
           </HeroButton>
         </div>
       </section>
-      <section className="relative h-[600px] w-full">
+      <section className="relative flex h-full lg:min-h-[650px] w-full items-center py-12">
         <Image
           src="/advantage_figure.png"
           alt=""
           width={373}
           height={542}
-          className="pointer-events-none absolute top-50 -left-5 h-auto w-[clamp(12rem,28vw,23rem)] -translate-y-1/2"
+          className="pointer-events-none absolute top-50 -left-5 h-auto hidden lg:block w-[clamp(12rem,28vw,23rem)] -translate-y-1/2"
         />
-        <Image
-          src="/panel advantages.svg"
-          alt=""
-          width={1400}
-          height={300}
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
+        <div className="relative z-10 grid w-full grid-cols-1 items-center gap-3 px-1 sm:grid-cols-3 sm:gap-1 lg:ml-auto lg:mr-0">
+          <div className="flex h-[86px] items-center justify-center gap-3 rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border border-[#c9d5e5]/40 bg-white/20 px-5 text-center text-sm font-bold text-[#3e3c4b] shadow-(--panel-shadow) backdrop-blur-(--panel-blur)">
+            <FastForward className="size-6 shrink-0 text-[#676978]" strokeWidth={2} />
+            <span>Скорость</span>
+          </div>
+          <div className="flex h-[104px] items-center justify-center gap-3 rounded-[25px] border border-[#d4deeb] bg-white px-5 text-center text-sm font-bold text-[#3e3c4b] shadow-[0_12px_26px_rgba(78,92,112,0.16),inset_0_2px_12px_rgba(255,255,255,0.96)] sm:-translate-y-3">
+            <ShieldCheck className="size-7 shrink-0 text-[#676978]" strokeWidth={1.8} />
+            <span className="max-w-[132px]">Надежность данных</span>
+          </div>
+          <div className="flex h-[86px] items-center justify-center gap-3 rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border border-[#c9d5e5]/40 bg-white/20 px-5 text-center text-sm font-bold text-[#3e3c4b] shadow-(--panel-shadow) backdrop-blur-(--panel-blur)">
+            <Orbit className="size-7 shrink-0 text-[#676978]" strokeWidth={1.8} />
+            <span>Технологии</span>
+          </div>
+        </div>
       </section>
       <section className="relative w-full">
         <h2 className="text-left text-4xl font-bold text-[#3E3C4B]">
