@@ -56,13 +56,13 @@ export function UserMiniProfileWithMenu({
       {isOpen ? (
         <div
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-50 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-[#dce5ef] bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)]"
+          className="absolute right-0 top-full z-50 mt-2 w-50 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)]"
         >
           <button
             type="button"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-[#e4ebf3] px-3 text-left text-[13px] font-medium text-[#3e3c4b] transition-colors hover:bg-[#f7f9fc]"
+            className="flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90"
           >
             <Image src="/images/Icon_passwordChange.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
             <span>Смена пароля</span>
@@ -71,7 +71,7 @@ export function UserMiniProfileWithMenu({
             href="/dashboard/deposit-history"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="flex h-11 items-center gap-2.5 border-b border-[#e4ebf3] px-3 text-[13px] font-medium text-[#3e3c4b] transition-colors hover:bg-[#f7f9fc]"
+            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90"
           >
             <Image src="/images/Icon_Ruble.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
             <span>Транзакции</span>
@@ -80,7 +80,7 @@ export function UserMiniProfileWithMenu({
             href="mailto:info@autosledrf.ru"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="flex h-11 items-center gap-2.5 border-b border-[#e4ebf3] px-3 text-[13px] font-medium text-[#3e3c4b] transition-colors hover:bg-[#f7f9fc]"
+            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90"
           >
             <Image src="/images/Icon_info.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
             <span>Поддержка</span>
@@ -93,7 +93,7 @@ export function UserMiniProfileWithMenu({
               setIsOpen(false);
               onLogout?.();
             }}
-            className="flex h-11 w-full cursor-pointer items-center gap-2.5 px-3 text-left text-[13px] font-medium text-[#3e3c4b] transition-colors hover:bg-[#f7f9fc] disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 w-full cursor-pointer items-center gap-2.5 px-3 text-left text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Image src="/images/Icon_logout.svg" alt="" width={27} height={27} className="size-5 shrink-0" />
             <span>Выйти</span>
