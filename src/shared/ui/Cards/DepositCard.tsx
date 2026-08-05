@@ -39,15 +39,15 @@ export function DepositCard({ transaction }: DepositCardProps) {
     <article className="rounded-lg border border-(--border) bg-(--panel-fill) p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <TextParagraph className="text-xs">Дата</TextParagraph>
-          <TextParagraph className="mt-1 text-sm font-medium">
+          <TextParagraph>Дата</TextParagraph>
+          <TextParagraph className="mt-1 font-medium">
             {formatDate(transaction.createdAt)}
           </TextParagraph>
         </div>
         <div className="shrink-0 text-right">
-          <TextParagraph className="text-xs">Сумма</TextParagraph>
+          <TextParagraph>Сумма</TextParagraph>
           <TextParagraph
-            className={`mt-1 whitespace-nowrap text-sm font-semibold ${getAmountClassName(transaction)}`}
+            className={`mt-1 whitespace-nowrap font-semibold ${getAmountClassName(transaction)}`}
           >
             {formatTransactionAmount(transaction)}
           </TextParagraph>
@@ -56,7 +56,7 @@ export function DepositCard({ transaction }: DepositCardProps) {
 
       <div className="mt-3 grid gap-3 border-t border-(--border) pt-3">
         <div className="min-w-0">
-          <TextParagraph className="text-xs">ID транзакции</TextParagraph>
+          <TextParagraph>ID транзакции</TextParagraph>
           <CopyText
             value={transaction.id}
             title="Скопировать ID транзакции"
@@ -66,14 +66,14 @@ export function DepositCard({ transaction }: DepositCardProps) {
           </CopyText>
         </div>
         <div>
-          <TextParagraph className="text-xs">Статус</TextParagraph>
+          <TextParagraph>Статус</TextParagraph>
           <div className="mt-1">
             <BadgeTransaction status={transaction.status} />
           </div>
         </div>
         <div className="min-w-0">
-          <TextParagraph className="text-xs">Действие</TextParagraph>
-          <TextParagraph className="mt-1 truncate text-sm">
+          <TextParagraph>Действие</TextParagraph>
+          <TextParagraph className="mt-1 truncate">
             {transaction.meta?.action ?? "—"}
           </TextParagraph>
         </div>

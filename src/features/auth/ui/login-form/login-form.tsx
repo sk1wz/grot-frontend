@@ -102,9 +102,9 @@ export function LoginForm() {
         Войти
       </Button>
 
-      <div className="flex items-end justify-around gap-4 pt-2">
+      <div className="flex items-end justify-between gap-4 pt-2">
         <div>
-          <TextParagraph className="text-xs md:text-sm">У вас еще нет личного кабинета?</TextParagraph>
+          <TextParagraph>У вас еще нет личного кабинета?</TextParagraph>
           <Text>Зарегистрируйтесь</Text>
         </div>
 
