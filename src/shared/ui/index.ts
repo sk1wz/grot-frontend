@@ -8,6 +8,7 @@ export * from "./SearchField/SearchField";
 export * from "./SelectField/SelectField";
 export * from "./Pagination/Pagination";
 export * from "./Text/Text";
+export * from "./Text/TextParagraph";
 export * from "./Text/TextTitle";
 export * from "./Skeleton/Skeleton";
 export * from "./Cards";

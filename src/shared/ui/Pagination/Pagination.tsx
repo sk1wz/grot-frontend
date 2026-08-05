@@ -39,7 +39,7 @@ function getVisiblePages(totalPages: number, page: number): number[] {
 }
 
 const controlClassName =
-  "flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--field-foreground) outline-none transition-colors hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50";
+  "flex size-9 cursor-pointer items-center justify-center border border-(--border) rounded-lg bg-(--field) text-(--foreground) outline-none transition-colors hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50";
 
 export function Pagination({
   total,
@@ -116,8 +116,8 @@ export function Pagination({
                 className={[
                   "flex size-9 cursor-pointer items-center justify-center rounded-lg text-sm font-medium outline-none transition-colors",
                   item === safePage
-                    ? "bg-(--accent) text-(--accent-foreground)"
-                    : "border border-(--border) bg-(--field) text-(--field-foreground) hover:bg-(--accent)",
+                    ? "bg-(--accent) text-(--foreground)"
+                    : "border border-(--border) bg-(--field) text-(--foreground) hover:bg-(--accent)",
                 ].join(" ")}
               >
                 {item}

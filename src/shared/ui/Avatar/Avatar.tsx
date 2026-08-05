@@ -43,7 +43,7 @@ export function Avatar({
 
   return (
     <span
-      className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-(--accent) text-(--accent-foreground) font-medium ${sizeClasses[size]} ${className}`}
+      className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-(--accent) text-(--foreground) font-medium ${sizeClasses[size]} ${className}`}
     >
       {showImg ? (
         <Image

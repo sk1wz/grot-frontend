@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import type { BalanceTransactionType } from "@/entities/balance";
 import { formatAmount } from "@/shared/lib";
-import { Skeleton, Text } from "@/shared/ui";
+import { Skeleton, Text, TextParagraph } from "@/shared/ui";
 import {
   Bar,
   BarChart,
@@ -43,9 +43,9 @@ function SummaryCard({
       {isLoading ? (
         <Skeleton className="mt-3 h-5 w-24 rounded-md" />
       ) : (
-        <p className={`mt-2 font-semibold text-(--foreground) text-base ${accentClassName}`}>
+        <TextParagraph className={`mt-2 font-semibold text-base ${accentClassName}`}>
           {value}
-        </p>
+        </TextParagraph>
       )}
     </div>
   );

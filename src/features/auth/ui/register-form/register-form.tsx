@@ -6,7 +6,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { ArrowRightToLine, EyeIcon, EyeOffIcon } from "lucide-react";
 import { register, RegisterResponse } from "../../api";
-import { Button, Input, Text } from "@/shared/ui";
+import { Button, Input, Text, TextParagraph } from "@/shared/ui";
 
 function PasswordField({
   id,
@@ -172,7 +172,7 @@ export function RegisterForm() {
 
       <div className="flex items-end justify-around gap-4 pt-2">
         <div>
-          <p className="text-xs md:text-sm text-(--foreground)">У вас уже есть аккаунт?</p>
+          <TextParagraph className="text-xs md:text-sm">У вас уже есть аккаунт?</TextParagraph>
           <Text>Войти</Text>
         </div>
 

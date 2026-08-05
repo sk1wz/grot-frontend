@@ -2,6 +2,7 @@ import { BalanceTransactionStatus, type BalanceTransactionType } from "@/entitie
 import { formatAmount, formatDate } from "@/shared/lib";
 import { BadgeTransaction } from "@/shared/ui/Badge/BadgeTransaction";
 import { CopyText } from "@/shared/ui/CopyText";
+import { TextParagraph } from "@/shared/ui/Text/TextParagraph";
 
 type DepositCardProps = {
   transaction: BalanceTransactionType;
@@ -38,24 +39,24 @@ export function DepositCard({ transaction }: DepositCardProps) {
     <article className="rounded-lg border border-(--border) bg-(--panel-fill) p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs text-(--foreground)">Дата</p>
-          <p className="mt-1 text-sm font-medium text-(--foreground)">
+          <TextParagraph className="text-xs">Дата</TextParagraph>
+          <TextParagraph className="mt-1 text-sm font-medium">
             {formatDate(transaction.createdAt)}
-          </p>
+          </TextParagraph>
         </div>
         <div className="shrink-0 text-right">
-          <p className="text-xs text-(--foreground)">Сумма</p>
-          <p
+          <TextParagraph className="text-xs">Сумма</TextParagraph>
+          <TextParagraph
             className={`mt-1 whitespace-nowrap text-sm font-semibold ${getAmountClassName(transaction)}`}
           >
             {formatTransactionAmount(transaction)}
-          </p>
+          </TextParagraph>
         </div>
       </div>
 
       <div className="mt-3 grid gap-3 border-t border-(--border) pt-3">
         <div className="min-w-0">
-          <p className="text-xs text-(--foreground)">ID транзакции</p>
+          <TextParagraph className="text-xs">ID транзакции</TextParagraph>
           <CopyText
             value={transaction.id}
             title="Скопировать ID транзакции"
@@ -65,16 +66,16 @@ export function DepositCard({ transaction }: DepositCardProps) {
           </CopyText>
         </div>
         <div>
-          <p className="text-xs text-(--foreground)">Статус</p>
+          <TextParagraph className="text-xs">Статус</TextParagraph>
           <div className="mt-1">
             <BadgeTransaction status={transaction.status} />
           </div>
         </div>
         <div className="min-w-0">
-          <p className="text-xs text-(--foreground)">Действие</p>
-          <p className="mt-1 truncate text-sm text-(--foreground)">
+          <TextParagraph className="text-xs">Действие</TextParagraph>
+          <TextParagraph className="mt-1 truncate text-sm">
             {transaction.meta?.action ?? "—"}
-          </p>
+          </TextParagraph>
         </div>
       </div>
     </article>
