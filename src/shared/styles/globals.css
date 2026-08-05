@@ -10,14 +10,14 @@
   --field: rgb(250, 250, 250);
   --background: #ffffff;
   --border: rgba(201, 213, 229, 0.8);
-
-  --panel-fill: rgba(201, 213, 229, 0.4);
   --sidebar-menu-hover: linear-gradient(
     90deg,
     #d4ddea 0%,
     #ffffff 50%,
     #d4ddea 100%
   );
+
+  --panel-fill: rgba(201, 213, 229, 0.4);
   --panel-blur: 44.08px;
   --panel-shadow: inset -15.2px 15.2px 15.2px 0 rgba(212, 221, 234, 0.4),
     inset -7.6px 7.6px 7.6px 0 rgba(255, 255, 255, 0.4),
@@ -44,6 +44,7 @@
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  user-select: none;
 }
 
 *::-webkit-scrollbar {
