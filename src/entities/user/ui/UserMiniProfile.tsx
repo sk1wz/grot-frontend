@@ -37,7 +37,7 @@ export function UserMiniProfile({
         fallbackLabel={user.email}
         size="sm"
       />
-      <span className="max-w-40 truncate text-sm text-(--foreground)">
+      <span className="max-w-40 truncate text-xs sm:text-sm text-(--foreground)">
         {user.email}
       </span>
       {slot ? <div className="shrink-0">{slot}</div> : null}
