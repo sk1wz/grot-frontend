@@ -14,7 +14,16 @@ import { Eye } from "lucide-react";
 
 export function CheckActions({ check }: { check: Check }) {
   const isAvailable = check.status === CheckStatus.DONE;
-  const reportHref = check.module === "GIBDD" ? "/dashboard/gibdd/report" : undefined;
+  const reportHref =
+    check.module === "GIBDD"
+      ? `/dashboard/gibdd/report/${check.id}`
+      : check.module === "INN"
+        ? `/dashboard/inn-by-passport/report/${check.id}`
+        : check.module === "GISTORGI"
+          ? `/dashboard/gis-torgi/report/${check.id}`
+          : check.module === "BANKRUPTCY"
+            ? `/dashboard/bankruptcy/report/${check.id}`
+            : undefined;
 
   return (
     <div className="flex items-center gap-3">

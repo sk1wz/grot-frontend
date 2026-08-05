@@ -1,0 +1,243 @@
+.report {
+    width: min(100%, 1440px);
+    margin: 0 auto;
+    padding: 8px 0 48px;
+    color: var(--foreground)
+}
+
+.actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    height: 52px;
+    padding-left: 16px;
+    font-size: 12px
+}
+
+.actions a,
+.actions button {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer
+}
+
+.actions button {
+    padding: 9px 13px;
+    border-radius: 18px;
+    background: var(--surface);
+    text-transform: uppercase
+}
+
+.hero,
+.section {
+    margin-top: 26px;
+    padding: 40px 30px;
+    border: 3px solid rgb(201 213 229 / 40%);
+    border-radius: 30px;
+    background: #fff;
+    box-shadow: 0 0 4px rgb(62 60 75 / 25%)
+}
+
+.hero {
+    position: relative;
+    overflow: hidden
+}
+
+.stamp {
+    position: relative;
+    display: flex;
+    width: 290px;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    border: 3px solid rgb(62 60 75 / 10%);
+    border-radius: 30px 10px 30px 10px;
+    padding: 10px 20px;
+    font-size: 14px
+}
+
+.stamp strong {
+    font-size: 20px
+}
+
+.reportFigure {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 270px;
+    pointer-events: none;
+    background: url("/images/gistorgi-report-figure.png") right top / contain no-repeat
+}
+
+.heroTitle {
+    position: relative;
+    margin-top: 85px;
+    margin-bottom: 34px;
+    color: #a5a7b1;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 500
+}
+
+.hero h1 {
+    position: relative;
+    text-align: center;
+    font-size: clamp(23px, 3vw, 32px);
+    margin: 0 0 30px
+}
+
+.fields {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #4fcb91;
+    border-radius: 20px;
+    background: #fff
+}
+
+.fields div {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    min-height: 54px;
+    border-bottom: 1px solid #4fcb91;
+    background: #fff;
+}
+
+.fields div:last-child { border-bottom: 0 }
+
+.fields span,
+.list span {
+    color: #868a85;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase
+}
+
+.fields span,
+.fields strong {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px
+}
+
+.fields span {
+    justify-content: center;
+    background: rgb(62 60 75 / 10%);
+    border-right: 1px solid #4fcb91
+}
+
+.fields strong {
+    text-transform: uppercase;
+    font-size: 14px
+}
+
+.section h2 {
+    margin: 0 0 20px;
+    font-size: 22px
+}
+
+.list {
+    overflow: hidden;
+    border: 1px solid #4fcb91;
+    border-radius: 12px
+}
+
+.list div {
+    display: grid;
+    grid-template-columns: 42% 58%;
+    border-bottom: 1px solid #c9d5e5
+}
+
+.list div:last-child {
+    border: 0
+}
+
+.list span,
+.list strong {
+    padding: 11px 14px
+}
+
+.list span {
+    background: rgb(62 60 75 / 10%);
+    text-align: right
+}
+
+.list strong {
+    border-left: 1px solid #c9d5e5;
+    font-size: 14px
+}
+
+.success {
+    color: #4fcb91 !important
+}
+
+.scroll {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch
+}
+
+.table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid #4fcb91;
+    border-radius: 12px;
+    font-size: 12px
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border-right: 1px solid #c9d5e5;
+    border-bottom: 1px solid #c9d5e5;
+    text-align: center
+}
+
+.table th {
+    background: rgb(62 60 75 / 10%);
+    color: #868a85;
+    font-size: 10px;
+    text-transform: uppercase
+}
+
+.table tr:last-child td {
+    border-bottom: 0
+}
+
+.table th:last-child,
+.table td:last-child {
+    border-right: 0
+}
+
+@media(max-width:700px) {
+    .report {
+        padding: 0 8px 32px
+    }
+
+    .hero,
+    .section {
+        padding: 20px 12px;
+        border-radius: 20px
+    }
+
+    .stamp {
+        width: 190px;
+        font-size: 10px
+    }
+
+    .fields div { grid-template-columns: 48% 52% }
+
+    .list div {
+        grid-template-columns: 42% 58%
+    }
+}
