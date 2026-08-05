@@ -81,14 +81,14 @@ export default function HomePage() {
         </span>
 
         <Image
-          src="/mainImages/hero_figure_2.png"
+          src="/images/hero_figure_2.png"
           alt=""
           width={373}
           height={542}
           className="pointer-events-none absolute top-[35%] left-[40%] z-10 w-[clamp(11rem,35vw,20rem)] -translate-x-1/2 -translate-y-1/2 max-[500px]:w-[clamp(10rem,39vw,13rem)] min-[950px]:left-[44%] min-[950px]:top-[42%]"
         />
         <Image
-          src="/mainImages/hero_figure_1.png"
+          src="/images/hero_figure_1.png"
           alt=""
           width={500}
           height={500}
@@ -113,7 +113,7 @@ export default function HomePage() {
       </section>
       <section className="relative flex h-full lg:min-h-[650px] w-full items-center py-12">
         <Image
-          src="/mainImages/advantage_figure.png"
+          src="/images/advantage_figure.png"
           alt=""
           width={373}
           height={542}
@@ -139,7 +139,7 @@ export default function HomePage() {
           Доступные проверки
         </h2>
         <Image
-          src="/mainImages/examination form.svg"
+          src="/images/examination form.svg"
           alt="Доступные проверки"
           width={1024}
           height={768}
@@ -149,7 +149,7 @@ export default function HomePage() {
       </section>
       <div className="relative mt-16">
         <Image
-          src="/mainImages/footer_figure.png"
+          src="/images/footer_figure.png"
           alt=""
           width={373}
           height={542}

@@ -17,7 +17,7 @@ export function AuthCardShell({
       {/* Общая ширина с карточкой — % и translate считаются от неё, а не от экрана */}
       <div className="relative w-full max-w-137.5">
         <Image
-          src="/mainImages/auth_figure.png"
+          src="/images/auth_figure.png"
           alt=""
           aria-hidden
           width={320}
