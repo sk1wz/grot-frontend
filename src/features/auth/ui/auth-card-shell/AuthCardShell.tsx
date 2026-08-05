@@ -15,7 +15,7 @@ export function AuthCardShell({
   return (
     <div className="relative flex h-full w-full items-center justify-center overflow-hidden p-2">
       {/* Общая ширина с карточкой — % и translate считаются от неё, а не от экрана */}
-      <div className="relative w-full max-w-[550px]">
+      <div className="relative w-full max-w-137.5">
         <Image
           src="/mainImages/auth_figure.png"
           alt=""
@@ -31,11 +31,11 @@ export function AuthCardShell({
             <Logo />
           </div>
 
-          <h1 className="relative z-10 mb-8 shrink-0 text-center text-xl font-bold text-[#3e3c4b] sm:text-2xl">
+          <h1 className="relative z-10 mb-8 shrink-0 text-center text-xl font-bold text-(--foreground) sm:text-2xl">
             {title}
           </h1>
 
-          <div className="relative z-10 flex w-full max-w-[400px] flex-1 flex-col">
+          <div className="relative z-10 flex w-full max-w-100 flex-1 flex-col">
             {children}
           </div>
         </div>
