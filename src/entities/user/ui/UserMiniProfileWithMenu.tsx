@@ -62,7 +62,7 @@ export function UserMiniProfileWithMenu({
             type="button"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90"
+            className="flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)"
           >
             <Image src="/images/Icon_passwordChange.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
             <span>Смена пароля</span>
@@ -71,7 +71,7 @@ export function UserMiniProfileWithMenu({
             href="/dashboard/deposit-history"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90"
+            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)"
           >
             <Image src="/images/Icon_Ruble.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
             <span>Транзакции</span>
@@ -80,7 +80,7 @@ export function UserMiniProfileWithMenu({
             href="mailto:info@autosledrf.ru"
             role="menuitem"
             onClick={() => setIsOpen(false)}
-            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90"
+            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)"
           >
             <Image src="/images/Icon_info.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
             <span>Поддержка</span>
@@ -93,7 +93,7 @@ export function UserMiniProfileWithMenu({
               setIsOpen(false);
               onLogout?.();
             }}
-            className="flex h-11 w-full cursor-pointer items-center gap-2.5 px-3 text-left text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent)/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 w-full cursor-pointer items-center gap-2.5 px-3 text-left text-[13px] font-medium text-(--accent-foreground) transition-colors hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Image src="/images/Icon_logout.svg" alt="" width={27} height={27} className="size-5 shrink-0" />
             <span>Выйти</span>

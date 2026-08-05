@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { login, type LoginResponse } from "../../api";
 import { ArrowRightToLine, EyeIcon, EyeOffIcon } from "lucide-react";
-import { Text } from "@/shared/ui";
+import { Button, Input, Text } from "@/shared/ui";
 
 export function LoginForm() {
   const router = useRouter();
@@ -40,10 +40,10 @@ export function LoginForm() {
       autoComplete="off"
     >
       <label className="flex flex-col gap-2" htmlFor="email">
-        <span className="text-sm font-medium text-(--foreground)">
+        <Text className="font-medium ">
           Введите Email
-        </span>
-        <input
+        </Text>
+        <Input
           id="email"
           name="email"
           type="email"
@@ -57,16 +57,15 @@ export function LoginForm() {
           data-1p-ignore="true"
           data-form-type="other"
           suppressHydrationWarning
-          className="w-full rounded-full bg-white px-5 py-3.5 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
         />
       </label>
 
       <label className="flex flex-col gap-2" htmlFor="password">
-        <span className="text-sm font-medium text-(--foreground)">
+        <Text className="font-medium">
           Введите пароль
-        </span>
+        </Text>
         <div className="relative">
-          <input
+          <Input
             id="password"
             name="password"
             type={showPassword ? "text" : "password"}
@@ -80,7 +79,6 @@ export function LoginForm() {
             data-1p-ignore="true"
             data-form-type="other"
             suppressHydrationWarning
-            className="w-full rounded-full bg-white px-5 py-3.5 pr-12 text-(--foreground) shadow-(--shadow-2) outline-none placeholder:text-(--foreground)"
           />
           <button
             type="button"
@@ -97,16 +95,16 @@ export function LoginForm() {
         </div>
       </label>
 
-      <button
+      <Button
         type="submit"
-        className="mt-1 w-full cursor-pointer rounded-full bg-(--accent) py-4 text-sm font-bold uppercase tracking-wide text-(--accent-foreground) shadow-(--shadow-1) transition-all duration-200 hover:-translate-y-0.5 hover:bg-(--accent)/90 active:translate-y-0 active:scale-[0.98]"
+        className="uppercase font-medium"
       >
         Войти
-      </button>
+      </Button>
 
       <div className="flex items-end justify-around gap-4 pt-2">
-        <div className="text-left text-sm text-(--foreground)">
-          <p>У вас еще нет личного кабинета?</p>
+        <div>
+          <p className="text-xs md:text-sm text-(--foreground)">У вас еще нет личного кабинета?</p>
           <Text>Зарегистрируйтесь</Text>
         </div>
 
