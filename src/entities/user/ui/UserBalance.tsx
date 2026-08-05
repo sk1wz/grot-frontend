@@ -24,7 +24,7 @@ export function UserBalance({
 
   return (
     <span
-      className={`rounded-full border-3 border-(--accent) px-4 py-2 text-xs font-semibold text-(--foreground) transition-colors hover:bg-(--accent) ${className}`}
+      className={`rounded-full border-3 border-(--accent) px-4 py-2 text-xs font-semibold text-(--foreground) transition-all hover:bg-(--accent) ${className}`}
     >
       {formatAmount(user.balance)}
     </span>
