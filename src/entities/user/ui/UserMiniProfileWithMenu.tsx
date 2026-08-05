@@ -2,20 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { miniMenu } from "@/shared/lib";
 import type { UserType } from "../model";
 import { UserMiniProfile } from "./UserMiniProfile";
 
 type UserMiniProfileWithMenuProps = {
   initialUser?: UserType | null;
-  onLogout?: () => void;
-  isLoggingOut?: boolean;
+  slot?: ReactNode;
 };
 
 export function UserMiniProfileWithMenu({
   initialUser = null,
-  onLogout,
-  isLoggingOut = false,
+  slot,
 }: UserMiniProfileWithMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -40,6 +40,49 @@ export function UserMiniProfileWithMenu({
     };
   }, []);
 
+  const menu = (
+    <div
+      role="menu"
+      aria-hidden={!isOpen}
+      className={`absolute right-0 top-full z-50 mt-2 w-45 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)] transition-opacity ${
+        isOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+      }`}
+    >
+      {miniMenu.map((item) => {
+        const content = (
+          <>
+            <Image src={item.iconSrc} alt="" width={26} height={26} loading="eager" className="size-5 shrink-0" />
+            <span>{item.label}</span>
+          </>
+        );
+        const className = "flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)";
+
+        if (!item.href) {
+          return (
+            <button key={item.label} type="button" role="menuitem" onClick={() => setIsOpen(false)} className={className}>
+              {content}
+            </button>
+          );
+        }
+
+        if (item.href.startsWith("/")) {
+          return (
+            <Link key={item.label} href={item.href} role="menuitem" onClick={() => setIsOpen(false)} className={className}>
+              {content}
+            </Link>
+          );
+        }
+
+        return (
+          <a key={item.label} href={item.href} role="menuitem" onClick={() => setIsOpen(false)} className={className}>
+            {content}
+          </a>
+        );
+      })}
+      {slot ? <div onClickCapture={() => setIsOpen(false)}>{slot}</div> : null}
+    </div>
+  );
+
   return (
     <div ref={menuRef} className="relative w-45 bg-(--surface) rounded-full">
       <button
@@ -53,53 +96,7 @@ export function UserMiniProfileWithMenu({
         <UserMiniProfile initialUser={initialUser} />
       </button>
 
-      {isOpen ? (
-        <div
-          role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-45 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)]"
-        >
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => setIsOpen(false)}
-            className="flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)"
-          >
-            <Image src="/images/Icon_passwordChange.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
-            <span>Смена пароля</span>
-          </button>
-          <Link
-            href="/dashboard/deposit-history"
-            role="menuitem"
-            onClick={() => setIsOpen(false)}
-            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)"
-          >
-            <Image src="/images/Icon_Ruble.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
-            <span>Транзакции</span>
-          </Link>
-          <a
-            href="mailto:info@autosledrf.ru"
-            role="menuitem"
-            onClick={() => setIsOpen(false)}
-            className="flex h-11 items-center gap-2.5 border-b border-(--border) px-3 text-[13px] font-medium text-(--foreground) transition-all not-last:hover:bg-(--accent)"
-          >
-            <Image src="/images/Icon_info.svg" alt="" width={26} height={26} className="size-5 shrink-0" />
-            <span>Поддержка</span>
-          </a>
-          <button
-            type="button"
-            role="menuitem"
-            disabled={isLoggingOut}
-            onClick={() => {
-              setIsOpen(false);
-              onLogout?.();
-            }}
-            className="flex h-11 w-full cursor-pointer items-center gap-2.5 px-3 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <Image src="/images/Icon_logout.svg" alt="" width={27} height={27} className="size-5 shrink-0" />
-            <span>Выйти</span>
-          </button>
-        </div>
-      ) : null}
+      {menu}
     </div>
   );
 }

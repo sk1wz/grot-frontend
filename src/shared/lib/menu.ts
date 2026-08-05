@@ -24,6 +24,26 @@ export const menuItems: NavItem[] = [
   { label: "История транзакций", href: "/dashboard/deposit-history" },
 ];
 
+export type MiniMenuItem = {
+  label: string;
+  iconSrc: string;
+  href?: string;
+};
+
+export const miniMenu: MiniMenuItem[] = [
+  { label: "Смена пароля", iconSrc: "/images/Icon_passwordChange.svg" },
+  {
+    label: "Транзакции",
+    iconSrc: "/images/Icon_Ruble.svg",
+    href: "/dashboard/deposit-history",
+  },
+  {
+    label: "Поддержка",
+    iconSrc: "/images/Icon_info.svg",
+    href: "mailto:info@autosledrf.ru",
+  },
+];
+
 export function getRouteTitle(pathname: string): string {
   const path = pathname.split("?")[0] ?? pathname;
 
