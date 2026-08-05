@@ -165,7 +165,7 @@ export function RegisterForm() {
 
       <Button 
         type="submit"
-        className="uppercase font-medium"
+        className="uppercase font-medium py-3!"
       >
         Зарегистрироваться
       </Button>

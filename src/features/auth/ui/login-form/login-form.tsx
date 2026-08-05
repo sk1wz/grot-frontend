@@ -97,7 +97,7 @@ export function LoginForm() {
 
       <Button
         type="submit"
-        className="uppercase font-medium"
+        className="uppercase font-medium py-3!"
       >
         Войти
       </Button>
