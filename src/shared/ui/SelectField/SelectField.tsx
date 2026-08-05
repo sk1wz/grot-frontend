@@ -24,7 +24,7 @@ export function SelectField<TValue extends string = string>({
 }: SelectFieldProps<TValue>) {
   return (
     <div className={`flex w-full flex-col gap-2 ${className}`}>
-      <label htmlFor={id} className="text-xs md:text-sm font-medium text-(--foreground)">
+      <label htmlFor={id} className="text-sm font-medium text-(--foreground)">
         {label}
       </label>
       <Select
