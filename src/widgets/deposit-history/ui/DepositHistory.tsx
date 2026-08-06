@@ -104,7 +104,6 @@ export function DepositHistory() {
           placeholder="Введите ID транзакции"
           value={searchQuery}
           onChange={handleSearchChange}
-          className="md:max-w-md"
         />
 
         <SelectField

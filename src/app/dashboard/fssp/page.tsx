@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function FsspPage() {
   return (
-    <div className="border-4 p-10 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
+    <div className="border-4 p-8 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
       <CheckFormById configId="fssp" />
       <ChecksHistory module={CheckModule.FSSP} />
     </div>

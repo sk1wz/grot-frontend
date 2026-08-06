@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function GisTorgiPage() {
   return (
-    <div className="border-4 p-10 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
+    <div className="border-4 p-8 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
       <CheckFormById configId="gistorgi" />
       <ChecksHistory module={CheckModule.GISTORGI} />
     </div>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function DepositHistoryPage() {
   return (
-    <div className="border-4 p-10 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
+    <div className="border-4 p-8 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
       <DepositHistory />
     </div>
   );
