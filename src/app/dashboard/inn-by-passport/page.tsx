@@ -17,7 +17,7 @@ export default function InnByPassportPage() {
         height={200}
         alt=""
         loading="eager"
-        className="pointer-events-none select-none fixed -top-[2%] right-[18%]"
+        className="pointer-events-none select-none fixed top-0 right-0"
       />
 
       <div className="border-4 p-8 border-[#d7e2ed] bg-white rounded-[100px_40px_100px_40px] relative">
