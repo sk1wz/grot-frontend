@@ -33,7 +33,7 @@ export function UserMiniProfile({
   return (
     <div className={`flex min-w-0 items-center gap-2.5 ${className}`}>
       <Image
-        src="/images/icon.svg"
+        src="/images/Icon.svg"
         width={35}
         height={35}
         alt=""
