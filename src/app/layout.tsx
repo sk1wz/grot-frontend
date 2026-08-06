@@ -36,7 +36,7 @@ export default function RootLayout({
     <html
       lang="ru"
       suppressHydrationWarning
-      className={`${roboto.variable}  h-full antialiased`}
+      className={`${roboto.variable} h-full antialiased`}
     >
       <body>
         <ServiceWorkerRegistration />
