@@ -45,21 +45,37 @@ export function UserMiniProfileWithMenu({
       role="menu"
       aria-hidden={!isOpen}
       className={`absolute right-0 top-full z-50 mt-2 w-45 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)] transition-opacity ${
-        isOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+        isOpen
+          ? "visible opacity-100"
+          : "invisible pointer-events-none opacity-0"
       }`}
     >
       {miniMenu.map((item) => {
         const content = (
           <>
-            <Image src={item.iconSrc} alt="" width={26} height={26} loading="eager" className="size-5 shrink-0" />
+            <Image
+              src={item.iconSrc}
+              alt=""
+              width={26}
+              height={26}
+              loading="eager"
+              className="size-5 shrink-0"
+            />
             <span>{item.label}</span>
           </>
         );
-        const className = "flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)";
+        const className =
+          "flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)";
 
         if (!item.href) {
           return (
-            <button key={item.label} type="button" role="menuitem" onClick={() => setIsOpen(false)} className={className}>
+            <button
+              key={item.label}
+              type="button"
+              role="menuitem"
+              onClick={() => setIsOpen(false)}
+              className={className}
+            >
               {content}
             </button>
           );
@@ -67,14 +83,26 @@ export function UserMiniProfileWithMenu({
 
         if (item.href.startsWith("/")) {
           return (
-            <Link key={item.label} href={item.href} role="menuitem" onClick={() => setIsOpen(false)} className={className}>
+            <Link
+              key={item.label}
+              href={item.href}
+              role="menuitem"
+              onClick={() => setIsOpen(false)}
+              className={className}
+            >
               {content}
             </Link>
           );
         }
 
         return (
-          <a key={item.label} href={item.href} role="menuitem" onClick={() => setIsOpen(false)} className={className}>
+          <a
+            key={item.label}
+            href={item.href}
+            role="menuitem"
+            onClick={() => setIsOpen(false)}
+            className={className}
+          >
             {content}
           </a>
         );
@@ -84,7 +112,7 @@ export function UserMiniProfileWithMenu({
   );
 
   return (
-    <div ref={menuRef} className="relative w-45 bg-(--surface) rounded-full">
+    <div ref={menuRef} className="relative">
       <button
         type="button"
         aria-expanded={isOpen}

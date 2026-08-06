@@ -82,6 +82,7 @@ export default function HomePage() {
 
         <Image
           src="/images/hero_figure_2.png"
+          loading="eager"
           alt=""
           width={373}
           height={542}
@@ -89,6 +90,7 @@ export default function HomePage() {
         />
         <Image
           src="/images/hero_figure_1.png"
+          loading="eager"
           alt=""
           width={500}
           height={500}
@@ -121,15 +123,26 @@ export default function HomePage() {
         />
         <div className="relative z-10 grid w-full grid-cols-1 items-center gap-3 px-1 sm:grid-cols-3 sm:gap-1 lg:ml-auto lg:mr-0">
           <div className="flex h-[86px] items-center justify-center gap-3 rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border border-[#c9d5e5]/40 bg-white/20 px-5 text-center text-sm font-bold text-[#3e3c4b] shadow-(--panel-shadow) backdrop-blur-(--panel-blur)">
-            <FastForward className="size-6 shrink-0 text-[#676978]" strokeWidth={2} />
+            <FastForward
+              className="size-6 shrink-0 text-[#676978]"
+              strokeWidth={2}
+            />
             <span className="text-sm sm:text-base">Скорость</span>
           </div>
           <div className="flex h-[104px] items-center justify-center gap-3 rounded-[25px] border border-[#d4deeb] bg-white px-5 text-center text-sm font-bold text-[#3e3c4b] shadow-[0_12px_26px_rgba(78,92,112,0.16),inset_0_2px_12px_rgba(255,255,255,0.96)] sm:-translate-y-3">
-            <ShieldCheck className="size-7 shrink-0 text-[#676978]" strokeWidth={1.8} />
-            <span className="max-w-[132px] text-sm sm:text-base">Надежность данных</span>
+            <ShieldCheck
+              className="size-7 shrink-0 text-[#676978]"
+              strokeWidth={1.8}
+            />
+            <span className="max-w-[132px] text-sm sm:text-base">
+              Надежность данных
+            </span>
           </div>
           <div className="flex h-[86px] items-center justify-center gap-3 rounded-tl-[34px] rounded-tr-[18px] rounded-br-[34px] rounded-bl-[18px] border border-[#c9d5e5]/40 bg-white/20 px-5 text-center text-sm font-bold text-[#3e3c4b] shadow-(--panel-shadow) backdrop-blur-(--panel-blur)">
-            <Orbit className="size-7 shrink-0 text-[#676978]" strokeWidth={1.8} />
+            <Orbit
+              className="size-7 shrink-0 text-[#676978]"
+              strokeWidth={1.8}
+            />
             <span className="text-sm sm:text-base">Технологии</span>
           </div>
         </div>
@@ -150,6 +163,7 @@ export default function HomePage() {
       <div className="relative mt-16">
         <Image
           src="/images/footer_figure.png"
+          loading="eager"
           alt=""
           width={373}
           height={542}

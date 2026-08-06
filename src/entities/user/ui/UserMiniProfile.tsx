@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { Avatar, Skeleton } from "@/shared/ui";
 import { useUserStore, type UserType } from "../model";
+import Image from "next/image";
 
 export type UserMiniProfileProps = {
   className?: string;
@@ -31,11 +32,12 @@ export function UserMiniProfile({
 
   return (
     <div className={`flex min-w-0 items-center gap-2.5 ${className}`}>
-      <Avatar
-        src={user.picture}
-        alt={user.email}
-        fallbackLabel={user.email}
-        size="sm"
+      <Image
+        src="/images/icon.svg"
+        width={35}
+        height={35}
+        alt=""
+        loading="eager"
       />
       <span className="max-w-40 truncate text-xs sm:text-sm text-(--foreground)">
         {user.email}
