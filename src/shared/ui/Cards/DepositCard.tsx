@@ -1,4 +1,7 @@
-import { BalanceTransactionStatus, type BalanceTransactionType } from "@/entities/balance";
+import {
+  BalanceTransactionStatus,
+  type BalanceTransactionType,
+} from "@/entities/balance";
 import { formatAmount, formatDate } from "@/shared/lib";
 import { BadgeTransaction } from "@/shared/ui/Badge/BadgeTransaction";
 import { CopyText } from "@/shared/ui/CopyText";
@@ -36,7 +39,7 @@ function getAmountClassName(transaction: BalanceTransactionType) {
 
 export function DepositCard({ transaction }: DepositCardProps) {
   return (
-    <article className="rounded-lg border border-(--border) bg-(--panel-fill) p-3">
+    <article className="rounded-lg border border-(--border) bg-[#F4F7FA] p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <TextParagraph>Дата</TextParagraph>
@@ -47,7 +50,9 @@ export function DepositCard({ transaction }: DepositCardProps) {
         <div className="shrink-0 text-right">
           <TextParagraph>Сумма</TextParagraph>
           <TextParagraph
-            className={`mt-1 whitespace-nowrap font-semibold ${getAmountClassName(transaction)}`}
+            className={`mt-1 whitespace-nowrap font-semibold ${getAmountClassName(
+              transaction
+            )}`}
           >
             {formatTransactionAmount(transaction)}
           </TextParagraph>
