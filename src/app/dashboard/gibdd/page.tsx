@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function GibddPage() {
   return (
-    <>
+    <div className="border-4 p-10 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
       <CheckFormById configId="gibdd" />
       <ChecksHistory module={CheckModule.GIBDD} />
-    </>
+    </div>
   );
 }

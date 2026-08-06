@@ -43,7 +43,9 @@ function SummaryCard({
       {isLoading ? (
         <Skeleton className="mt-3 h-4 w-24 rounded-md" />
       ) : (
-        <TextParagraph className={`mt-2 font-semibold ${accentClassName}`}>
+        <TextParagraph
+          className={`mt-2 font-semibold underline ${accentClassName}`}
+        >
           {value}
         </TextParagraph>
       )}
@@ -66,8 +68,8 @@ export function DepositHistoryStats({
   const stats = useMemo(() => buildTransactionStats(items), [items]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="flex flex-col gap-8">
+      <div className="grid grid-cols-2 gap-8">
         <SummaryCard
           label="Пополнения"
           value={formatAmount(stats.summary.totalTopup)}

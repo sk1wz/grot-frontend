@@ -12,7 +12,12 @@ import {
   gistorgiConfig,
   innConfig,
 } from "../model/configs";
-import type { CheckConfig, FieldDef, FieldValues, ModeDef } from "../model/types";
+import type {
+  CheckConfig,
+  FieldDef,
+  FieldValues,
+  ModeDef,
+} from "../model/types";
 
 type CheckFormProps = {
   config: CheckConfig;
@@ -65,8 +70,13 @@ function getStringValue(values: FieldValues, name: string): string {
 export function CheckForm({ config }: CheckFormProps) {
   const [activeModeId, setActiveModeId] = useState(config.modes?.[0]?.id);
   const activeMode = config.modes?.find((mode) => mode.id === activeModeId);
-  const fields = useMemo(() => getFields(config, activeMode), [config, activeMode]);
-  const [values, setValues] = useState<FieldValues>(() => getDefaultValues(fields));
+  const fields = useMemo(
+    () => getFields(config, activeMode),
+    [config, activeMode]
+  );
+  const [values, setValues] = useState<FieldValues>(() =>
+    getDefaultValues(fields)
+  );
   const [fileName, setFileName] = useState("Файл не выбран");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -96,22 +106,29 @@ export function CheckForm({ config }: CheckFormProps) {
 
     setIsSubmitting(true);
     try {
-      await startCheck(config.endpoint, buildCheckBody(config, values, activeMode));
+      await startCheck(
+        config.endpoint,
+        buildCheckBody(config, values, activeMode)
+      );
       toast.success("Проверка успешно зарегистрирована");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Не удалось зарегистрировать проверку");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Не удалось зарегистрировать проверку"
+      );
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="mb-6 rounded-[18px] border border-[#d7e2ed] bg-white px-3 py-4 shadow-[0_10px_24px_rgba(15,23,42,0.08)] sm:px-5"
-    >
+    <form onSubmit={onSubmit} className="mb-6 px-3 py-4 sm:px-5">
       {config.modes && config.modes.length > 0 ? (
-        <div className="mb-6 grid overflow-hidden rounded-lg bg-[#f4f8fc] shadow-[inset_0_1px_6px_rgba(15,23,42,0.12)] sm:grid-cols-[repeat(var(--tabs),minmax(0,1fr))]" style={{ "--tabs": config.modes.length } as React.CSSProperties}>
+        <div
+          className="mb-6 grid overflow-hidden rounded-lg bg-[#f4f8fc] shadow-[inset_0_1px_6px_rgba(15,23,42,0.12)] sm:grid-cols-[repeat(var(--tabs),minmax(0,1fr))]"
+          style={{ "--tabs": config.modes.length } as React.CSSProperties}
+        >
           {config.modes.map((mode) => (
             <button
               key={mode.id}
@@ -129,12 +146,14 @@ export function CheckForm({ config }: CheckFormProps) {
         </div>
       ) : null}
 
-      <div className={`grid gap-5 ${fields.length > 1 ? "sm:grid-cols-2" : ""}`}>
+      <div
+        className={`grid gap-5 ${fields.length > 1 ? "sm:grid-cols-2" : ""}`}
+      >
         {fields.map((field) =>
           field.type === "checkbox" ? (
             <label
               key={field.name}
-              className="flex min-h-11 items-center gap-3 rounded-lg bg-white px-4 text-sm font-medium text-[#1f2937] shadow-[0_3px_9px_rgba(15,23,42,0.18)]"
+              className="flex min-h-11 items-center gap-3 px-4 py-5 rounded-[20px] bg-white text-sm font-medium text-[#1f2937] shadow-[0_3px_9px_rgba(15,23,42,0.18)]"
             >
               <input
                 type="checkbox"
@@ -152,7 +171,7 @@ export function CheckForm({ config }: CheckFormProps) {
               value={getStringValue(values, field.name)}
               placeholder={field.placeholder ?? field.label}
               onChange={(event) => updateValue(field, event.target.value)}
-              className="min-h-11 rounded-lg bg-white px-4 text-sm text-[#1f2937] outline-none shadow-[0_3px_9px_rgba(15,23,42,0.18)] placeholder:text-[#d5e0ec]"
+              className="min-h-11  bg-white px-4 py-5 rounded-[20px] text-sm text-[#1f2937] outline-none shadow-[0_3px_9px_rgba(15,23,42,0.18)] placeholder:text-[#d5e0ec]"
             />
           )
         )}
@@ -180,7 +199,9 @@ export function CheckForm({ config }: CheckFormProps) {
         <a
           href={config.templateUrl ?? "#"}
           className={`inline-flex shrink-0 items-center gap-2 ${
-            config.templateUrl ? "hover:underline" : "pointer-events-none opacity-70"
+            config.templateUrl
+              ? "hover:underline"
+              : "pointer-events-none opacity-70"
           }`}
         >
           Скачать шаблон

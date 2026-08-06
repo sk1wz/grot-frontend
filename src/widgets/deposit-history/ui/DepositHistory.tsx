@@ -21,7 +21,7 @@ import {
 import { transactionColumns } from "../lib/transaction-columns";
 import { DepositHistoryStats } from "./DepositHistoryStats";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 const ALL_STATUSES = "all";
 
 type StatusFilter = BalanceTransactionStatus | typeof ALL_STATUSES;

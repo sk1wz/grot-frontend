@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function InnByPassportPage() {
   return (
-    <>
+    <div className="border-4 p-10 border-[#d7e2ed] rounded-[100px_40px_100px_40px]">
       <CheckFormById configId="inn" />
       <ChecksHistory module={CheckModule.INN} />
-    </>
+    </div>
   );
 }

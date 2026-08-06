@@ -20,7 +20,7 @@ import {
 } from "@/shared/ui";
 import { CheckActions, checkColumns } from "../lib/check-history-column";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 
 export type ChecksHistoryProps = { module: CheckModule; className?: string };
 
@@ -31,19 +31,17 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [idQuery, setIdQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<CheckStatus | "">("");
-  const filteredItems = useMemo(
-    () => {
-      const normalizedQuery = idQuery.trim().toLowerCase();
+  const filteredItems = useMemo(() => {
+    const normalizedQuery = idQuery.trim().toLowerCase();
 
-      return items.filter(
-        (check) =>
-          check.module === module &&
-          (!normalizedQuery || check.id.toLowerCase().includes(normalizedQuery)) &&
-          (!statusFilter || check.status === statusFilter)
-      );
-    },
-    [idQuery, items, module, statusFilter]
-  );
+    return items.filter(
+      (check) =>
+        check.module === module &&
+        (!normalizedQuery ||
+          check.id.toLowerCase().includes(normalizedQuery)) &&
+        (!statusFilter || check.status === statusFilter)
+    );
+  }, [idQuery, items, module, statusFilter]);
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const safeCurrentPage =
