@@ -181,14 +181,14 @@ export function CheckForm({ config }: CheckFormProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="min-h-10 cursor-pointer rounded-lg bg-[#c5ddd5] p-4 text-xs font-bold uppercase shadow-(--shadow-1) text-[#1f2937] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+          className="min-h-10 cursor-pointer rounded-lg bg-[#c5ddd5] p-6 text-xs font-bold uppercase shadow-(--shadow-1) text-[#1f2937] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? "Запуск..." : "Проверить"}
         </button>
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="min-h-10 cursor-pointer rounded-lg bg-[#c8ced5] p-4 text-xs font-bold uppercase shadow-(--shadow-1) text-[#1f2937] transition hover:brightness-95"
+          className="min-h-10 cursor-pointer rounded-lg bg-[#c8ced5] p-6 text-xs font-bold uppercase shadow-(--shadow-1) text-[#1f2937] transition hover:brightness-95"
         >
           Загрузить Excel
         </button>
