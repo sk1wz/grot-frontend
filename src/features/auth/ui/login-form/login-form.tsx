@@ -39,7 +39,7 @@ export function LoginForm() {
       onSubmit={handleSubmit}
       autoComplete="off"
     >
-      <label className="flex flex-col gap-2" htmlFor="email">
+      <label className="flex flex-col gap-1" htmlFor="email">
         <Text className="font-medium ">
           Введите Email
         </Text>
@@ -97,7 +97,7 @@ export function LoginForm() {
 
       <Button
         type="submit"
-        className="uppercase font-medium py-3!"
+        className="uppercase font-medium py-4!"
       >
         Войти
       </Button>

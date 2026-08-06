@@ -36,7 +36,7 @@ function SummaryCard({
   isLoading?: boolean;
 }) {
   return (
-    <div className="rounded-lg bg-(--surface) p-4">
+    <div className="rounded-lg bg-[#F4F7FA] shadow-(--panel-shadow) p-4">
       <Text className="font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
@@ -97,7 +97,7 @@ export function DepositHistoryStats({
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-lg bg-(--surface) p-4">
+        <div className="rounded-lg bg-[#F4F7FA] shadow-(--panel-shadow) p-4">
           <Text className="font-medium">
             Распределение по типам
           </Text>
@@ -134,7 +134,7 @@ export function DepositHistoryStats({
           </div>
         </div>
 
-        <div className="rounded-lg bg-(--surface) p-4">
+        <div className="rounded-lg bg-[#F4F7FA] shadow-(--panel-shadow) p-4">
           <Text className="font-medium">
             Динамика по месяцам
           </Text>

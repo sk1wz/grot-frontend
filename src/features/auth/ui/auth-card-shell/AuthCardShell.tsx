@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Logo } from "@/shared/ui";
 
 const AUTH_CARD_CLASS =
-  "relative z-10 flex min-h-[600px] w-full flex-col items-center rounded-[40px_150px_40px_150px] bg-[#C9D5E5]/20 p-10 shadow-[inset_-6px_6px_8px_0_rgba(255,255,255,0.45),inset_6px_-6px_8px_0_rgba(255,255,255,0.45),inset_6px_6px_8px_0_rgba(255,255,255,0.45),inset_-6px_-6px_8px_0_rgba(255,255,255,0.45),inset_-12px_12px_14px_0_rgba(212,221,234,0.65),inset_12px_-12px_14px_0_rgba(212,221,234,0.65),inset_12px_12px_14px_0_rgba(212,221,234,0.65),inset_-12px_-12px_14px_0_rgba(212,221,234,0.65)]";
+  "relative z-10 flex min-h-[630px] w-full flex-col items-center rounded-[40px_150px_40px_150px] bg-[#C9D5E5]/20 p-10 shadow-[inset_-6px_6px_8px_0_rgba(255,255,255,0.45),inset_6px_-6px_8px_0_rgba(255,255,255,0.45),inset_6px_6px_8px_0_rgba(255,255,255,0.45),inset_-6px_-6px_8px_0_rgba(255,255,255,0.45),inset_-12px_12px_14px_0_rgba(212,221,234,0.65),inset_12px_-12px_14px_0_rgba(212,221,234,0.65),inset_12px_12px_14px_0_rgba(212,221,234,0.65),inset_-12px_-12px_14px_0_rgba(212,221,234,0.65)]";
 
 export function AuthCardShell({
   title,

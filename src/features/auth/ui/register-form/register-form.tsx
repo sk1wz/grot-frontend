@@ -109,7 +109,7 @@ export function RegisterForm() {
       onSubmit={handleSubmit}
       autoComplete="off"
     >
-      <label className="flex flex-col gap-2" htmlFor="email">
+      <label className="flex flex-col gap-1" htmlFor="email">
         <Text className="font-medium">
           Введите Email
         </Text>
@@ -165,12 +165,12 @@ export function RegisterForm() {
 
       <Button 
         type="submit"
-        className="uppercase font-medium py-3!"
+        className="uppercase font-medium py-4!"
       >
         Зарегистрироваться
       </Button>
 
-      <div className="flex items-end justify-between gap-4 pt-2">
+      <div className="flex items-end justify-between gap-4 pt-1">
         <div>
           <TextParagraph>У вас уже есть аккаунт?</TextParagraph>
           <Text>Войти</Text>
