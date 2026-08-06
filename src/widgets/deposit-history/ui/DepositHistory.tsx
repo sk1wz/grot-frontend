@@ -94,13 +94,10 @@ export function DepositHistory() {
 
   return (
     <section className="flex w-full flex-col gap-4">
-        <TextTitle>Статистика за всё время</TextTitle>
-      <DepositHistoryStats
-        items={items}
-        isLoading={showStatsSkeleton}
-      />
+      <TextTitle>Статистика за всё время</TextTitle>
+      <DepositHistoryStats items={items} isLoading={showStatsSkeleton} />
       <TextTitle>История транзакций</TextTitle>
-      <div className="flex flex-col gap-4 md:flex-row">
+      <div className="grid gap-3 md:grid-cols-2">
         <SearchField
           id="transaction-id-search"
           label="Поиск по ID"
@@ -109,15 +106,16 @@ export function DepositHistory() {
           onChange={handleSearchChange}
           className="md:max-w-md"
         />
+
         <SelectField
           id="transaction-status-filter"
           label="Статус"
           value={statusFilter}
           options={statusOptions}
           onChange={handleStatusChange}
-          className="md:max-w-xs"
         />
       </div>
+
       <div className="flex flex-col gap-4">
         <div className="hidden md:block">
           <SmartTable
@@ -134,7 +132,10 @@ export function DepositHistory() {
           {showCardsSkeleton ? (
             <div className="space-y-3">
               {Array.from({ length: 3 }, (_, index) => (
-                <div key={index} className="rounded-lg border border-(--border) p-3">
+                <div
+                  key={index}
+                  className="rounded-lg border border-(--border) p-3"
+                >
                   <Skeleton className="h-4 w-32" />
                   <Skeleton className="mt-3 h-4 w-full" />
                   <Skeleton className="mt-3 h-6 w-24" />

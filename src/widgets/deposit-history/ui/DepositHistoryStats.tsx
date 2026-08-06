@@ -36,12 +36,12 @@ function SummaryCard({
   isLoading?: boolean;
 }) {
   return (
-    <div className="rounded-lg bg-[#F4F7FA] shadow-(--panel-shadow) p-4">
+    <div className="rounded-lg bg-[#F4F7FA] shadow p-4">
       <Text className="font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
       {isLoading ? (
-        <Skeleton className="mt-3 h-5 w-24 rounded-md" />
+        <Skeleton className="mt-3 h-4 w-24 rounded-md" />
       ) : (
         <TextParagraph className={`mt-2 font-semibold ${accentClassName}`}>
           {value}
@@ -97,10 +97,8 @@ export function DepositHistoryStats({
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-lg bg-[#F4F7FA] shadow-(--panel-shadow) p-4">
-          <Text className="font-medium">
-            Распределение по типам
-          </Text>
+        <div className="rounded-lg bg-[#F4F7FA] shadow p-4">
+          <Text className="font-medium">Распределение по типам</Text>
           <div className="mt-4 h-64">
             {stats.byType.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -134,10 +132,8 @@ export function DepositHistoryStats({
           </div>
         </div>
 
-        <div className="rounded-lg bg-[#F4F7FA] shadow-(--panel-shadow) p-4">
-          <Text className="font-medium">
-            Динамика по месяцам
-          </Text>
+        <div className="rounded-lg bg-[#F4F7FA] shadow p-4">
+          <Text className="font-medium">Динамика по месяцам</Text>
           <div className="mt-4 h-64">
             {stats.byMonth.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
