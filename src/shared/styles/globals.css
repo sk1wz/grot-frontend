@@ -5,7 +5,8 @@
 [data-theme="light"],
 [data-theme="default"] {
   --accent: #c8ddd5;
-  --surface: rgba(201, 213, 229, 0.4);
+  /* --surface: rgba(201, 213, 229, 0.4); */
+  --surface: #F4F7FA;
   --foreground: #3e3c4b;
   --field: rgb(250, 250, 250);
   --background: #ffffff;

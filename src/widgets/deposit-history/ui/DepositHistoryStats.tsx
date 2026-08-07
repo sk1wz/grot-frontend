@@ -36,7 +36,7 @@ function SummaryCard({
   isLoading?: boolean;
 }) {
   return (
-    <div className="rounded-lg bg-[#F4F7FA] shadow p-4">
+    <div className="rounded-lg bg-(--surface) shadow p-4">
       <Text className="font-medium uppercase tracking-wide text-(--foreground)">
         {label}
       </Text>
@@ -73,33 +73,31 @@ export function DepositHistoryStats({
         <SummaryCard
           label="Пополнения"
           value={formatAmount(stats.summary.totalTopup)}
-          accentClassName="text-emerald-700"
+          accentClassName="text-[#4FCB91]"
           isLoading={isLoading}
         />
         <SummaryCard
           label="Списания"
           value={formatAmount(stats.summary.totalPurchase)}
-          accentClassName="text-rose-700"
+          accentClassName="text-[#F44E4A]"
           isLoading={isLoading}
         />
         <SummaryCard
           label="Возвраты"
           value={formatAmount(stats.summary.totalRefund)}
-          accentClassName="text-sky-700"
+          accentClassName="text-[#F6E06C]"
           isLoading={isLoading}
         />
         <SummaryCard
           label="Чистое изменение"
           value={formatAmount(stats.summary.netChange)}
-          accentClassName={
-            stats.summary.netChange >= 0 ? "text-emerald-700" : "text-rose-700"
-          }
+          accentClassName="text-black"
           isLoading={isLoading}
         />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-lg bg-[#F4F7FA] shadow p-4">
+        <div className="rounded-lg bg-(--surface) shadow p-4">
           <Text className="font-medium">Распределение по типам</Text>
           <div className="mt-4 h-64">
             {stats.byType.length > 0 ? (
@@ -134,7 +132,7 @@ export function DepositHistoryStats({
           </div>
         </div>
 
-        <div className="rounded-lg bg-[#F4F7FA] shadow p-4">
+        <div className="rounded-lg bg-(--surface) shadow p-4">
           <Text className="font-medium">Динамика по месяцам</Text>
           <div className="mt-4 h-64">
             {stats.byMonth.length > 0 ? (
@@ -158,19 +156,19 @@ export function DepositHistoryStats({
                   <Bar
                     dataKey="topup"
                     name="Пополнения"
-                    fill="#338830"
+                    fill="#4FCB91"
                     radius={[4, 4, 0, 0]}
                   />
                   <Bar
                     dataKey="purchase"
                     name="Списания"
-                    fill="#e11d48"
+                    fill="#F44E4A"
                     radius={[4, 4, 0, 0]}
                   />
                   <Bar
                     dataKey="refund"
                     name="Возвраты"
-                    fill="#0284c7"
+                    fill="#F6E06C"
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>

@@ -55,7 +55,7 @@ export function SmartTable<T>({
                 key={column.key}
                 scope="col"
                 className={[
-                  "bg-(--panel-fill) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)",
+                  "bg-(--surface) px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-(--foreground)",
                   index === 0 ? "rounded-tl-[18px]" : "",
                   index === columns.length - 1 ? "rounded-tr-[18px]" : "",
                 ].join(" ")}

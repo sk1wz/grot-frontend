@@ -15,7 +15,7 @@ type CheckCardProps = { check: Check; actions?: ReactNode };
 
 export function CheckCard({ check, actions }: CheckCardProps) {
   return (
-    <article className="rounded-lg border border-(--border) bg-[#F4F7FA] p-3">
+    <article className="rounded-lg border border-(--border) bg-(--surface) p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <TextParagraph>Дата</TextParagraph>

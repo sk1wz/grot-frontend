@@ -8,9 +8,9 @@ export const TRANSACTION_CHART_COLORS: Record<
   BalanceTransactionStatus,
   string
 > = {
-  [BalanceTransactionStatus.BALANCE_TOPUP]: "#338830",
-  [BalanceTransactionStatus.BALANCE_PURCHASE]: "#e11d48",
-  [BalanceTransactionStatus.BALANCE_REFUND]: "#0284c7",
+  [BalanceTransactionStatus.BALANCE_TOPUP]: "#4FCB91",
+  [BalanceTransactionStatus.BALANCE_PURCHASE]: "#F44E4A",
+  [BalanceTransactionStatus.BALANCE_REFUND]: "#F6E06C",
   [BalanceTransactionStatus.BALANCE_FAILED]: "#78716c",
 };
 
