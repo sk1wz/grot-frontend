@@ -8,7 +8,7 @@ export const bankruptcyConfig: CheckConfig = {
   endpoint: "/checks/bancrupcy",
   modes: [
     {
-      id: "inn",
+      id: "for_inn",
       label: "По ИНН",
       fields: [
         {
@@ -18,10 +18,10 @@ export const bankruptcyConfig: CheckConfig = {
         },
       ],
       schema: innSchema,
-      buildSubject: (values) => ({ inn: pickString(values, "inn") }),
+      buildBody: (values) => ({ inn: pickString(values, "inn") }),
     },
     {
-      id: "fio",
+      id: "for_fio",
       label: "По ФИО",
       fields: [
         {
@@ -31,7 +31,7 @@ export const bankruptcyConfig: CheckConfig = {
         },
       ],
       schema: fioSchema,
-      buildSubject: (values) => ({ fio: pickString(values, "fio") }),
+      buildBody: (values) => ({ fio: pickString(values, "fio") }),
       requiresFeature: "bankrupt_by_fio",
     },
   ],

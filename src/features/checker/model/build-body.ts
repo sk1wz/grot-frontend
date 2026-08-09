@@ -5,12 +5,11 @@ export function buildCheckBody(
   values: FieldValues,
   mode?: ModeDef
 ): Record<string, unknown> {
-  const subject =
-    mode?.buildSubject(values) ?? config.buildSubject?.(values) ?? {};
+  const body = mode?.buildBody(values) ?? config.buildBody?.(values) ?? {};
 
-  if (mode && config.includeModeInBody) {
-    return { mode: mode.id, subject };
+  if (mode) {
+    return { type: mode.id, body };
   }
 
-  return { subject };
+  return { body };
 }

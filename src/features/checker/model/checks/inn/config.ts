@@ -8,7 +8,7 @@ export const innConfig: CheckConfig = {
   endpoint: "/checks/inn",
   modes: [
     {
-      id: "structured",
+      id: "for_structured",
       label: "ФИО + дата рождения + паспорт",
       fields: [
         {
@@ -29,14 +29,14 @@ export const innConfig: CheckConfig = {
         },
       ],
       schema: innPassportSchema,
-      buildSubject: (values) => ({
+      buildBody: (values) => ({
         fio: pickString(values, "fio"),
         dob: pickString(values, "dob"),
         passport: pickString(values, "passport"),
       }),
     },
     {
-      id: "text",
+      id: "for_text",
       label: "Свободный текст",
       fields: [
         {
@@ -46,7 +46,7 @@ export const innConfig: CheckConfig = {
         },
       ],
       schema: innTextSchema,
-      buildSubject: (values) => ({ text: pickString(values, "text") }),
+      buildBody: (values) => ({ text: pickString(values, "text") }),
     },
   ],
 };

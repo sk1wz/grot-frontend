@@ -6,10 +6,9 @@ export const fsspConfig: CheckConfig = {
   id: "fssp",
   title: "ФССП",
   endpoint: "/checks/fssp",
-  includeModeInBody: true,
   modes: [
     {
-      id: "fio_dob",
+      id: "for_fio_dob",
       label: "ФИО + дата рождения",
       fields: [
         {
@@ -25,13 +24,13 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: fioDobSchema,
-      buildSubject: (values) => ({
+      buildBody: (values) => ({
         fio: pickString(values, "fio"),
         dob: pickString(values, "dob"),
       }),
     },
     {
-      id: "inn",
+      id: "for_inn",
       label: "ИНН",
       fields: [
         {
@@ -41,10 +40,10 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: innSchema,
-      buildSubject: (values) => ({ inn: pickString(values, "inn") }),
+      buildBody: (values) => ({ inn: pickString(values, "inn") }),
     },
     {
-      id: "ip",
+      id: "for_ip",
       label: "Номер ИП",
       fields: [
         {
@@ -54,10 +53,10 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: ipSchema,
-      buildSubject: (values) => ({ ip: pickString(values, "ip") }),
+      buildBody: (values) => ({ ip: pickString(values, "ip") }),
     },
     {
-      id: "doc_id",
+      id: "for_doc_id",
       label: "Номер ИЛ",
       fields: [
         {
@@ -67,7 +66,7 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: docIdSchema,
-      buildSubject: (values) => ({ doc_id: pickString(values, "doc_id") }),
+      buildBody: (values) => ({ doc_id: pickString(values, "doc_id") }),
     },
   ],
 };

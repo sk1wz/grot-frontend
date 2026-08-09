@@ -16,7 +16,7 @@ export type ModeDef = {
   label: string;
   fields: FieldDef[];
   schema: z.ZodType<FieldValues>;
-  buildSubject: (values: FieldValues) => Record<string, unknown>;
+  buildBody: (values: FieldValues) => Record<string, unknown>;
   requiresFeature?: string;
 };
 
@@ -27,7 +27,6 @@ export type CheckConfig = {
   modes?: ModeDef[];
   fields?: FieldDef[];
   schema?: z.ZodType<FieldValues>;
-  buildSubject?: (values: FieldValues) => Record<string, unknown>;
-  includeModeInBody?: boolean;
+  buildBody?: (values: FieldValues) => Record<string, unknown>;
   templateUrl?: string;
 };

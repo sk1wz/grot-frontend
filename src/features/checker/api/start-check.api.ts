@@ -1,10 +1,11 @@
-import type { StartCheckResponse } from "@/entities/check";
 import { baseURL } from "@/shared/api/config";
 
 export async function startCheck(
   endpoint: string,
   body: Record<string, unknown>
-): Promise<StartCheckResponse> {
+): Promise<void> {
+  console.log(body);
+  console.log(endpoint);
   const response = await fetch(`${baseURL}${endpoint}`, {
     method: "POST",
     credentials: "include",
@@ -12,9 +13,7 @@ export async function startCheck(
     body: JSON.stringify(body),
   });
 
-  const data = (await response.json()) as
-    | StartCheckResponse
-    | { message?: string };
+  const data = await response.json();
 
   if (response.status !== 202 && !response.ok) {
     throw new Error(
@@ -24,5 +23,5 @@ export async function startCheck(
     );
   }
 
-  return data as StartCheckResponse;
+  return data;
 }

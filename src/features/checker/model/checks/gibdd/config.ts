@@ -19,7 +19,7 @@ export const gibddConfig: CheckConfig = {
     },
   ],
   schema: gibddSchema,
-  buildSubject: (values) => {
+  buildBody: (values) => {
     const subject: Record<string, unknown> = {
       vin: pickString(values, "vin"),
     };

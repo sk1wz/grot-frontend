@@ -1,5 +1,5 @@
 export { buildCheckBody } from "./build-body";
-export { checkConfigs } from "./configs";
+export { checkConfigs } from "./checks";
 export type {
   CheckConfig,
   FieldDef,

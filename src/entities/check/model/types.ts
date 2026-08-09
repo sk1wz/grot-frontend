@@ -1,13 +1,5 @@
 import type { Check } from "./fabric-schemas";
 
-export type LegacyCheckStatus = "queued" | "processing" | "done" | "failed";
-
-export type StartCheckResponse = {
-  id: string;
-  status: LegacyCheckStatus;
-  client_reference?: string;
-};
-
 /** Значения = коды API */
 export enum CheckModule {
   GIBDD = "GIBDD",

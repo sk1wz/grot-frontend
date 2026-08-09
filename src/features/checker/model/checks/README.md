@@ -18,19 +18,18 @@ src/features/checker/model/checks/<check-name>/
 - `fields` - поля формы, если у проверки один режим.
 - `modes` - вкладки формы, если у проверки несколько режимов.
 - `schema` - схема валидации для обычной формы.
-- `buildSubject` - функция, которая собирает `subject` для API.
-- `includeModeInBody` - если `true`, тело будет `{ mode, subject }`.
+- `buildBody` - функция, которая собирает `body` для API.
 
 Форма отправляет:
 
 ```ts
-{ subject: { ... } }
+{ body: { ... } }
 ```
 
-Для проверок с `includeModeInBody: true`:
+Для проверок с режимами:
 
 ```ts
-{ mode: "mode_id", subject: { ... } }
+{ type: "mode_id", body: { ... } }
 ```
 
 ## Как работает текущий поток
@@ -80,7 +79,7 @@ export const gibddConfig: CheckConfig = {
     },
   ],
   schema: gibddSchema,
-  buildSubject: (values) => ({ vin: pickString(values, "vin") }),
+  buildBody: (values) => ({ vin: pickString(values, "vin") }),
 };
 ```
 
@@ -88,7 +87,7 @@ export const gibddConfig: CheckConfig = {
 
 ```json
 {
-  "subject": {
+  "body": {
     "vin": "XTA..."
   }
 }
@@ -103,7 +102,6 @@ export const fsspConfig: CheckConfig = {
   id: "fssp",
   title: "ФССП",
   endpoint: "/checks/fssp",
-  includeModeInBody: true,
   modes: [
     {
       id: "fio_dob",
@@ -113,7 +111,7 @@ export const fsspConfig: CheckConfig = {
         { name: "dob", label: "Дата рождения" },
       ],
       schema: fioDobSchema,
-      buildSubject: (values) => ({
+      buildBody: (values) => ({
         fio: pickString(values, "fio"),
         dob: pickString(values, "dob"),
       }),
@@ -126,8 +124,8 @@ export const fsspConfig: CheckConfig = {
 
 ```json
 {
-  "mode": "fio_dob",
-  "subject": {
+  "type": "fio_dob",
+  "body": {
     "fio": "Иванов Иван Иванович",
     "dob": "01.01.1980"
   }
@@ -183,7 +181,7 @@ export const disabilityCarConfig: CheckConfig = {
     },
   ],
   schema: disabilityCarSchema,
-  buildSubject: (values) => ({
+  buildBody: (values) => ({
     plate_number: pickString(values, "plate_number"),
   }),
 };
@@ -193,7 +191,7 @@ export const disabilityCarConfig: CheckConfig = {
 
 ```json
 {
-  "subject": {
+  "body": {
     "plate_number": "А123АА777"
   }
 }
@@ -201,7 +199,7 @@ export const disabilityCarConfig: CheckConfig = {
 
 ### 4. Добавить config в общий список
 
-`src/features/checker/model/configs/index.ts`
+`src/features/checker/model/checks/index.ts`
 
 ```ts
 import { disabilityCarConfig } from "../checks/disability-car/config";
@@ -268,7 +266,7 @@ type FieldType = "text" | "date" | "checkbox";
 ## Важные правила
 
 - `name` поля должен совпадать с ключом в Zod-схеме.
-- `buildSubject` должен возвращать именно те поля, которые ждёт backend.
-- Если есть табы, у каждого режима должны быть свои `fields`, `schema` и `buildSubject`.
-- Если backend ждёт `mode`, добавь `includeModeInBody: true`.
+- `buildBody` должен возвращать именно те поля, которые ждёт backend.
+- Если есть табы, у каждого режима должны быть свои `fields`, `schema` и `buildBody`.
+- Для checks с `modes` тип активного режима автоматически передаётся в поле `type`.
 - Через Server -> Client нельзя передавать весь config, потому что в нём есть Zod-схемы и функции. На страницах используй только `CheckFormById configId="..."`.

@@ -11,7 +11,7 @@ import {
   gibddConfig,
   gistorgiConfig,
   innConfig,
-} from "../model/configs";
+} from "../model/checks";
 import type {
   CheckConfig,
   FieldDef,
