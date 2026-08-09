@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { Download } from "lucide-react";
 import { toast } from "react-toastify";
 import { startCheck } from "../api";
-import { buildCheckBody } from "../model";
+import { buildCheckSubjectBody } from "../model";
 import {
   bankruptcyConfig,
   fsspConfig,
@@ -108,7 +108,7 @@ export function CheckForm({ config }: CheckFormProps) {
     try {
       await startCheck(
         config.endpoint,
-        buildCheckBody(config, values, activeMode)
+        buildCheckSubjectBody(config, values, activeMode)
       );
       toast.success("Проверка успешно зарегистрирована");
     } catch (error) {

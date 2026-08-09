@@ -16,42 +16,6 @@ const checkBaseSchema = schemaObject({
   completedAt: z.string().nullable().optional(),
 });
 
-const vinSubjectSchema = schemaObject({
-  vin: z.string(),
-});
-
-export const gibddSubjectSchema = vinSubjectSchema
-  .extend({
-    osago: z.boolean().optional(),
-  })
-  .loose();
-
-export const gisTorgiSubjectSchema = vinSubjectSchema;
-
-export const fsspSubjectSchema = z.union([
-  schemaObject({
-    fio: z.string(),
-    dob: z.string(),
-  }),
-  schemaObject({ inn: z.string() }),
-  schemaObject({ ip: z.string() }),
-  schemaObject({ doc_id: z.string() }),
-]);
-
-export const bankruptcySubjectSchema = z.union([
-  schemaObject({ inn: z.string() }),
-  schemaObject({ fio: z.string() }),
-]);
-
-export const innSubjectSchema = z.union([
-  schemaObject({
-    fio: z.string(),
-    dob: z.string(),
-    passport: z.string(),
-  }),
-  schemaObject({ text: z.string() }),
-]);
-
 /*
  * Реальные схемы результатов
  * Спарсятся в нужные схемы, лишние поля сохранятся и не сломают парсинг.
@@ -62,69 +26,32 @@ export const fsspResultSchema = z.unknown();
 export const bankruptcyResultSchema = z.unknown();
 export const innResultSchema = z.unknown();
 
-function normalizeSubjectSchema<TSubject extends z.ZodType>(
-  subjectSchema: TSubject
-) {
-  return z
-    .union([
-      subjectSchema,
-      schemaObject({
-        subject: subjectSchema,
-      }),
-    ])
-    .transform((subject): z.output<TSubject> => {
-      if (
-        typeof subject === "object" &&
-        subject !== null &&
-        "subject" in subject
-      ) {
-        return subject.subject as z.output<TSubject>;
-      }
-
-      return subject as z.output<TSubject>;
-    });
-}
-
 function createCheckSchema<
   TModule extends CheckModule,
-  TSubject extends z.ZodType,
   TResult extends z.ZodType
->(module: TModule, subject: TSubject, result: TResult) {
+>(module: TModule, result: TResult) {
   return checkBaseSchema
     .extend({
       module: z.literal(module),
-      subject: normalizeSubjectSchema(subject),
+      subjectBody: z.record(z.string(), z.unknown()),
+      subjectBodyText: z.string(),
       result: result.nullable().optional(),
     })
     .loose();
 }
 
 export const checkSchemasByModule = {
-  [CheckModule.GIBDD]: createCheckSchema(
-    CheckModule.GIBDD,
-    gibddSubjectSchema,
-    gibddResultSchema
-  ),
+  [CheckModule.GIBDD]: createCheckSchema(CheckModule.GIBDD, gibddResultSchema),
   [CheckModule.GISTORGI]: createCheckSchema(
     CheckModule.GISTORGI,
-    gisTorgiSubjectSchema,
     gisTorgiResultSchema
   ),
-  [CheckModule.FSSP]: createCheckSchema(
-    CheckModule.FSSP,
-    fsspSubjectSchema,
-    fsspResultSchema
-  ),
+  [CheckModule.FSSP]: createCheckSchema(CheckModule.FSSP, fsspResultSchema),
   [CheckModule.BANKRUPTCY]: createCheckSchema(
     CheckModule.BANKRUPTCY,
-    bankruptcySubjectSchema,
     bankruptcyResultSchema
   ),
-  [CheckModule.INN]: createCheckSchema(
-    CheckModule.INN,
-    innSubjectSchema,
-    innResultSchema
-  ),
+  [CheckModule.INN]: createCheckSchema(CheckModule.INN, innResultSchema),
 } as const;
 
 export const CheckSchema = z.discriminatedUnion("module", [

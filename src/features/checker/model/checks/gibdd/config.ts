@@ -19,15 +19,15 @@ export const gibddConfig: CheckConfig = {
     },
   ],
   schema: gibddSchema,
-  buildBody: (values) => {
-    const subject: Record<string, unknown> = {
+  buildSubjectBody: (values) => {
+    const subjectBody: Record<string, unknown> = {
       vin: pickString(values, "vin"),
     };
 
     if (values.osago === true) {
-      subject.osago = true;
+      subjectBody.osago = true;
     }
 
-    return subject;
+    return subjectBody;
   },
 };

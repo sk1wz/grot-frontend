@@ -18,7 +18,7 @@ export const bankruptcyConfig: CheckConfig = {
         },
       ],
       schema: innSchema,
-      buildBody: (values) => ({ inn: pickString(values, "inn") }),
+      buildSubjectBody: (values) => ({ inn: pickString(values, "inn") }),
     },
     {
       id: "for_fio",
@@ -31,7 +31,7 @@ export const bankruptcyConfig: CheckConfig = {
         },
       ],
       schema: fioSchema,
-      buildBody: (values) => ({ fio: pickString(values, "fio") }),
+      buildSubjectBody: (values) => ({ fio: pickString(values, "fio") }),
       requiresFeature: "bankrupt_by_fio",
     },
   ],

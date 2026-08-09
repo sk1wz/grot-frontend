@@ -24,7 +24,7 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: fioDobSchema,
-      buildBody: (values) => ({
+      buildSubjectBody: (values) => ({
         fio: pickString(values, "fio"),
         dob: pickString(values, "dob"),
       }),
@@ -40,7 +40,7 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: innSchema,
-      buildBody: (values) => ({ inn: pickString(values, "inn") }),
+      buildSubjectBody: (values) => ({ inn: pickString(values, "inn") }),
     },
     {
       id: "for_ip",
@@ -53,7 +53,7 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: ipSchema,
-      buildBody: (values) => ({ ip: pickString(values, "ip") }),
+      buildSubjectBody: (values) => ({ ip: pickString(values, "ip") }),
     },
     {
       id: "for_doc_id",
@@ -66,7 +66,7 @@ export const fsspConfig: CheckConfig = {
         },
       ],
       schema: docIdSchema,
-      buildBody: (values) => ({ doc_id: pickString(values, "doc_id") }),
+      buildSubjectBody: (values) => ({ doc_id: pickString(values, "doc_id") }),
     },
   ],
 };

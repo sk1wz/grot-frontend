@@ -29,7 +29,7 @@ export const innConfig: CheckConfig = {
         },
       ],
       schema: innPassportSchema,
-      buildBody: (values) => ({
+      buildSubjectBody: (values) => ({
         fio: pickString(values, "fio"),
         dob: pickString(values, "dob"),
         passport: pickString(values, "passport"),
@@ -46,7 +46,7 @@ export const innConfig: CheckConfig = {
         },
       ],
       schema: innTextSchema,
-      buildBody: (values) => ({ text: pickString(values, "text") }),
+      buildSubjectBody: (values) => ({ text: pickString(values, "text") }),
     },
   ],
 };

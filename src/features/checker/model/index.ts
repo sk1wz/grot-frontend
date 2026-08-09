@@ -1,4 +1,4 @@
-export { buildCheckBody } from "./build-body";
+export { buildCheckSubjectBody } from "./build-body";
 export { checkConfigs } from "./checks";
 export type {
   CheckConfig,

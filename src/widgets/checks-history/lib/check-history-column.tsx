@@ -9,7 +9,6 @@ import { formatDate } from "@/shared/lib";
 import { CopyText, TableColumn } from "@/shared/ui";
 import { Badge } from "@/shared/ui/Badge/Badge";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
-import { formatCheckSubject } from "@/shared/ui/Table/lib/format-check-subject";
 import { Eye } from "lucide-react";
 
 export function CheckActions({ check }: { check: Check }) {
@@ -73,11 +72,11 @@ export const checkColumns: TableColumn<Check>[] = [
     render: (check) => CheckModuleLabel[check.module],
   },
   {
-    key: "subject",
+    key: "subjectBodyText",
     title: "Тело запроса",
     width: "22%",
     render: (check) => (
-      <div className="truncate">{formatCheckSubject(check.subject)}</div>
+      <div className="truncate">{check.subjectBodyText}</div>
     ),
   },
   {

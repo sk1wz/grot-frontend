@@ -14,5 +14,5 @@ export const gistorgiConfig: CheckConfig = {
     },
   ],
   schema: gistorgiSchema,
-  buildBody: (values) => ({ vin: pickString(values, "vin") }),
+  buildSubjectBody: (values) => ({ vin: pickString(values, "vin") }),
 };

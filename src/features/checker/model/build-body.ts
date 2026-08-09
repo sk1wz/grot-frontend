@@ -1,15 +1,16 @@
 import type { CheckConfig, FieldValues, ModeDef } from "./types";
 
-export function buildCheckBody(
+export function buildCheckSubjectBody(
   config: CheckConfig,
   values: FieldValues,
   mode?: ModeDef
 ): Record<string, unknown> {
-  const body = mode?.buildBody(values) ?? config.buildBody?.(values) ?? {};
+  const subjectBody =
+    mode?.buildSubjectBody(values) ?? config.buildSubjectBody?.(values) ?? {};
 
   if (mode) {
-    return { type: mode.id, body };
+    return { type: mode.id, subjectBody };
   }
 
-  return { body };
+  return { subjectBody };
 }

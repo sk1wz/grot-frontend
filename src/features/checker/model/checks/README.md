@@ -18,18 +18,18 @@ src/features/checker/model/checks/<check-name>/
 - `fields` - поля формы, если у проверки один режим.
 - `modes` - вкладки формы, если у проверки несколько режимов.
 - `schema` - схема валидации для обычной формы.
-- `buildBody` - функция, которая собирает `body` для API.
+- `buildSubjectBody` - функция, которая собирает `subjectBody` для API.
 
 Форма отправляет:
 
 ```ts
-{ body: { ... } }
+{ subjectBody: { ... } }
 ```
 
 Для проверок с режимами:
 
 ```ts
-{ type: "mode_id", body: { ... } }
+{ type: "mode_id", subjectBody: { ... } }
 ```
 
 ## Как работает текущий поток
@@ -53,7 +53,7 @@ schema.safeParse(values)
 5. Если данные валидны, собирается тело:
 
 ```ts
-buildCheckBody(config, values, activeMode)
+buildCheckSubjectBody(config, values, activeMode)
 ```
 
 6. Запрос уходит в:
@@ -79,7 +79,7 @@ export const gibddConfig: CheckConfig = {
     },
   ],
   schema: gibddSchema,
-  buildBody: (values) => ({ vin: pickString(values, "vin") }),
+  buildSubjectBody: (values) => ({ vin: pickString(values, "vin") }),
 };
 ```
 
@@ -87,7 +87,7 @@ export const gibddConfig: CheckConfig = {
 
 ```json
 {
-  "body": {
+  "subjectBody": {
     "vin": "XTA..."
   }
 }
@@ -111,7 +111,7 @@ export const fsspConfig: CheckConfig = {
         { name: "dob", label: "Дата рождения" },
       ],
       schema: fioDobSchema,
-      buildBody: (values) => ({
+      buildSubjectBody: (values) => ({
         fio: pickString(values, "fio"),
         dob: pickString(values, "dob"),
       }),
@@ -125,7 +125,7 @@ export const fsspConfig: CheckConfig = {
 ```json
 {
   "type": "fio_dob",
-  "body": {
+  "subjectBody": {
     "fio": "Иванов Иван Иванович",
     "dob": "01.01.1980"
   }
@@ -181,7 +181,7 @@ export const disabilityCarConfig: CheckConfig = {
     },
   ],
   schema: disabilityCarSchema,
-  buildBody: (values) => ({
+  buildSubjectBody: (values) => ({
     plate_number: pickString(values, "plate_number"),
   }),
 };
@@ -191,7 +191,7 @@ export const disabilityCarConfig: CheckConfig = {
 
 ```json
 {
-  "body": {
+  "subjectBody": {
     "plate_number": "А123АА777"
   }
 }
@@ -266,7 +266,7 @@ type FieldType = "text" | "date" | "checkbox";
 ## Важные правила
 
 - `name` поля должен совпадать с ключом в Zod-схеме.
-- `buildBody` должен возвращать именно те поля, которые ждёт backend.
-- Если есть табы, у каждого режима должны быть свои `fields`, `schema` и `buildBody`.
+- `buildSubjectBody` должен возвращать именно те поля, которые ждёт backend.
+- Если есть табы, у каждого режима должны быть свои `fields`, `schema` и `buildSubjectBody`.
 - Для checks с `modes` тип активного режима автоматически передаётся в поле `type`.
 - Через Server -> Client нельзя передавать весь config, потому что в нём есть Zod-схемы и функции. На страницах используй только `CheckFormById configId="..."`.

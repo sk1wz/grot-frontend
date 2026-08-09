@@ -9,7 +9,6 @@ import { Badge } from "@/shared/ui/Badge/Badge";
 import { CopyText } from "@/shared/ui/CopyText";
 import { TextParagraph } from "@/shared/ui/Text/TextParagraph";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
-import { formatCheckSubject } from "@/shared/ui/Table/lib/format-check-subject";
 
 type CheckCardProps = { check: Check; actions?: ReactNode };
 
@@ -50,7 +49,7 @@ export function CheckCard({ check, actions }: CheckCardProps) {
         <div className="min-w-0">
           <TextParagraph>Тело запроса</TextParagraph>
           <TextParagraph className="mt-1 truncate">
-            {formatCheckSubject(check.subject)}
+            {check.subjectBodyText}
           </TextParagraph>
         </div>
         {actions && (
