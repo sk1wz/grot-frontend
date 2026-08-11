@@ -1,406 +1,240 @@
 "use client";
 
-import Link from "next/link";
-import styles from "./page.module.css";
 import { CheckByModule, CheckModule, useChecksStore } from "@/entities/check";
+import Link from "next/link";
 import { useParams } from "next/navigation";
+import styles from "./page.module.css";
+
 type GibddCheck = CheckByModule<CheckModule.GIBDD>;
+
+function getFineStatusClass(status: string | number | null | undefined) {
+  const normalizedStatus = String(status ?? "")
+    .toLowerCase()
+    .replace(/\s+/g, "");
+
+  if (normalizedStatus.includes("неоплачен")) return styles.danger;
+  if (normalizedStatus.includes("оплачен")) return styles.success;
+}
 
 export default function GibddReportPage() {
   const params = useParams<{ id: string }>();
   const checks = useChecksStore((state) => state.items);
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-
   const check = checks.find(
     (item): item is GibddCheck =>
       item.id === id && item.module === CheckModule.GIBDD
   );
 
   if (!check?.result) return null;
-  console.log(check);
-  const result = check.result;
-  const summary = result.autosintes_summary;
+
+  const { autosintes_accidents, autosintes_fines, autosintes_owners } =
+    check.result;
+  const summary = check.result.autosintes_summary;
+  const vehicleName =
+    [summary.autosintes_model, summary.autosintes_year]
+      .filter(Boolean)
+      .join(", ") || "Транспортное средство";
+  const vehicleCaption = [summary.autosintes_model, summary.autosintes_VIN]
+    .filter(Boolean)
+    .join(", ");
+
   return (
     <main className={styles.report}>
-      {/* Панель действий */}
       <div className={styles.actions}>
         <Link href="/dashboard/gibdd" className={styles.back}>
           ← Вернуться назад
         </Link>
-        <button type="button" className={styles.download}>
-          Скачать
-        </button>
       </div>
 
-      {/* Основная карточка автомобиля */}
       <section className={styles.hero}>
         <div className={styles.stamp}>
-          <span>Проверено 21.07.2026, 13:30</span>
+          <span>{check.completedAt ?? check.updatedAt}</span>
           <strong>autosintes.ru</strong>
         </div>
         <div className={styles.carImage} aria-hidden="true" />
         <div className={styles.heroTitle}>
           Отчёт о проверке транспортного средства
         </div>
-        <h1>VOLKSWAGEN PASSAT, 2024</h1>
+        <h1>{vehicleName}</h1>
 
-        {/* Реквизиты транспортного средства */}
         <div className={styles.vehicleCard}>
           <div className={styles.primaryFields}>
             <div className={styles.dataField}>
               <span>VIN</span>
-              <strong>A11A111AAAA111111</strong>
+              <strong>{summary.autosintes_VIN ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>Гос. номер</span>
-              <strong>A111AA11</strong>
+              <strong>{summary.autosintes_reg_number ?? "—"}</strong>
             </div>
           </div>
           <div className={styles.compactFields}>
             <div className={styles.dataField}>
               <span>Цвет</span>
-              <strong>Белый, жёлтый, серый</strong>
+              <strong>{summary.autosintes_color ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>Объём, см³</span>
-              <strong>1111,1</strong>
+              <strong>{summary.autosintes_engine_volume_cc ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>Мощность, л.с.</span>
-              <strong>111,1</strong>
+              <strong>{summary.autosintes_engine_power_hp ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>№ двигателя</span>
-              <strong>AAA11111</strong>
+              <strong>{summary.autosintes_engine_number ?? "—"}</strong>
             </div>
           </div>
           <div className={styles.primaryFields}>
             <div className={styles.dataField}>
               <span>№ СТС</span>
-              <strong>1111111111</strong>
-              <small>Дата выдачи: 15.01.2024</small>
+              <strong>{summary.autosintes_N_STS ?? "—"}</strong>
+              <small>Дата выдачи: {summary.autosintes_date_STS ?? "—"}</small>
             </div>
             <div className={styles.dataField}>
               <span>№ ПТС</span>
-              <strong>
-                {check.result.autosintes_summary.autosintes_N_PTS}
-              </strong>
-              <small>
-                {check.result.autosintes_summary.autosintes_date_PTS}
-              </small>
+              <strong>{summary.autosintes_N_PTS ?? "—"}</strong>
+              <small>Дата выдачи: {summary.autosintes_date_PTS ?? "—"}</small>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Краткая сводка */}
       <section className={styles.summary}>
         <div className={styles.summaryCard}>
           <div className={styles.summaryItem}>
             <span>Залоги</span>
-            <strong className={styles.danger}>1</strong>
+            <strong className={styles.danger}>
+              {summary.autosintes_pledges_count ?? "—"}
+            </strong>
           </div>
           <div className={styles.summaryItem}>
             <span>ДТП</span>
-            <strong className={styles.danger}>1</strong>
+            <strong className={styles.danger}>{autosintes_accidents.length}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Статус</span>
-            <strong>Проверено</strong>
+            <strong>{check.status}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Розыск</span>
-            <strong>
-              {check.result.autosintes_summary?.autosintes_in_rozisk}
-            </strong>
+            <strong>{summary.autosintes_in_rozisk ?? "—"}</strong>
           </div>
         </div>
         <div className={styles.summaryCard}>
           <div className={styles.summaryItem}>
             <span>Владельцев</span>
-            <strong>1</strong>
+            <strong>{autosintes_owners.length}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Ограничения</span>
-            <strong className={styles.danger}>1</strong>
+            <strong className={styles.danger}>
+              {summary.autosintes_restrictions_count ?? "—"}
+            </strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Штрафы</span>
-            <strong>1</strong>
-            <small>До суммы 10 000,00 ₽</small>
+            <strong>{autosintes_fines.length}</strong>
+            <small>На сумму: {summary.autosintes_total_fine ?? "—"}</small>
           </div>
           <div className={styles.summaryItem}>
             <span>ОСАГО</span>
-            <strong className={styles.success}>Действует</strong>
+            <strong className={styles.success}>
+              {summary.autosintes_osago_contract_status ?? "—"}
+            </strong>
           </div>
         </div>
       </section>
 
-      {/* История владения */}
       <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
+        <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>История владения</h2>
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
-              <tr>
-                <th>№</th>
-                <th>Тип</th>
-                <th>Начало владения</th>
-                <th>Окончание владения</th>
-              </tr>
+              <tr><th>№</th><th>Тип</th><th>Начало владения</th><th>Окончание владения</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Физическое лицо</td>
-                <td>01.01.2000</td>
-                <td>01.01.2000</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Физическое лицо</td>
-                <td>01.01.2000</td>
-                <td>Настоящее время</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Физическое лицо</td>
-                <td>01.01.2000</td>
-                <td>01.01.2000</td>
-              </tr>
+              {autosintes_owners.map((owner, index) => (
+                <tr key={`${owner.autosintes_from}-${owner.autosintes_to}-${index}`}>
+                  <td>{index + 1}</td>
+                  <td>{owner.autosintes_type ?? "—"}</td>
+                  <td>{owner.autosintes_from ?? "—"}</td>
+                  <td>{owner.autosintes_to ?? "—"}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
 
-      {/* Сведения об ОСАГО */}
       <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
+        <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Полис ОСАГО</h2>
         <div className={styles.osago}>
-          <div>
-            <span>Статус</span>
-            <strong className={styles.success}>Действует</strong>
-          </div>
-          <div>
-            <span>Серия / номер</span>
-            <strong>AAA 1111111111</strong>
-          </div>
-          <div>
-            <span>Страховая компания</span>
-            <strong>Наименование компании</strong>
-          </div>
-          <div>
-            <span>Период</span>
-            <strong>
-              Период использования транспортного средства равен сроку
-              страхования.
-            </strong>
-          </div>
-          <div>
-            <span>Расширение на БС</span>
-            <strong>Нет</strong>
-          </div>
+          <div><span>Статус</span><strong>{summary.autosintes_osago_contract_status ?? "—"}</strong></div>
+          <div><span>Серия / номер</span><strong>{[summary.autosintes_osago_seria, summary.autosintes_osago_number].filter(Boolean).join(" ") || "—"}</strong></div>
+          <div><span>Страховая компания</span><strong>{summary.autosintes_osago_straxovka ?? "—"}</strong></div>
+          <div><span>Период</span><strong>{summary.autosintes_osago_usage_period ?? "—"}</strong></div>
+          <div><span>Расширение на БС</span><strong>{summary.autosintes_osago_extended_rb ?? "—"}</strong></div>
         </div>
       </section>
 
-      {/* Сведения о розыске */}
       <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
+        <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Розыск</h2>
-        <div className={styles.notice}>В розыске не значится</div>
+        <div className={styles.notice}>{summary.autosintes_in_rozisk ?? "—"}</div>
       </section>
 
-      {/* Ограничения */}
       <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
-        <h2>Ограничения</h2>
+        <div className={styles.vehicleCaption}>{vehicleCaption}</div>
+        <h2>Штрафы</h2>
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
-              <tr>
-                <th>№</th>
-                <th>Дата</th>
-                <th>Тип</th>
-                <th>Постановление</th>
-                <th>Регион/Орган</th>
-                <th>Основание</th>
-              </tr>
+              <tr><th>№</th><th>Дата</th><th>Время</th><th>Сумма</th><th>Статус</th><th>Статья</th><th>Адрес</th><th>Кем выписан</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>01.01.2000</td>
-                <td className={styles.danger}>
-                  Запрет на регистрационные действия
-                </td>
-                <td>111111/11/1111 — ИП</td>
-                <td>Область, Служебный участок №1</td>
-                <td>Документ, ФИО</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>01.01.2000</td>
-                <td className={styles.danger}>
-                  Запрет на регистрационные действия
-                </td>
-                <td>111111/11/1111 — ИП</td>
-                <td>Область, Служебный участок №1</td>
-                <td>Документ, ФИО</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>01.01.2000</td>
-                <td className={styles.danger}>
-                  Запрет на регистрационные действия
-                </td>
-                <td>111111/11/1111 — ИП</td>
-                <td>Область, Служебный участок №1</td>
-                <td>Документ, ФИО</td>
-              </tr>
+              {autosintes_fines.map((fine, index) => (
+                <tr key={fine.autosintes_uin?.toString() ?? index}>
+                  <td>{index + 1}</td>
+                  <td>{fine.autosintes_date ?? "—"}</td>
+                  <td>{fine.autosintes_time ?? "—"}</td>
+                  <td>{fine.autosintes_amount ?? "—"}</td>
+                  <td className={getFineStatusClass(fine.autosintes_status)}>
+                    {fine.autosintes_status ?? "—"}
+                  </td>
+                  <td>{fine.autosintes_article ?? "—"}</td>
+                  <td>{fine.autosintes_address ?? "—"}</td>
+                  <td>{fine.autosintes_issuer ?? "—"}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
 
-      {/* Реестр залогов */}
       <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
-        <h2>Залоги</h2>
-        <div className={styles.osago}>
-          <div>
-            <span>Дата залога</span>
-            <strong>01.01.2000</strong>
-          </div>
-          <div>
-            <span>Реестровый номер</span>
-            <strong>2000-111-111111-111</strong>
-          </div>
-          <div>
-            <span>Залогодатель</span>
-            <strong>«Фамилия имя отчество (ГПЕМД)»</strong>
-          </div>
-          <div>
-            <span>Залогодержатель</span>
-            <strong>Наименование компании</strong>
-          </div>
-          <div>
-            <span>История изменений</span>
-            <strong>
-              01.01.2000 — дата возникновения
-              <br />
-              01.01.2000 — дата исключения
-            </strong>
-          </div>
-        </div>
-      </section>
-
-      {/* Штрафы */}
-      <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
-        <h2>Штрафы, на сумму 10 000 ₽</h2>
-        <div className={styles.tableScroll}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>№</th>
-                <th>Дата</th>
-                <th>Сумма</th>
-                <th>Статус</th>
-                <th>Статья</th>
-                <th>Адрес</th>
-                <th>Кем выписан</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>01.01.2000</td>
-                <td>100 ₽</td>
-                <td className={styles.success}>Оплачен</td>
-                <td>12.9 ч.2</td>
-                <td>Область, район, город, улица</td>
-                <td>Наименование</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>01.01.2000</td>
-                <td>100 ₽</td>
-                <td className={styles.danger}>Не оплачен</td>
-                <td>12.9 ч.2</td>
-                <td>Область, район, город, улица</td>
-                <td>Наименование</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>01.01.2000</td>
-                <td>100 ₽</td>
-                <td className={styles.success}>Оплачен</td>
-                <td>12.9 ч.2</td>
-                <td>Область, район, город, улица</td>
-                <td>Наименование</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Дорожно-транспортные происшествия */}
-      <section className={styles.section}>
-        <div className={styles.vehicleCaption}>
-          VOLKSWAGEN PASSAT, A11A111AAAA111111
-        </div>
+        <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>ДТП</h2>
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
-              <tr>
-                <th>№</th>
-                <th>Дата</th>
-                <th>Тип</th>
-                <th>Состояние</th>
-                <th>Место</th>
-                <th>Повреждения</th>
-              </tr>
+              <tr><th>№</th><th>Дата</th><th>Время</th><th>Тип</th><th>Состояние</th><th>Место</th><th>Повреждения</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>01.01.2000</td>
-                <td>Столкновение</td>
-                <td>Повреждено</td>
-                <td>Область, район, город, улица</td>
-                <td>110, 111, 112, 120</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>01.01.2000</td>
-                <td>Наезд на ТС</td>
-                <td>Повреждено</td>
-                <td>Область, район, город, улица</td>
-                <td>110, 111, 112, 120</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>01.01.2000</td>
-                <td>Столкновение</td>
-                <td>Повреждено</td>
-                <td>Область, район, город, улица</td>
-                <td>110, 111, 112, 120</td>
-              </tr>
+              {autosintes_accidents.map((accident, index) => (
+                <tr key={`${accident.autosintes_date}-${accident.autosintes_time}-${index}`}>
+                  <td>{index + 1}</td>
+                  <td>{accident.autosintes_date ?? "—"}</td>
+                  <td>{accident.autosintes_time ?? "—"}</td>
+                  <td>{accident.autosintes_accident_type ?? "—"}</td>
+                  <td>{accident.autosintes_status ?? "—"}</td>
+                  <td>{[accident.autosintes_city, accident.autosintes_region].filter(Boolean).join(", ") || "—"}</td>
+                  <td>{accident.autosintes_damages ?? "—"}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
