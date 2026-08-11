@@ -164,6 +164,15 @@
     font-size: 22px
 }
 
+.empty {
+    margin: 0;
+    color: #868a85;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase
+}
+
 .list {
     overflow: hidden;
     border: 1px solid #4fcb91;

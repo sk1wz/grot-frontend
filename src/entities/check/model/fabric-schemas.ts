@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { GibddResultSchema } from "./gibdd-result/schema";
+import { GistorgiResultSchema } from "./gistorgi-result/schema";
 import { InnResultSchema } from "./inn-result/schema";
 import { CheckModule, CheckStatus } from "./types";
 
@@ -91,7 +92,6 @@ export const gibddResultSchema = z
   })
   .partial()
   .passthrough();
-export const gisTorgiResultSchema = z.unknown();
 export const fsspResultSchema = z.unknown();
 export const bankruptcyResultSchema = z.unknown();
 
@@ -113,7 +113,7 @@ export const checkSchemasByModule = {
   [CheckModule.GIBDD]: createCheckSchema(CheckModule.GIBDD, GibddResultSchema),
   [CheckModule.GISTORGI]: createCheckSchema(
     CheckModule.GISTORGI,
-    gisTorgiResultSchema
+    GistorgiResultSchema
   ),
   [CheckModule.FSSP]: createCheckSchema(CheckModule.FSSP, fsspResultSchema),
   [CheckModule.BANKRUPTCY]: createCheckSchema(
