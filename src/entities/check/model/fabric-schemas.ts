@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { GibddResultSchema } from "./gibdd-result/schema";
 import { CheckModule, CheckStatus } from "./types";
 
 /** Object-схема: известные поля валидируются, лишние сохраняются и не ломают парсинг. */
@@ -20,7 +21,75 @@ const checkBaseSchema = schemaObject({
  * Реальные схемы результатов
  * Спарсятся в нужные схемы, лишние поля сохранятся и не сломают парсинг.
  */
-export const gibddResultSchema = z.unknown();
+const textOrNumberSchema = z.union([z.string(), z.number()]).nullable();
+
+const gibddFineSchema = z
+  .object({
+    автосинтез_УИН: z.string().nullable(),
+    автосинтез_Дата: z.string().nullable(),
+    автосинтез_Время: z.string().nullable(),
+    автосинтез_Адрес: z.string().nullable(),
+    автосинтез_Сумма: textOrNumberSchema,
+    автосинтез_Статус: z.string().nullable(),
+    автосинтез_Статья: z.string().nullable(),
+    автосинтез_Основание: z.string().nullable(),
+    "автосинтез*Кем*выписан": z.string().nullable(),
+  })
+  .partial()
+  .passthrough();
+
+const gibddOwnerSchema = z
+  .object({
+    автосинтез_from: z.string().nullable(),
+    автосинтез_to: z.string().nullable(),
+    автосинтез_type: z.string().nullable(),
+  })
+  .partial()
+  .passthrough();
+
+const gibddAccidentSchema = z
+  .object({
+    автосинтез_Год: textOrNumberSchema,
+    автосинтез_Тип: z.string().nullable(),
+    автосинтез_Дата: z.string().nullable(),
+    автосинтез_Время: z.string().nullable(),
+    автосинтез_Город: z.string().nullable(),
+    автосинтез_Марка: z.string().nullable(),
+    автосинтез_Модель: z.string().nullable(),
+    автосинтез_Регион: z.string().nullable(),
+    автосинтез_Состояние: z.string().nullable(),
+    автосинтез_Повреждения: z.string().nullable(),
+  })
+  .partial()
+  .passthrough();
+
+const gibddSummarySchema = z
+  .object({
+    автосинтез_VIN: z.string().nullable(),
+    автосинтез_Год: textOrNumberSchema,
+    автосинтез_Цвет: z.string().nullable(),
+    автосинтез_Модель: z.string().nullable(),
+    "автосинтез*В*розыске": z.string().nullable(),
+    "автосинтез*Кол*во_ДТП": textOrNumberSchema,
+    "автосинтез*Рег*номер": z.string().nullable(),
+    "автосинтез*Сумма*штрафов": textOrNumberSchema,
+    "автосинтез*Кол*во_залогов": textOrNumberSchema,
+    "автосинтез*Кол*во_штрафов": textOrNumberSchema,
+    "автосинтез*Кол*во_владельцев": textOrNumberSchema,
+    "автосинтез*Кол*во_ограничений": textOrNumberSchema,
+  })
+  .partial()
+  .passthrough();
+
+export const gibddResultSchema = z
+  .object({
+    автосинтез_summary: gibddSummarySchema,
+    автосинтез_fines: z.array(gibddFineSchema),
+    автосинтез_owners: z.array(gibddOwnerSchema),
+    автосинтез_accidents: z.array(gibddAccidentSchema),
+  })
+  .partial()
+  .passthrough();
 export const gisTorgiResultSchema = z.unknown();
 export const fsspResultSchema = z.unknown();
 export const bankruptcyResultSchema = z.unknown();
@@ -41,7 +110,7 @@ function createCheckSchema<
 }
 
 export const checkSchemasByModule = {
-  [CheckModule.GIBDD]: createCheckSchema(CheckModule.GIBDD, gibddResultSchema),
+  [CheckModule.GIBDD]: createCheckSchema(CheckModule.GIBDD, GibddResultSchema),
   [CheckModule.GISTORGI]: createCheckSchema(
     CheckModule.GISTORGI,
     gisTorgiResultSchema
