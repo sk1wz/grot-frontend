@@ -54,12 +54,12 @@ export default function InnReportPage() {
   if (error) return <main className={styles.error}>{error}</main>;
   if (!check?.result) return null;
 
-  const { summary } = check.result;
+  const { autosintes_summary: summary } = check.result;
   const rows = [
-    ["ФИО", summary.fullName ?? "—"],
-    ["Дата рождения", summary.birthDate ?? "—"],
-    ["Номер паспорта", summary.passportNumber ?? "—"],
-    ["ИНН", summary.inn ?? "—"],
+    ["ФИО", summary.autosintes_full_name ?? "—"],
+    ["Дата рождения", summary.autosintes_birth_date ?? "—"],
+    ["Номер паспорта", summary.autosintes_passport_number ?? "—"],
+    ["ИНН", summary.autosintes_inn ?? "—"],
   ];
 
   return (

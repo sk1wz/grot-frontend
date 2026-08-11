@@ -50,7 +50,7 @@ export default function GisTorgiReportPage() {
   if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;
 
-  const { summary, lots } = check.result;
+  const { autosintes_summary: summary, autosintes_lots: lots } = check.result;
 
   return (
     <main className={styles.report}>
@@ -72,40 +72,50 @@ export default function GisTorgiReportPage() {
         <div className={styles.heroTitle}>
           Отчёт о проверке транспортных средств в реестре ГИС Торги
         </div>
-        <h1>{summary.vin ? `VIN ${summary.vin}` : "VIN не указан"}</h1>
+        <h1>
+          {summary.autosintes_vin
+            ? `VIN ${summary.autosintes_vin}`
+            : "VIN не указан"}
+        </h1>
         <div className={styles.fields}>
           <div>
             <span>VIN</span>
-            <strong>{summary.vin ?? "—"}</strong>
+            <strong>{summary.autosintes_vin ?? "—"}</strong>
           </div>
         </div>
       </section>
-      {lots.map((lot, index) => (
+      {lots.length === 0 ? (
+        <section className={styles.section}>
+          <p className={styles.empty}>Лоты не найдены</p>
+        </section>
+      ) : (
+        lots.map((lot, index) => (
         <section
           className={styles.section}
-          key={`${lot.lotName}-${lot.lotLink}-${index}`}
+          key={`${lot.autosintes_lot_name}-${lot.autosintes_lot_link}-${index}`}
         >
           <h2>Лот</h2>
           <div className={styles.list}>
             <div>
               <span>Статус лота</span>
-              <strong>{lot.lotStatus ?? "—"}</strong>
+              <strong>{lot.autosintes_lot_status ?? "—"}</strong>
             </div>
             <div>
               <span>Наименование лота</span>
-              <strong>{lot.lotName ?? "—"}</strong>
+              <strong>{lot.autosintes_lot_name ?? "—"}</strong>
             </div>
             <div>
               <span>Дата</span>
-              <strong>{lot.lotDate ?? "—"}</strong>
+              <strong>{lot.autosintes_lot_date ?? "—"}</strong>
             </div>
             <div>
               <span>Ссылка</span>
-              <strong>{lot.lotLink ?? "—"}</strong>
+              <strong>{lot.autosintes_lot_link ?? "—"}</strong>
             </div>
           </div>
         </section>
-      ))}
+        ))
+      )}
     </main>
   );
 }

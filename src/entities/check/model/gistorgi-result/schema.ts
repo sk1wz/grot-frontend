@@ -3,15 +3,15 @@ import { z } from "zod";
 const TextValueSchema = z.union([z.string(), z.number()]).nullable().optional();
 
 export const GistorgiResultSchema = z.object({
-  summary: z.object({
-    vin: TextValueSchema,
+  autosintes_summary: z.object({
+    autosintes_vin: TextValueSchema,
   }),
-  lots: z.array(
+  autosintes_lots: z.array(
     z.object({
-      lotName: TextValueSchema,
-      lotLink: TextValueSchema,
-      lotDate: TextValueSchema,
-      lotStatus: TextValueSchema,
+      autosintes_lot_name: TextValueSchema,
+      autosintes_lot_link: TextValueSchema,
+      autosintes_lot_date: TextValueSchema,
+      autosintes_lot_status: TextValueSchema,
     })
   ),
 });
