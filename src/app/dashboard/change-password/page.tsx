@@ -1,0 +1,151 @@
+"use client";
+
+import { useUserStore } from "@/entities/user";
+import { changePassword } from "@/entities/user/api/change-password";
+import { Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
+import { FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+
+function PasswordInput({
+  label,
+  value,
+  onChange,
+  visible,
+  toggle,
+  autoComplete,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  visible: boolean;
+  toggle: () => void;
+  autoComplete: "current-password" | "new-password";
+}) {
+  return (
+    <label className="relative block">
+      <span className="absolute -top-5 left-3 text-[14px] font-bold uppercase text-[#868a85]">
+        {label}
+      </span>
+      <span className="flex h-[70px] items-center rounded-[20px] bg-white p-1 shadow-[1px_1px_5px_#d4ddea]">
+        <input
+          type={visible ? "text" : "password"}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          autoComplete={autoComplete}
+          placeholder="Введите пароль"
+          className="min-w-0 flex-1 bg-transparent px-3 text-[18px] text-[#3e3c4b] outline-none placeholder:text-[#d4ddea]"
+        />
+        <button
+          type="button"
+          onClick={toggle}
+          title={visible ? "Скрыть пароль" : "Показать пароль"}
+          className="grid size-10 place-items-center text-[#d4ddea]"
+        >
+          {visible ? <EyeOff size={24} /> : <Eye size={24} />}
+        </button>
+      </span>
+    </label>
+  );
+}
+
+export default function ChangePasswordPage() {
+  const user = useUserStore((state) => state.user);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmation, setConfirmation] = useState("");
+  const [visible, setVisible] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (newPassword.length < 6)
+      return toast.error("Новый пароль должен содержать не менее 6 символов");
+    if (newPassword !== confirmation)
+      return toast.error("Новые пароли не совпадают");
+    setPending(true);
+    try {
+      await changePassword(currentPassword, newPassword);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmation("");
+      toast.success("Пароль успешно изменён");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Не удалось изменить пароль"
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+  const field = (
+    key: string,
+    label: string,
+    value: string,
+    setValue: (value: string) => void,
+    autoComplete: "current-password" | "new-password"
+  ) => (
+    <PasswordInput
+      label={label}
+      value={value}
+      onChange={setValue}
+      visible={visible === key}
+      toggle={() => setVisible(visible === key ? null : key)}
+      autoComplete={autoComplete}
+    />
+  );
+  return (
+    <main className="relative min-h-full overflow-hidden px-3 pb-2 text-(--foreground) sm:px-[60px]">
+      <Image
+        src="/images/change-password-figure.png"
+        alt=""
+        width={283}
+        height={254}
+        priority
+        className="pointer-events-none fixed top-0 right-0 z-0 hidden h-[254px] w-[283px] object-cover opacity-50 lg:block"
+      />
+      <section className="relative z-10 min-h-[632px] rounded-[70px_10px_70px_10px] border-[5px] border-[rgba(201,213,229,0.4)] bg-white px-5 pt-10 pb-20 sm:px-10">
+        <h1 className="text-(--foreground) text-[32px] font-medium leading-none">Смена пароля</h1>
+        <div className="mt-8">
+          <h2 className="text-(--foreground) text-[24px] font-medium leading-none">Профиль</h2>
+          <div className="mt-4 flex items-center gap-5 text-(--foreground) text-[18px] font-semibold uppercase underline">
+            <Image src="/images/Icon.svg" width={44} height={44} alt="" />
+            {user?.email ?? "—"}
+          </div>
+        </div>
+        <form
+          onSubmit={submit}
+          className="mx-auto mt-16 w-full max-w-[396px] space-y-7"
+        >
+          {field(
+            "current",
+            "Пароль",
+            currentPassword,
+            setCurrentPassword,
+            "current-password"
+          )}
+          {field(
+            "new",
+            "Новый пароль",
+            newPassword,
+            setNewPassword,
+            "new-password"
+          )}
+          {field(
+            "confirm",
+            "Повторите пароль",
+            confirmation,
+            setConfirmation,
+            "new-password"
+          )}
+          <button
+            type="submit"
+            disabled={pending}
+            className="h-[70px] w-full rounded-[20px] bg-[#c8ddd5] px-3 text-[18px] font-bold uppercase shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {pending ? "Сохранение..." : "Сохранить изменения"}
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+}

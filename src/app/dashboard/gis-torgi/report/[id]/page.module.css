@@ -30,13 +30,14 @@
 
 .actions button {
     gap: 12px;
-    padding: 12px 20px 12px 28px;
+    padding: 18px;
     border-radius: 20px;
-    background: #d9dfe5;
-    color: #454556;
-    font-size: 16px;
-    font-weight: 800;
-    text-transform: uppercase
+    background: #c8ced5;
+    color: #1f2937;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-1)
 }
 
 .actions a {

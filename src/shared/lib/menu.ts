@@ -30,7 +30,7 @@ export type MiniMenuItem = {
 };
 
 export const miniMenu: MiniMenuItem[] = [
-  { label: "Смена пароля", iconSrc: "/images/Icon_passwordChange.svg" },
+  { label: "Смена пароля", iconSrc: "/images/Icon_passwordChange.svg", href: "/dashboard/change-password" },
   {
     label: "Транзакции",
     iconSrc: "/images/Icon_Ruble.svg",
