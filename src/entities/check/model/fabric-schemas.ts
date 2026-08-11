@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { GibddResultSchema } from "./gibdd-result/schema";
+import { InnResultSchema } from "./inn-result/schema";
 import { CheckModule, CheckStatus } from "./types";
 
 /** Object-схема: известные поля валидируются, лишние сохраняются и не ломают парсинг. */
@@ -93,7 +94,6 @@ export const gibddResultSchema = z
 export const gisTorgiResultSchema = z.unknown();
 export const fsspResultSchema = z.unknown();
 export const bankruptcyResultSchema = z.unknown();
-export const innResultSchema = z.unknown();
 
 function createCheckSchema<
   TModule extends CheckModule,
@@ -120,7 +120,7 @@ export const checkSchemasByModule = {
     CheckModule.BANKRUPTCY,
     bankruptcyResultSchema
   ),
-  [CheckModule.INN]: createCheckSchema(CheckModule.INN, innResultSchema),
+  [CheckModule.INN]: createCheckSchema(CheckModule.INN, InnResultSchema),
 } as const;
 
 export const CheckSchema = z.discriminatedUnion("module", [

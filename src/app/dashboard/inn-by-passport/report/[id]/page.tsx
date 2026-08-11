@@ -1,23 +1,104 @@
+"use client";
+
+import {
+  getCheckById,
+  type CheckByModule,
+  CheckModule,
+} from "@/entities/check";
+import { formatDate } from "@/shared/lib";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
+type InnCheck = CheckByModule<CheckModule.INN>;
+
 export default function InnReportPage() {
-  return <main className={styles.report}>
-    {/* Действия отчёта */}
-    <div className={styles.actions}><Link href="/dashboard/inn-by-passport">← Вернуться назад</Link><button type="button">Скачать</button></div>
-    {/* Шапка отчёта */}
-    <section className={styles.hero}>
-      <div className={styles.stamp}>Проверено 21.07.2026, 13:30<strong>autosintes.ru</strong></div>
-      <div className={styles.reportFigure} aria-hidden="true" />
-      <div className={styles.heroTitle}>Отчёт о проверке ИНН</div>
-      <div className={styles.fields}>
-        <div><span>ID</span><strong>1</strong></div>
-        <div><span>ФИО</span><strong>Иванов Иван Иванович</strong></div>
-        <div><span>Дата рождения</span><strong>ДД.ММ.ГГГГ</strong></div>
-        <div><span>Дата возбуждения</span><strong>ДД.ММ.ГГГГ</strong></div>
-        <div><span>Номер паспорта</span><strong>1111222222</strong></div>
-        <div><span>ИНН</span><strong>111111111111</strong></div>
+  const params = useParams<{ id: string }>();
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const [check, setCheck] = useState<InnCheck | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    let isCancelled = false;
+
+    getCheckById(id)
+      .then((loadedCheck) => {
+        if (isCancelled) return;
+
+        if (loadedCheck.module !== CheckModule.INN) {
+          setError("Проверка не относится к ИНН");
+          return;
+        }
+
+        setCheck(loadedCheck);
+      })
+      .catch((loadError: unknown) => {
+        if (!isCancelled) {
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Не удалось загрузить проверку"
+          );
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [id]);
+
+  if (error) return <main className={styles.error}>{error}</main>;
+  if (!check?.result) return null;
+
+  const { summary } = check.result;
+  const rows = [
+    ["ФИО", summary.fullName ?? "—"],
+    ["Дата рождения", summary.birthDate ?? "—"],
+    ["Номер паспорта", summary.passportNumber ?? "—"],
+    ["ИНН", summary.inn ?? "—"],
+  ];
+
+  return (
+    <main className={styles.report}>
+      <div className={styles.actions}>
+        <Link href="/dashboard/inn-by-passport" className={styles.back}>
+          <ArrowLeft size={18} strokeWidth={2} />
+          Вернуться назад
+        </Link>
+        <button
+          type="button"
+          className={styles.download}
+          onClick={() => window.print()}
+        >
+          <span>Скачать</span>
+          <span className={styles.pdfLabel}>PDF</span>
+        </button>
       </div>
-    </section>
-  </main>;
+
+      <section className={styles.reportFrame}>
+        <div className={styles.stamp}>
+          <span>
+            Проверено {formatDate(check.completedAt ?? check.updatedAt)}
+          </span>
+          <strong>autosintes.ru</strong>
+        </div>
+
+        <div className={styles.reportFigure} aria-hidden="true" />
+        <h1>Отчёт о проверке ИНН</h1>
+
+        <dl className={styles.table}>
+          {rows.map(([label, value]) => (
+            <div className={styles.row} key={label}>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </main>
+  );
 }
