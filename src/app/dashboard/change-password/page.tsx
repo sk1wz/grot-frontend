@@ -94,7 +94,7 @@ export default function ChangePasswordPage() {
     />
   );
   return (
-    <main className="relative min-h-full overflow-hidden px-3 pb-2 text-(--foreground) sm:px-[60px]">
+    <main className="relative min-h-full overflow-hidden pb-2 text-(--foreground)">
       <Image
         src="/images/change-password-figure.png"
         alt=""
@@ -103,7 +103,7 @@ export default function ChangePasswordPage() {
         priority
         className="pointer-events-none fixed top-0 right-0 z-0 hidden h-[254px] w-[283px] object-cover opacity-50 lg:block"
       />
-      <section className="relative z-10 min-h-[632px] rounded-[70px_10px_70px_10px] border-[5px] border-[rgba(201,213,229,0.4)] bg-white px-5 pt-10 pb-20 sm:px-10">
+      <section className="relative z-10 min-h-[632px] w-full bg-white px-5 pt-10 pb-20 sm:px-10 md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)]">
         <h1 className="text-(--foreground) text-[32px] font-medium leading-none">
           Смена пароля
         </h1>

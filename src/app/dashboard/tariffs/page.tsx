@@ -41,7 +41,7 @@ const tariffs = [
 
 export default function TariffsPage() {
   return (
-    <main className="min-h-full rounded-[70px_10px_70px_10px] border-[5px] border-[rgba(201,213,229,0.4)] bg-white p-10 text-[#3e3c4b] max-[700px]:rounded-[32px_8px_32px_8px] max-[700px]:border-[3px] max-[700px]:p-3">
+    <main className="min-h-full bg-white p-3 text-[#3e3c4b] md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)] md:p-10">
       <h1 className="mb-[50px] text-[32px] leading-none font-medium max-[700px]:mb-8 max-[700px]:text-[28px]">
         Тарифы
       </h1>
