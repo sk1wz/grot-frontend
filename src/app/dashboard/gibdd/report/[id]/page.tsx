@@ -1,10 +1,15 @@
 "use client";
 
-import { getCheckById, type CheckByModule, CheckModule } from "@/entities/check";
+import {
+  getCheckById,
+  type CheckByModule,
+  CheckModule,
+} from "@/entities/check";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { formatDate } from "@/shared/lib";
 
 type GibddCheck = CheckByModule<CheckModule.GIBDD>;
 
@@ -86,7 +91,10 @@ export default function GibddReportPage() {
 
       <section className={styles.hero}>
         <div className={styles.stamp}>
-          <span>{check.completedAt ?? check.updatedAt}</span>
+          <span>
+            {" "}
+            Проверено {formatDate(check.completedAt ?? check.updatedAt)}
+          </span>
           <strong>autosintes.ru</strong>
         </div>
         <div className={styles.carImage} aria-hidden="true" />
@@ -185,11 +193,18 @@ export default function GibddReportPage() {
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
-              <tr><th>№</th><th>Тип</th><th>Начало владения</th><th>Окончание владения</th></tr>
+              <tr>
+                <th>№</th>
+                <th>Тип</th>
+                <th>Начало владения</th>
+                <th>Окончание владения</th>
+              </tr>
             </thead>
             <tbody>
               {autosintes_owners.map((owner, index) => (
-                <tr key={`${owner.autosintes_from}-${owner.autosintes_to}-${index}`}>
+                <tr
+                  key={`${owner.autosintes_from}-${owner.autosintes_to}-${index}`}
+                >
                   <td>{index + 1}</td>
                   <td>{owner.autosintes_type ?? "—"}</td>
                   <td>{owner.autosintes_from ?? "—"}</td>
@@ -205,18 +220,39 @@ export default function GibddReportPage() {
         <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Полис ОСАГО</h2>
         <div className={styles.osago}>
-          <div><span>Статус</span><strong>{summary.autosintes_osago_contract_status ?? "—"}</strong></div>
-          <div><span>Серия / номер</span><strong>{[summary.autosintes_osago_seria, summary.autosintes_osago_number].filter(Boolean).join(" ") || "—"}</strong></div>
-          <div><span>Страховая компания</span><strong>{summary.autosintes_osago_straxovka ?? "—"}</strong></div>
-          <div><span>Период</span><strong>{summary.autosintes_osago_usage_period ?? "—"}</strong></div>
-          <div><span>Расширение на БС</span><strong>{summary.autosintes_osago_extended_rb ?? "—"}</strong></div>
+          <div>
+            <span>Статус</span>
+            <strong>{summary.autosintes_osago_contract_status ?? "—"}</strong>
+          </div>
+          <div>
+            <span>Серия / номер</span>
+            <strong>
+              {[summary.autosintes_osago_seria, summary.autosintes_osago_number]
+                .filter(Boolean)
+                .join(" ") || "—"}
+            </strong>
+          </div>
+          <div>
+            <span>Страховая компания</span>
+            <strong>{summary.autosintes_osago_straxovka ?? "—"}</strong>
+          </div>
+          <div>
+            <span>Период</span>
+            <strong>{summary.autosintes_osago_usage_period ?? "—"}</strong>
+          </div>
+          <div>
+            <span>Расширение на БС</span>
+            <strong>{summary.autosintes_osago_extended_rb ?? "—"}</strong>
+          </div>
         </div>
       </section>
 
       <section className={styles.section}>
         <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Розыск</h2>
-        <div className={styles.notice}>{summary.autosintes_in_rozisk ?? "—"}</div>
+        <div className={styles.notice}>
+          {summary.autosintes_in_rozisk ?? "—"}
+        </div>
       </section>
 
       <section className={styles.section}>
@@ -225,7 +261,16 @@ export default function GibddReportPage() {
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
-              <tr><th>№</th><th>Дата</th><th>Время</th><th>Сумма</th><th>Статус</th><th>Статья</th><th>Адрес</th><th>Кем выписан</th></tr>
+              <tr>
+                <th>№</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+                <th>Статья</th>
+                <th>Адрес</th>
+                <th>Кем выписан</th>
+              </tr>
             </thead>
             <tbody>
               {autosintes_fines.map((fine, index) => (
@@ -253,17 +298,31 @@ export default function GibddReportPage() {
         <div className={styles.tableScroll}>
           <table className={styles.table}>
             <thead>
-              <tr><th>№</th><th>Дата</th><th>Время</th><th>Тип</th><th>Состояние</th><th>Место</th><th>Повреждения</th></tr>
+              <tr>
+                <th>№</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Тип</th>
+                <th>Состояние</th>
+                <th>Место</th>
+                <th>Повреждения</th>
+              </tr>
             </thead>
             <tbody>
               {autosintes_accidents.map((accident, index) => (
-                <tr key={`${accident.autosintes_date}-${accident.autosintes_time}-${index}`}>
+                <tr
+                  key={`${accident.autosintes_date}-${accident.autosintes_time}-${index}`}
+                >
                   <td>{index + 1}</td>
                   <td>{accident.autosintes_date ?? "—"}</td>
                   <td>{accident.autosintes_time ?? "—"}</td>
                   <td>{accident.autosintes_accident_type ?? "—"}</td>
                   <td>{accident.autosintes_status ?? "—"}</td>
-                  <td>{[accident.autosintes_city, accident.autosintes_region].filter(Boolean).join(", ") || "—"}</td>
+                  <td>
+                    {[accident.autosintes_city, accident.autosintes_region]
+                      .filter(Boolean)
+                      .join(", ") || "—"}
+                  </td>
                   <td>{accident.autosintes_damages ?? "—"}</td>
                 </tr>
               ))}
