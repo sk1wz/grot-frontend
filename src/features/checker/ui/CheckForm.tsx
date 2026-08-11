@@ -104,6 +104,7 @@ export function CheckForm({ config }: CheckFormProps) {
       return;
     }
 
+    setValues(getDefaultValues(fields));
     setIsSubmitting(true);
     try {
       await startCheck(
