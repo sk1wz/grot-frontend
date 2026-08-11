@@ -10,8 +10,6 @@ import {
 import { CheckSchema, useChecksStore } from "@/entities/check";
 
 function RealtimeProvider({ children }: { children: React.ReactNode }) {
-  const user = useUserStore(state => state.user)
-  const checkItems = useChecksStore(state => state.items)
   const userId = useUserStore((state) => state.user?.id);
 
   useEffect(() => {
@@ -23,6 +21,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
     const sockets = connectRealtime(userId);
 
     sockets.check.on("check.updated", (checkDto) => {
+      console.log(checkDto);
       const parsed = CheckSchema.safeParse(checkDto);
       if (!parsed.success) return;
 
@@ -53,13 +52,8 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
     };
   }, [userId]);
 
-  useEffect(() =>{
-    console.log(user)
-    console.log(`checks`, checkItems)
-  },[user, checkItems])
   return children;
 }
-
 
 export const MainProvider = ({
   children,

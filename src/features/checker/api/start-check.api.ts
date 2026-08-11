@@ -4,8 +4,6 @@ export async function startCheck(
   endpoint: string,
   body: Record<string, unknown>
 ): Promise<void> {
-  console.log(body);
-  console.log(endpoint);
   const response = await fetch(`${baseURL}${endpoint}`, {
     method: "POST",
     credentials: "include",
