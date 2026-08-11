@@ -29,6 +29,7 @@
     align-items: center;
     gap: 20px;
     height: 52px;
+    margin-bottom: 20px;
     padding-left: 16px;
 }
 
@@ -44,6 +45,10 @@
     font-size: 12px;
     text-decoration: none;
     cursor: pointer;
+}
+
+.back {
+    font-weight: 700;
 }
 
 .download {
@@ -63,6 +68,7 @@
     border: 1px solid #697a80;
     border-radius: 4px;
     padding: 2px 4px;
+    background: #c5ddd5;
     color: #46565c;
     font-size: 14px;
     font-weight: 500;

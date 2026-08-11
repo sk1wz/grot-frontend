@@ -11,6 +11,7 @@
   align-items: center;
   gap: 20px;
   height: 52px;
+  margin-bottom: 20px;
   padding-left: 16px;
 }
 
@@ -24,6 +25,7 @@
   color: var(--foreground);
   font: inherit;
   font-size: 12px;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
 }
@@ -45,6 +47,7 @@
   border: 1px solid #697a80;
   border-radius: 4px;
   padding: 2px 4px;
+  background: #c5ddd5;
   color: #46565c;
   font-size: 14px;
   font-weight: 500;

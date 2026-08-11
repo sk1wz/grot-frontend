@@ -10,6 +10,7 @@
     gap: 20px;
     align-items: center;
     height: 52px;
+    margin-bottom: 20px;
     padding-left: 16px;
     font-size: 12px
 }
@@ -28,10 +29,29 @@
 }
 
 .actions button {
-    padding: 9px 13px;
-    border-radius: 18px;
-    background: var(--surface);
+    gap: 12px;
+    padding: 12px 20px 12px 28px;
+    border-radius: 20px;
+    background: #d9dfe5;
+    color: #454556;
+    font-size: 16px;
+    font-weight: 800;
     text-transform: uppercase
+}
+
+.actions a {
+    font-weight: 700
+}
+
+.pdfLabel {
+    border: 1px solid #697a80;
+    border-radius: 4px;
+    padding: 2px 4px;
+    background: #c5ddd5;
+    color: #46565c;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1
 }
 
 .hero,
@@ -46,7 +66,8 @@
 
 .hero {
     position: relative;
-    overflow: hidden
+    overflow: hidden;
+    margin-top: 0
 }
 
 .stamp {
