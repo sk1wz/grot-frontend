@@ -1,8 +1,9 @@
 "use client";
 
-import { CheckByModule, CheckModule, useChecksStore } from "@/entities/check";
+import { getCheckById, type CheckByModule, CheckModule } from "@/entities/check";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 type GibddCheck = CheckByModule<CheckModule.GIBDD>;
@@ -18,13 +19,42 @@ function getFineStatusClass(status: string | number | null | undefined) {
 
 export default function GibddReportPage() {
   const params = useParams<{ id: string }>();
-  const checks = useChecksStore((state) => state.items);
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-  const check = checks.find(
-    (item): item is GibddCheck =>
-      item.id === id && item.module === CheckModule.GIBDD
-  );
+  const [check, setCheck] = useState<GibddCheck | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!id) return;
+
+    let isCancelled = false;
+
+    getCheckById(id)
+      .then((loadedCheck) => {
+        if (isCancelled) return;
+
+        if (loadedCheck.module !== CheckModule.GIBDD) {
+          setError("Проверка не относится к ГИБДД");
+          return;
+        }
+
+        setCheck(loadedCheck);
+      })
+      .catch((loadError: unknown) => {
+        if (!isCancelled) {
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Не удалось загрузить проверку"
+          );
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [id]);
+
+  if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;
 
   const { autosintes_accidents, autosintes_fines, autosintes_owners } =
@@ -44,6 +74,14 @@ export default function GibddReportPage() {
         <Link href="/dashboard/gibdd" className={styles.back}>
           ← Вернуться назад
         </Link>
+        <button
+          type="button"
+          className={styles.download}
+          onClick={() => window.print()}
+        >
+          <span>Скачать</span>
+          <span className={styles.pdfLabel}>PDF</span>
+        </button>
       </div>
 
       <section className={styles.hero}>
@@ -105,13 +143,11 @@ export default function GibddReportPage() {
         <div className={styles.summaryCard}>
           <div className={styles.summaryItem}>
             <span>Залоги</span>
-            <strong className={styles.danger}>
-              {summary.autosintes_pledges_count ?? "—"}
-            </strong>
+            <strong>{summary.autosintes_pledges_count ?? "—"}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>ДТП</span>
-            <strong className={styles.danger}>{autosintes_accidents.length}</strong>
+            <strong>{autosintes_accidents.length}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Статус</span>
@@ -129,9 +165,7 @@ export default function GibddReportPage() {
           </div>
           <div className={styles.summaryItem}>
             <span>Ограничения</span>
-            <strong className={styles.danger}>
-              {summary.autosintes_restrictions_count ?? "—"}
-            </strong>
+            <strong>{summary.autosintes_restrictions_count ?? "—"}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Штрафы</span>
@@ -140,9 +174,7 @@ export default function GibddReportPage() {
           </div>
           <div className={styles.summaryItem}>
             <span>ОСАГО</span>
-            <strong className={styles.success}>
-              {summary.autosintes_osago_contract_status ?? "—"}
-            </strong>
+            <strong>{summary.autosintes_osago_contract_status ?? "—"}</strong>
           </div>
         </div>
       </section>
