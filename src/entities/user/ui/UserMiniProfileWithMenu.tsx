@@ -44,7 +44,7 @@ export function UserMiniProfileWithMenu({
     <div
       role="menu"
       aria-hidden={!isOpen}
-      className={`absolute right-0 top-full z-50 mt-2 w-45 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)] transition-opacity ${
+      className={`absolute right-0 top-full z-50 mt-2 w-36 overflow-hidden rounded-t-none rounded-br-[22px] rounded-bl-[22px] border border-(--border) bg-white shadow-[0_10px_22px_rgba(62,60,75,0.14)] transition-opacity ${
         isOpen
           ? "visible opacity-100"
           : "invisible pointer-events-none opacity-0"
@@ -65,7 +65,7 @@ export function UserMiniProfileWithMenu({
           </>
         );
         const className =
-          "flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-3 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)";
+          "flex h-11 w-full cursor-pointer items-center gap-2.5 border-b border-(--border) px-2 text-left text-[13px] font-medium text-(--foreground) transition-all hover:bg-(--accent)";
 
         if (!item.href) {
           return (

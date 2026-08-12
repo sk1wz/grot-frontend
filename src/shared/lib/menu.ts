@@ -10,7 +10,7 @@ export const sidebarNav: NavItem[] = [
   { label: "ИНН по паспорту", href: "/dashboard/inn-by-passport" },
   { label: "ГИС торги", href: "/dashboard/gis-torgi" },
   { label: "ФгИС такси", href: "/dashboard/fgis-taxi" },
-  { label: "Оценка стоимости авто", href: "/dashboard/car-valuation" },
+  // { label: "Оценка стоимости авто", href: "/dashboard/car-valuation" },
   {
     label: "Федеральный реестр инвалидов",
     href: "/dashboard/disability-registry",
@@ -30,7 +30,11 @@ export type MiniMenuItem = {
 };
 
 export const miniMenu: MiniMenuItem[] = [
-  { label: "Смена пароля", iconSrc: "/images/Icon_passwordChange.svg", href: "/dashboard/change-password" },
+  {
+    label: "Смена пароля",
+    iconSrc: "/images/Icon_passwordChange.svg",
+    href: "/dashboard/change-password",
+  },
   {
     label: "Транзакции",
     iconSrc: "/images/Icon_Ruble.svg",
