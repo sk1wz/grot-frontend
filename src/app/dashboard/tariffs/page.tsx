@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { DashboardPageFrame } from "@/shared/ui";
 
 export const metadata: Metadata = {
   title: "Тарифы",
@@ -9,49 +10,54 @@ const tariffs = [
   {
     icon: "Icongibdd",
     label: "Запрос о проверке транспортного средства в реестре ГИБДД",
+    price: 10,
   },
   {
     icon: "Iconfssp",
     label:
       "Запрос о проверке исполнительных производств физических и юридических лиц",
+    price: 10,
   },
   {
     icon: "Iconbankcrupcy",
     label: "Запрос о проверке в реестре сведений о банкротстве",
+    price: 10,
   },
   {
     icon: "Icontorgi",
     label: "Запрос о проверке транспортных средств в реестре ГИС Торги",
+    price: 10,
   },
   {
     icon: "Icontaxi",
     label: "Отчёт о проверке транспортных средств в реестре ФГИС Такси",
+    price: 10,
   },
-  { icon: "Iconinn", label: "Запрос о проверке ИНН" },
+  { icon: "Iconinn", label: "Запрос о проверке ИНН", price: 10 },
   {
     icon: "Iconinvalid",
     label: "Запрос о проверке транспортных средств в реестре инвалидов",
+    price: 10,
   },
   {
     icon: "Iconlocks",
     label: "Запрос о проверке наложения ограничения на транспортные средства",
+    price: 10,
   },
-  { icon: "Iconpriceauto", label: "Запрос об оценке стоимости авто" },
+  {
+    icon: "Iconpriceauto",
+    label: "Запрос об оценке стоимости авто",
+    price: 10,
+  },
 ] as const;
 
 export default function TariffsPage() {
   return (
-    <div className="relative">
-      <Image
-        src="/checksImages/gibdd-figure.png"
-        width={300}
-        height={200}
-        alt=""
-        loading="eager"
-        className="pointer-events-none select-none fixed top-0 right-0"
-      />
-
-      <main className="relative min-h-full bg-white p-3 text-[#3e3c4b] md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)] md:p-10">
+    <DashboardPageFrame
+      as="main"
+      figureSrc="/checksImages/gibdd-figure.png"
+      className="relative min-h-full bg-white p-3 text-[#3e3c4b] md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)] md:p-10"
+    >
       <h1 className="mb-[50px] text-[32px] leading-none font-medium max-[700px]:mb-8 max-[700px]:text-[28px]">
         Тарифы
       </h1>
@@ -80,13 +86,12 @@ export default function TariffsPage() {
                 {tariff.label}
               </span>
               <strong className="text-right text-[24px] font-medium max-[700px]:text-[16px]">
-                10 ₽
+                {tariff.price} ₽
               </strong>
             </li>
           ))}
         </ul>
       </section>
-      </main>
-    </div>
+    </DashboardPageFrame>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useUserStore } from "@/entities/user";
 import { changePassword } from "@/entities/user/api/change-password";
+import { DashboardPageFrame } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
@@ -94,16 +95,14 @@ export default function ChangePasswordPage() {
     />
   );
   return (
-    <main className="relative min-h-full overflow-hidden pb-2 text-(--foreground)">
-      <Image
-        src="/images/change-password-figure.png"
-        alt=""
-        width={283}
-        height={254}
-        priority
-        className="pointer-events-none fixed top-0 right-0 z-0 hidden h-[254px] w-[283px] object-cover opacity-50 lg:block"
-      />
-      <section className="relative z-10 min-h-[632px] w-full bg-white px-5 pt-10 pb-20 sm:px-10 md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)]">
+    <DashboardPageFrame
+      as="section"
+      figureSrc="/images/change-password-figure.png"
+      figurePriority
+      figureClassName="pointer-events-none fixed top-0 right-0 z-0 hidden h-[254px] w-[283px] object-cover opacity-50 select-none lg:block"
+      wrapperClassName="relative min-h-full overflow-hidden pb-2 text-(--foreground)"
+      className="relative z-10 min-h-[632px] w-full bg-white px-5 pt-10 pb-20 sm:px-10 md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)]"
+    >
         <h1 className="text-(--foreground) text-[32px] font-medium leading-none">
           Смена пароля
         </h1>
@@ -149,7 +148,6 @@ export default function ChangePasswordPage() {
             {pending ? "Сохранение..." : "Сохранить изменения"}
           </button>
         </form>
-      </section>
-    </main>
+    </DashboardPageFrame>
   );
 }
