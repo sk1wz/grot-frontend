@@ -13,15 +13,6 @@ import { formatDate } from "@/shared/lib";
 
 type GibddCheck = CheckByModule<CheckModule.GIBDD>;
 
-function getFineStatusClass(status: string | number | null | undefined) {
-  const normalizedStatus = String(status ?? "")
-    .toLowerCase()
-    .replace(/\s+/g, "");
-
-  if (normalizedStatus.includes("неоплачен")) return styles.danger;
-  if (normalizedStatus.includes("оплачен")) return styles.success;
-}
-
 export default function GibddReportPage() {
   const params = useParams<{ id: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -279,9 +270,7 @@ export default function GibddReportPage() {
                   <td>{fine.autosintes_date ?? "—"}</td>
                   <td>{fine.autosintes_time ?? "—"}</td>
                   <td>{fine.autosintes_amount ?? "—"}</td>
-                  <td className={getFineStatusClass(fine.autosintes_status)}>
-                    {fine.autosintes_status ?? "—"}
-                  </td>
+                  <td>{fine.autosintes_status ?? "—"}</td>
                   <td>{fine.autosintes_article ?? "—"}</td>
                   <td>{fine.autosintes_address ?? "—"}</td>
                   <td>{fine.autosintes_issuer ?? "—"}</td>
