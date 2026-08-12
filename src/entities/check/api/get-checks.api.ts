@@ -1,4 +1,4 @@
-import { ChecksResponseSchema, useChecksStore } from "../model";
+import { CheckSchema, useChecksStore } from "../model";
 import type { Check } from "../model";
 import { baseURL } from "@/shared/api/config";
 
@@ -19,13 +19,14 @@ export async function getChecks(): Promise<Check[] | undefined> {
     }
 
     const data = await response.json();
-    const parsed = ChecksResponseSchema.safeParse(data);
-
-    if (!parsed.success) {
+    if (!Array.isArray(data)) {
       throw new Error("Некорректный ответ сервера");
     }
 
-    return parsed.data;
+    return data.flatMap((item) => {
+      const parsed = CheckSchema.safeParse(item);
+      return parsed.success ? [parsed.data] : [];
+    });
   } catch {
   } finally {
     const store = useChecksStore.getState();
