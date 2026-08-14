@@ -1,21 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import {
-  CheckModule,
-  CheckStatus,
-  CheckStatusLabel,
-  getBankruptcyChecks,
-  getFsspChecks,
-  getGibddChecks,
-  getGistorgiChecks,
-  getInnChecks,
-  useBankruptcyChecksStore,
-  useFsspChecksStore,
-  useGibddChecksStore,
-  useGistorgiChecksStore,
-  useInnChecksStore,
-} from "@/entities/check";
+import { useMemo, useState } from "react";
+import { type Check, CheckStatus, CheckStatusLabel } from "@/entities/check";
 import {
   CheckCard,
   Pagination,
@@ -30,25 +16,19 @@ import { CheckActions, checkColumns } from "../lib/check-history-column";
 
 const ITEMS_PER_PAGE = 5;
 
-export type ChecksHistoryProps = { module: CheckModule; className?: string };
+export type ChecksHistoryProps = {
+  items: Check[];
+  isLoading: boolean;
+  isInitialized: boolean;
+  className?: string;
+};
 
-export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
-  const gibddState = useGibddChecksStore();
-  const fsspState = useFsspChecksStore();
-  const gistorgiState = useGistorgiChecksStore();
-  const bankruptcyState = useBankruptcyChecksStore();
-  const innState = useInnChecksStore();
-  const source =
-    module === CheckModule.GIBDD
-      ? gibddState
-      : module === CheckModule.FSSP
-        ? fsspState
-        : module === CheckModule.GISTORGI
-          ? gistorgiState
-          : module === CheckModule.BANKRUPTCY
-            ? bankruptcyState
-            : innState;
-  const { items, isLoading, isInitialized } = source;
+export function ChecksHistory({
+  items,
+  isLoading,
+  isInitialized,
+  className = "",
+}: ChecksHistoryProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [idQuery, setIdQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<CheckStatus | "">("");
@@ -72,28 +52,6 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
   }, [filteredItems, safeCurrentPage]);
   const showCardsSkeleton =
     !isInitialized || (isLoading && paginatedItems.length === 0);
-
-  useEffect(() => {
-    const fetchChecks = async () => {
-      if (module === CheckModule.GIBDD) {
-        const checks = await getGibddChecks();
-        if (checks) useGibddChecksStore.getState().setChecks(checks);
-      } else if (module === CheckModule.FSSP) {
-        const checks = await getFsspChecks();
-        if (checks) useFsspChecksStore.getState().setChecks(checks);
-      } else if (module === CheckModule.GISTORGI) {
-        const checks = await getGistorgiChecks();
-        if (checks) useGistorgiChecksStore.getState().setChecks(checks);
-      } else if (module === CheckModule.BANKRUPTCY) {
-        const checks = await getBankruptcyChecks();
-        if (checks) useBankruptcyChecksStore.getState().setChecks(checks);
-      } else {
-        const checks = await getInnChecks();
-        if (checks) useInnChecksStore.getState().setChecks(checks);
-      }
-    };
-    fetchChecks();
-  }, [module]);
 
   return (
     <section className={`flex w-full flex-col gap-4 ${className}`}>
