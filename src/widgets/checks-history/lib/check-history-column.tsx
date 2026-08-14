@@ -6,7 +6,6 @@ import { formatDate } from "@/shared/lib";
 import { CopyText, TableColumn } from "@/shared/ui";
 import { Badge } from "@/shared/ui/Badge/Badge";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
-
 export function CheckActions({ check }: { check: Check }) {
   const isAvailable = check.status === CheckStatus.DONE;
   const reportHref =
@@ -26,30 +25,22 @@ export function CheckActions({ check }: { check: Check }) {
         <Link
           aria-label="Открыть результат проверки"
           href={reportHref}
-          className="flex size-[30px] items-center justify-center transition-opacity"
+          className="flex items-center gap-2 text-[14px] text-[#3e3c4b] transition-opacity"
         >
           <Image src="/images/IconEye.svg" width={30} height={24} alt="" />
+          <span>Посмотреть</span>
         </Link>
       ) : (
         <button
           type="button"
           aria-label="Открыть результат проверки"
           disabled
-          className="flex size-[30px] items-center justify-center transition-opacity disabled:opacity-70"
+          className="flex items-center gap-2 text-[14px] text-[#3e3c4b] transition-opacity disabled:opacity-50"
         >
           <Image src="/images/IconEye.svg" width={30} height={24} alt="" />
+          <span>Посмотреть</span>
         </button>
       )}
-      <button
-        type="button"
-        disabled={!isAvailable}
-        className="flex items-center gap-2 text-[14px] text-[#3e3c4b]  transition-opacity disabled:text-slate-400 disabled:opacity-50"
-      >
-        <span>Скачать</span>
-        <span className="rounded-[5px] border bg-[#B6B6B6] px-1 py-0.5 leading-none p-1">
-          XLSX
-        </span>
-      </button>
     </div>
   );
 }
@@ -64,7 +55,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "id",
     title: "ID проверки",
-    width: "29%",
+    width: "25%",
     render: (check) => (
       <CopyText
         value={check.id}
@@ -76,7 +67,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "subjectBodyText",
     title: "Запрос",
-    width: "22%",
+    width: "26%",
     render: (check) => <div className="truncate">{check.subjectBodyText}</div>,
   },
   {
