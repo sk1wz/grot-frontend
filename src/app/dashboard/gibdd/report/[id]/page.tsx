@@ -53,13 +53,11 @@ export default function GibddReportPage() {
   if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;
 
-  const { accidents, fines, owners } =
-    check.result;
+  const { accidents, fines, owners } = check.result;
   const summary = check.result.summary;
   const vehicleName =
-    [summary.model, summary.year]
-      .filter(Boolean)
-      .join(", ") || "Транспортное средство";
+    [summary.model, summary.year].filter(Boolean).join(", ") ||
+    "Транспортное средство";
   const vehicleCaption = [summary.model, summary.VIN]
     .filter(Boolean)
     .join(", ");
@@ -181,9 +179,7 @@ export default function GibddReportPage() {
             </thead>
             <tbody>
               {owners.map((owner, index) => (
-                <tr
-                  key={`${owner.from}-${owner.to}-${index}`}
-                >
+                <tr key={`${owner.from}-${owner.to}-${index}`}>
                   <td>{index + 1}</td>
                   <td>{owner.type ?? "—"}</td>
                   <td>{owner.from ?? "—"}</td>
@@ -229,9 +225,7 @@ export default function GibddReportPage() {
       <section className={styles.section}>
         <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Розыск</h2>
-        <div className={styles.notice}>
-          {summary.in_rozisk ?? "—"}
-        </div>
+        <div className={styles.notice}>{summary.in_rozisk ?? "—"}</div>
       </section>
 
       <section className={styles.section}>
@@ -287,9 +281,7 @@ export default function GibddReportPage() {
             </thead>
             <tbody>
               {accidents.map((accident, index) => (
-                <tr
-                  key={`${accident.date}-${accident.time}-${index}`}
-                >
+                <tr key={`${accident.date}-${accident.time}-${index}`}>
                   <td>{index + 1}</td>
                   <td>{accident.date ?? "—"}</td>
                   <td>{accident.time ?? "—"}</td>
