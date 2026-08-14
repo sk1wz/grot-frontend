@@ -18,3 +18,4 @@ export * from "./Table";
 export * from "./Logo/Logo";
 export * from "./Logo/LogoName";
 export * from "./DashboardPageFrame";
+export * from "./ReportHeader/ReportHeader";

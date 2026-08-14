@@ -6,11 +6,10 @@ import {
   CheckModule,
 } from "@/entities/check";
 import { formatDate } from "@/shared/lib";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { ReportHeader } from "@/shared/ui";
 
 type InnCheck = CheckByModule<CheckModule.INN>;
 
@@ -64,20 +63,7 @@ export default function InnReportPage() {
 
   return (
     <main className={styles.report}>
-      <div className={styles.actions}>
-        <Link href="/dashboard/inn-by-passport" className={styles.back}>
-          <ArrowLeft size={18} strokeWidth={2} />
-          Вернуться назад
-        </Link>
-        <button
-          type="button"
-          className={styles.download}
-          onClick={() => window.print()}
-        >
-          <span>Скачать</span>
-          <span className={styles.pdfLabel}>PDF</span>
-        </button>
-      </div>
+      <ReportHeader backHref="/dashboard/inn-by-passport" reportId={check.id} />
 
       <section className={styles.reportFrame}>
         <div className={styles.stamp}>

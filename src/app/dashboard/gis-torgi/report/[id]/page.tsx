@@ -6,10 +6,10 @@ import {
   CheckModule,
 } from "@/entities/check";
 import { formatDate } from "@/shared/lib";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import { ReportHeader } from "@/shared/ui";
 
 type GistorgiCheck = CheckByModule<CheckModule.GISTORGI>;
 
@@ -54,13 +54,7 @@ export default function GisTorgiReportPage() {
 
   return (
     <main className={styles.report}>
-      <div className={styles.actions}>
-        <Link href="/dashboard/gis-torgi">← Вернуться назад</Link>
-        <button type="button" className={styles.download}>
-          <span>Скачать</span>
-          <span className={styles.pdfLabel}>PDF</span>
-        </button>
-      </div>
+      <ReportHeader backHref="/dashboard/gis-torgi" reportId={check.id} />
       <section className={styles.hero}>
         <div className={styles.stamp}>
           <span>

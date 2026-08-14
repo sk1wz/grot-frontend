@@ -5,11 +5,11 @@ import {
   type CheckByModule,
   CheckModule,
 } from "@/entities/check";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { formatDate } from "@/shared/lib";
+import { ReportHeader } from "@/shared/ui";
 
 type GibddCheck = CheckByModule<CheckModule.GIBDD>;
 
@@ -66,19 +66,7 @@ export default function GibddReportPage() {
 
   return (
     <main className={styles.report}>
-      <div className={styles.actions}>
-        <Link href="/dashboard/gibdd" className={styles.back}>
-          ← Вернуться назад
-        </Link>
-        <button
-          type="button"
-          className={styles.download}
-          onClick={() => window.print()}
-        >
-          <span>Скачать</span>
-          <span className={styles.pdfLabel}>PDF</span>
-        </button>
-      </div>
+      <ReportHeader backHref="/dashboard/gibdd" reportId={check.id} />
 
       <section className={styles.hero}>
         <div className={styles.stamp}>
