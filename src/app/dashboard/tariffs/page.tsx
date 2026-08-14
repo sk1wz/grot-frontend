@@ -53,12 +53,8 @@ const tariffs = [
 
 export default function TariffsPage() {
   return (
-    <DashboardPageFrame
-      as="main"
-      figureSrc="/checksImages/gibdd-figure.png"
-      className="relative min-h-full bg-white p-3 text-[#3e3c4b] md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)] md:p-10"
-    >
-      <h1 className="mb-[50px] text-[32px] leading-none font-medium max-[700px]:mb-8 max-[700px]:text-[28px]">
+    <DashboardPageFrame as="main" figureSrc="/checksImages/gibdd-figure.png">
+      <h1 className="mb-[50px] text-[32px] text-(--foreground) leading-none font-medium max-[700px]:mb-8 max-[700px]:text-[28px]">
         Тарифы
       </h1>
       <section

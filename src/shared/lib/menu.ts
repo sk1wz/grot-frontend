@@ -9,12 +9,12 @@ export const sidebarNav: NavItem[] = [
   { label: "Банкротства", href: "/dashboard/bankruptcy" },
   { label: "ИНН по паспорту", href: "/dashboard/inn-by-passport" },
   { label: "ГИС торги", href: "/dashboard/gis-torgi" },
-  { label: "ФгИС такси", href: "/dashboard/fgis-taxi" },
+  // { label: "ФгИС такси", href: "/dashboard/fgis-taxi" },
   // { label: "Оценка стоимости авто", href: "/dashboard/car-valuation" },
-  {
-    label: "Федеральный реестр инвалидов",
-    href: "/dashboard/disability-registry",
-  },
+  // {
+  //   label: "Федеральный реестр инвалидов",
+  //   href: "/dashboard/disability-registry",
+  // },
   { label: "Тарифы", href: "/dashboard/tariffs" },
   { label: "О Сервисе", href: "/dashboard/about" },
 ];
