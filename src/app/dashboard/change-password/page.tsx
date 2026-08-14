@@ -2,7 +2,7 @@
 
 import { useUserStore } from "@/entities/user";
 import { changePassword } from "@/entities/user/api/change-password";
-import { DashboardPageFrame } from "@/shared/ui";
+import { DashboardPageFrame, Input } from "@/shared/ui";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
@@ -28,20 +28,20 @@ function PasswordInput({
       <span className="absolute -top-5 left-3 text-sm font-bold uppercase text-[#868a85]">
         {label}
       </span>
-      <span className="flex h-[70px] items-center rounded-[20px] bg-white p-1 shadow-[1px_1px_5px_#d4ddea]">
-        <input
+      <span className="relative block">
+        <Input
           type={visible ? "text" : "password"}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           autoComplete={autoComplete}
           placeholder="Введите пароль"
-          className="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#3e3c4b] outline-none placeholder:text-[#d4ddea]"
+          className="min-h-11 bg-white px-4 py-5 pr-12 text-sm text-[#1f2937] shadow-[0_3px_9px_rgba(15,23,42,0.18)] placeholder:text-[#d5e0ec]"
         />
         <button
           type="button"
           onClick={toggle}
           title={visible ? "Скрыть пароль" : "Показать пароль"}
-          className="grid size-10 place-items-center text-[#d4ddea]"
+          className="absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center text-[#d4ddea]"
         >
           {visible ? <EyeOff size={24} /> : <Eye size={24} />}
         </button>

@@ -13,7 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       autoCorrect="off"
       autoCapitalize="off"
       spellCheck={spellCheck}
-      className={`w-full text-sm px-4 py-5 rounded-[20px] shadow-(--shadow-2) bg-(--field) text-(--foreground) outline-none disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`w-full text-sm px-4 py-5 rounded-[20px] shadow-[0_3px_9px_rgba(15,23,42,0.18)] placeholder:text-[#d5e0ec] bg-(--field) text-(--foreground) outline-none disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       {...props}
     />
   );
