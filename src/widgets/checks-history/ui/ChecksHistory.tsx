@@ -5,8 +5,16 @@ import {
   CheckModule,
   CheckStatus,
   CheckStatusLabel,
-  getChecks,
-  useChecksStore,
+  getBankruptcyChecks,
+  getFsspChecks,
+  getGibddChecks,
+  getGistorgiChecks,
+  getInnChecks,
+  useBankruptcyChecksStore,
+  useFsspChecksStore,
+  useGibddChecksStore,
+  useGistorgiChecksStore,
+  useInnChecksStore,
 } from "@/entities/check";
 import {
   CheckCard,
@@ -25,9 +33,22 @@ const ITEMS_PER_PAGE = 5;
 export type ChecksHistoryProps = { module: CheckModule; className?: string };
 
 export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
-  const items = useChecksStore((state) => state.items);
-  const isLoading = useChecksStore((state) => state.isLoading);
-  const isInitialized = useChecksStore((state) => state.isInitialized);
+  const gibddState = useGibddChecksStore();
+  const fsspState = useFsspChecksStore();
+  const gistorgiState = useGistorgiChecksStore();
+  const bankruptcyState = useBankruptcyChecksStore();
+  const innState = useInnChecksStore();
+  const source =
+    module === CheckModule.GIBDD
+      ? gibddState
+      : module === CheckModule.FSSP
+        ? fsspState
+        : module === CheckModule.GISTORGI
+          ? gistorgiState
+          : module === CheckModule.BANKRUPTCY
+            ? bankruptcyState
+            : innState;
+  const { items, isLoading, isInitialized } = source;
   const [currentPage, setCurrentPage] = useState(1);
   const [idQuery, setIdQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<CheckStatus | "">("");
@@ -36,12 +57,11 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
     return items.filter(
       (check) =>
-        check.module === module &&
         (!normalizedQuery ||
           check.id.toLowerCase().includes(normalizedQuery)) &&
         (!statusFilter || check.status === statusFilter)
     );
-  }, [idQuery, items, module, statusFilter]);
+  }, [idQuery, items, statusFilter]);
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const safeCurrentPage =
@@ -55,11 +75,25 @@ export function ChecksHistory({ module, className = "" }: ChecksHistoryProps) {
 
   useEffect(() => {
     const fetchChecks = async () => {
-      const response = await getChecks();
-      if (response) useChecksStore.getState().setChecks(response);
+      if (module === CheckModule.GIBDD) {
+        const checks = await getGibddChecks();
+        if (checks) useGibddChecksStore.getState().setChecks(checks);
+      } else if (module === CheckModule.FSSP) {
+        const checks = await getFsspChecks();
+        if (checks) useFsspChecksStore.getState().setChecks(checks);
+      } else if (module === CheckModule.GISTORGI) {
+        const checks = await getGistorgiChecks();
+        if (checks) useGistorgiChecksStore.getState().setChecks(checks);
+      } else if (module === CheckModule.BANKRUPTCY) {
+        const checks = await getBankruptcyChecks();
+        if (checks) useBankruptcyChecksStore.getState().setChecks(checks);
+      } else {
+        const checks = await getInnChecks();
+        if (checks) useInnChecksStore.getState().setChecks(checks);
+      }
     };
     fetchChecks();
-  }, []);
+  }, [module]);
 
   return (
     <section className={`flex w-full flex-col gap-4 ${className}`}>

@@ -1,5 +1,3 @@
-import type { Check } from "./fabric-schemas";
-
 /** Значения = коды API */
 export enum CheckModule {
   GIBDD = "GIBDD",
@@ -26,7 +24,6 @@ export const CheckModuleLabel: Record<CheckModule, string> = {
   [CheckModule.BANKRUPTCY]: "Модуль банкротства",
   [CheckModule.INN]: "Модуль ИНН",
 };
-
 /** Значения = названия статусов */
 export const CheckStatusLabel: Record<CheckStatus, string> = {
   [CheckStatus.PENDING]: "Ожидание",
@@ -34,15 +31,4 @@ export const CheckStatusLabel: Record<CheckStatus, string> = {
   [CheckStatus.RUNNING]: "Выполняется",
   [CheckStatus.DONE]: "Готово",
   [CheckStatus.FAILED]: "Ошибка",
-};
-
-export type ChecksStore = {
-  items: Check[];
-  isLoading: boolean;
-  isInitialized: boolean;
-  setChecks: (items: Check[]) => void;
-  upsertCheck: (check: Check) => void;
-  setLoading: (isLoading: boolean) => void;
-  setInitialized: (isInitialized: boolean) => void;
-  reset: () => void;
 };

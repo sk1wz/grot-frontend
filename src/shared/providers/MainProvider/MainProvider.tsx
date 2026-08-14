@@ -7,14 +7,26 @@ import {
   BalanceTransactionType,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
-import { CheckSchema, useChecksStore } from "@/entities/check";
+import {
+  CheckModule,
+  CheckSchema,
+  useBankruptcyChecksStore,
+  useFsspChecksStore,
+  useGibddChecksStore,
+  useGistorgiChecksStore,
+  useInnChecksStore,
+} from "@/entities/check";
 
 function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const userId = useUserStore((state) => state.user?.id);
 
   useEffect(() => {
     if (!userId) {
-      useChecksStore.getState().reset();
+      useGibddChecksStore.getState().reset();
+      useFsspChecksStore.getState().reset();
+      useGistorgiChecksStore.getState().reset();
+      useBankruptcyChecksStore.getState().reset();
+      useInnChecksStore.getState().reset();
       return;
     }
 
@@ -25,7 +37,23 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       const parsed = CheckSchema.safeParse(checkDto);
       if (!parsed.success) return;
 
-      useChecksStore.getState().upsertCheck(parsed.data);
+      switch (parsed.data.module) {
+        case CheckModule.GIBDD:
+          useGibddChecksStore.getState().upsertCheck(parsed.data);
+          break;
+        case CheckModule.FSSP:
+          useFsspChecksStore.getState().upsertCheck(parsed.data);
+          break;
+        case CheckModule.GISTORGI:
+          useGistorgiChecksStore.getState().upsertCheck(parsed.data);
+          break;
+        case CheckModule.BANKRUPTCY:
+          useBankruptcyChecksStore.getState().upsertCheck(parsed.data);
+          break;
+        case CheckModule.INN:
+          useInnChecksStore.getState().upsertCheck(parsed.data);
+          break;
+      }
     });
 
     sockets.balance.on("balance.updated", (payload: unknown) => {

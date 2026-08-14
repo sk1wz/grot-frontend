@@ -53,14 +53,14 @@ export default function GibddReportPage() {
   if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;
 
-  const { autosintes_accidents, autosintes_fines, autosintes_owners } =
+  const { accidents, fines, owners } =
     check.result;
-  const summary = check.result.autosintes_summary;
+  const summary = check.result.summary;
   const vehicleName =
-    [summary.autosintes_model, summary.autosintes_year]
+    [summary.model, summary.year]
       .filter(Boolean)
       .join(", ") || "Транспортное средство";
-  const vehicleCaption = [summary.autosintes_model, summary.autosintes_VIN]
+  const vehicleCaption = [summary.model, summary.VIN]
     .filter(Boolean)
     .join(", ");
 
@@ -98,41 +98,41 @@ export default function GibddReportPage() {
           <div className={styles.primaryFields}>
             <div className={styles.dataField}>
               <span>VIN</span>
-              <strong>{summary.autosintes_VIN ?? "—"}</strong>
+              <strong>{summary.VIN ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>Гос. номер</span>
-              <strong>{summary.autosintes_reg_number ?? "—"}</strong>
+              <strong>{summary.reg_number ?? "—"}</strong>
             </div>
           </div>
           <div className={styles.compactFields}>
             <div className={styles.dataField}>
               <span>Цвет</span>
-              <strong>{summary.autosintes_color ?? "—"}</strong>
+              <strong>{summary.color ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>Объём, см³</span>
-              <strong>{summary.autosintes_engine_volume_cc ?? "—"}</strong>
+              <strong>{summary.engine_volume_cc ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>Мощность, л.с.</span>
-              <strong>{summary.autosintes_engine_power_hp ?? "—"}</strong>
+              <strong>{summary.engine_power_hp ?? "—"}</strong>
             </div>
             <div className={styles.dataField}>
               <span>№ двигателя</span>
-              <strong>{summary.autosintes_engine_number ?? "—"}</strong>
+              <strong>{summary.engine_number ?? "—"}</strong>
             </div>
           </div>
           <div className={styles.primaryFields}>
             <div className={styles.dataField}>
               <span>№ СТС</span>
-              <strong>{summary.autosintes_N_STS ?? "—"}</strong>
-              <small>Дата выдачи: {summary.autosintes_date_STS ?? "—"}</small>
+              <strong>{summary.N_STS ?? "—"}</strong>
+              <small>Дата выдачи: {summary.date_STS ?? "—"}</small>
             </div>
             <div className={styles.dataField}>
               <span>№ ПТС</span>
-              <strong>{summary.autosintes_N_PTS ?? "—"}</strong>
-              <small>Дата выдачи: {summary.autosintes_date_PTS ?? "—"}</small>
+              <strong>{summary.N_PTS ?? "—"}</strong>
+              <small>Дата выдачи: {summary.date_PTS ?? "—"}</small>
             </div>
           </div>
         </div>
@@ -142,11 +142,11 @@ export default function GibddReportPage() {
         <div className={styles.summaryCard}>
           <div className={styles.summaryItem}>
             <span>Залоги</span>
-            <strong>{summary.autosintes_pledges_count ?? "—"}</strong>
+            <strong>{summary.pledges_count ?? "—"}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>ДТП</span>
-            <strong>{autosintes_accidents.length}</strong>
+            <strong>{accidents.length}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Статус</span>
@@ -154,26 +154,26 @@ export default function GibddReportPage() {
           </div>
           <div className={styles.summaryItem}>
             <span>Розыск</span>
-            <strong>{summary.autosintes_in_rozisk ?? "—"}</strong>
+            <strong>{summary.in_rozisk ?? "—"}</strong>
           </div>
         </div>
         <div className={styles.summaryCard}>
           <div className={styles.summaryItem}>
             <span>Владельцев</span>
-            <strong>{autosintes_owners.length}</strong>
+            <strong>{owners.length}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Ограничения</span>
-            <strong>{summary.autosintes_restrictions_count ?? "—"}</strong>
+            <strong>{summary.restrictions_count ?? "—"}</strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Штрафы</span>
-            <strong>{autosintes_fines.length}</strong>
-            <small>На сумму: {summary.autosintes_total_fine ?? "—"}</small>
+            <strong>{fines.length}</strong>
+            <small>На сумму: {summary.total_fine ?? "—"}</small>
           </div>
           <div className={styles.summaryItem}>
             <span>ОСАГО</span>
-            <strong>{summary.autosintes_osago_contract_status ?? "—"}</strong>
+            <strong>{summary.osago_contract_status ?? "—"}</strong>
           </div>
         </div>
       </section>
@@ -192,14 +192,14 @@ export default function GibddReportPage() {
               </tr>
             </thead>
             <tbody>
-              {autosintes_owners.map((owner, index) => (
+              {owners.map((owner, index) => (
                 <tr
-                  key={`${owner.autosintes_from}-${owner.autosintes_to}-${index}`}
+                  key={`${owner.from}-${owner.to}-${index}`}
                 >
                   <td>{index + 1}</td>
-                  <td>{owner.autosintes_type ?? "—"}</td>
-                  <td>{owner.autosintes_from ?? "—"}</td>
-                  <td>{owner.autosintes_to ?? "—"}</td>
+                  <td>{owner.type ?? "—"}</td>
+                  <td>{owner.from ?? "—"}</td>
+                  <td>{owner.to ?? "—"}</td>
                 </tr>
               ))}
             </tbody>
@@ -213,27 +213,27 @@ export default function GibddReportPage() {
         <div className={styles.osago}>
           <div>
             <span>Статус</span>
-            <strong>{summary.autosintes_osago_contract_status ?? "—"}</strong>
+            <strong>{summary.osago_contract_status ?? "—"}</strong>
           </div>
           <div>
             <span>Серия / номер</span>
             <strong>
-              {[summary.autosintes_osago_seria, summary.autosintes_osago_number]
+              {[summary.osago_seria, summary.osago_number]
                 .filter(Boolean)
                 .join(" ") || "—"}
             </strong>
           </div>
           <div>
             <span>Страховая компания</span>
-            <strong>{summary.autosintes_osago_straxovka ?? "—"}</strong>
+            <strong>{summary.osago_straxovka ?? "—"}</strong>
           </div>
           <div>
             <span>Период</span>
-            <strong>{summary.autosintes_osago_usage_period ?? "—"}</strong>
+            <strong>{summary.osago_usage_period ?? "—"}</strong>
           </div>
           <div>
             <span>Расширение на БС</span>
-            <strong>{summary.autosintes_osago_extended_rb ?? "—"}</strong>
+            <strong>{summary.osago_extended_rb ?? "—"}</strong>
           </div>
         </div>
       </section>
@@ -242,7 +242,7 @@ export default function GibddReportPage() {
         <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Розыск</h2>
         <div className={styles.notice}>
-          {summary.autosintes_in_rozisk ?? "—"}
+          {summary.in_rozisk ?? "—"}
         </div>
       </section>
 
@@ -264,16 +264,16 @@ export default function GibddReportPage() {
               </tr>
             </thead>
             <tbody>
-              {autosintes_fines.map((fine, index) => (
-                <tr key={fine.autosintes_uin?.toString() ?? index}>
+              {fines.map((fine, index) => (
+                <tr key={fine.uin?.toString() ?? index}>
                   <td>{index + 1}</td>
-                  <td>{fine.autosintes_date ?? "—"}</td>
-                  <td>{fine.autosintes_time ?? "—"}</td>
-                  <td>{fine.autosintes_amount ?? "—"}</td>
-                  <td>{fine.autosintes_status ?? "—"}</td>
-                  <td>{fine.autosintes_article ?? "—"}</td>
-                  <td>{fine.autosintes_address ?? "—"}</td>
-                  <td>{fine.autosintes_issuer ?? "—"}</td>
+                  <td>{fine.date ?? "—"}</td>
+                  <td>{fine.time ?? "—"}</td>
+                  <td>{fine.amount ?? "—"}</td>
+                  <td>{fine.status ?? "—"}</td>
+                  <td>{fine.article ?? "—"}</td>
+                  <td>{fine.address ?? "—"}</td>
+                  <td>{fine.issuer ?? "—"}</td>
                 </tr>
               ))}
             </tbody>
@@ -298,21 +298,21 @@ export default function GibddReportPage() {
               </tr>
             </thead>
             <tbody>
-              {autosintes_accidents.map((accident, index) => (
+              {accidents.map((accident, index) => (
                 <tr
-                  key={`${accident.autosintes_date}-${accident.autosintes_time}-${index}`}
+                  key={`${accident.date}-${accident.time}-${index}`}
                 >
                   <td>{index + 1}</td>
-                  <td>{accident.autosintes_date ?? "—"}</td>
-                  <td>{accident.autosintes_time ?? "—"}</td>
-                  <td>{accident.autosintes_accident_type ?? "—"}</td>
-                  <td>{accident.autosintes_status ?? "—"}</td>
+                  <td>{accident.date ?? "—"}</td>
+                  <td>{accident.time ?? "—"}</td>
+                  <td>{accident.accident_type ?? "—"}</td>
+                  <td>{accident.status ?? "—"}</td>
                   <td>
-                    {[accident.autosintes_city, accident.autosintes_region]
+                    {[accident.city, accident.region]
                       .filter(Boolean)
                       .join(", ") || "—"}
                   </td>
-                  <td>{accident.autosintes_damages ?? "—"}</td>
+                  <td>{accident.damages ?? "—"}</td>
                 </tr>
               ))}
             </tbody>
