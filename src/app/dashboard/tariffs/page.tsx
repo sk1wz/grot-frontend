@@ -81,7 +81,7 @@ export default function TariffsPage() {
               <span className="ml-[14px] text-[18px] leading-6 font-semibold text-[#3e3c4b] uppercase max-[700px]:ml-2.5 max-[700px]:text-[13px] max-[700px]:leading-[18px]">
                 {tariff.label}
               </span>
-              <strong className="text-right text-[24px] font-medium max-[700px]:text-[16px]">
+              <strong className="text-right text-[24px] text-[#3e3c4b] font-medium max-[700px]:text-[16px]">
                 {tariff.price} ₽
               </strong>
             </li>
