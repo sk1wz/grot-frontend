@@ -17,21 +17,30 @@ export function CheckActions({ check }: { check: Check }) {
     check.module === "GIBDD"
       ? `/dashboard/gibdd/report/${check.id}`
       : check.module === "INN"
-        ? `/dashboard/inn-by-passport/report/${check.id}`
-        : check.module === "GISTORGI"
-          ? `/dashboard/gis-torgi/report/${check.id}`
-          : check.module === "BANKRUPTCY"
-            ? `/dashboard/bankruptcy/report/${check.id}`
-            : undefined;
+      ? `/dashboard/inn-by-passport/report/${check.id}`
+      : check.module === "GISTORGI"
+      ? `/dashboard/gis-torgi/report/${check.id}`
+      : check.module === "BANKRUPTCY"
+      ? `/dashboard/bankruptcy/report/${check.id}`
+      : undefined;
 
   return (
     <div className="flex items-center gap-3">
       {isAvailable && reportHref ? (
-        <Link aria-label="Открыть результат проверки" href={reportHref} className="flex size-8 items-center justify-center rounded-md border border-(--foreground) bg-(--accent) text-(--foreground) transition-opacity">
+        <Link
+          aria-label="Открыть результат проверки"
+          href={reportHref}
+          className="flex size-8 items-center justify-center rounded-md border border-(--foreground) bg-(--accent) text-(--foreground) transition-opacity"
+        >
           <Eye size={20} strokeWidth={2.5} />
         </Link>
       ) : (
-        <button type="button" aria-label="Открыть результат проверки" disabled className="flex size-8 items-center justify-center rounded-md border border-(--foreground) bg-(--accent) text-(--foreground) transition-opacity disabled:border-slate-300 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70">
+        <button
+          type="button"
+          aria-label="Открыть результат проверки"
+          disabled
+          className="flex size-8 items-center justify-center rounded-md border border-(--foreground) bg-(--accent) text-(--foreground) transition-opacity disabled:border-slate-300 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
+        >
           <Eye size={20} strokeWidth={2.5} />
         </button>
       )}
@@ -56,7 +65,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "id",
     title: "ID проверки",
-    width: "14%",
+    width: "29%",
     render: (check) => (
       <CopyText
         value={check.id}
@@ -66,18 +75,10 @@ export const checkColumns: TableColumn<Check>[] = [
     ),
   },
   {
-    key: "module",
-    title: "Модуль",
-    width: "15%",
-    render: (check) => CheckModuleLabel[check.module],
-  },
-  {
     key: "subjectBodyText",
-    title: "Тело запроса",
+    title: "Запрос",
     width: "22%",
-    render: (check) => (
-      <div className="truncate">{check.subjectBodyText}</div>
-    ),
+    render: (check) => <div className="truncate">{check.subjectBodyText}</div>,
   },
   {
     key: "status",
