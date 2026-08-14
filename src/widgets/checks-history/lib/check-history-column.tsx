@@ -55,7 +55,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "id",
     title: "ID проверки",
-    width: "25%",
+    width: "20%",
     render: (check) => (
       <CopyText
         value={check.id}
@@ -67,7 +67,7 @@ export const checkColumns: TableColumn<Check>[] = [
   {
     key: "subjectBodyText",
     title: "Запрос",
-    width: "26%",
+    width: "31%",
     render: (check) => <div className="truncate">{check.subjectBodyText}</div>,
   },
   {
