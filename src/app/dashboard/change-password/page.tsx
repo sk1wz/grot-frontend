@@ -103,51 +103,51 @@ export default function ChangePasswordPage() {
       wrapperClassName="relative min-h-full overflow-hidden pb-2 text-(--foreground)"
       className="relative z-10 min-h-[632px] w-full bg-white px-5 pt-10 pb-20 sm:px-10 md:rounded-[70px_10px_70px_10px] md:border-[5px] md:border-[rgba(201,213,229,0.4)]"
     >
-        <h1 className="text-(--foreground) text-[32px] font-medium leading-none">
-          Смена пароля
-        </h1>
-        <div className="mt-8">
-          <h2 className="text-(--foreground) text-[24px] font-medium leading-none">
-            Профиль
-          </h2>
-          <div className="mt-4 flex items-center gap-5 text-(--foreground) text-[18px] font-semibold uppercase underline">
-            <Image src="/images/Icon.svg" width={44} height={44} alt="" />
-            {user?.email ?? "—"}
-          </div>
+      <h1 className="text-(--foreground) text-[32px] font-medium leading-none">
+        Смена пароля
+      </h1>
+      <div className="mt-8">
+        <h2 className="text-(--foreground) text-[24px] font-medium leading-none">
+          Профиль
+        </h2>
+        <div className="mt-4 flex items-center gap-5 text-(--foreground) text-[18px] font-semibold uppercase underline">
+          <Image src="/images/Icon.svg" width={44} height={44} alt="" />
+          {user?.email ?? "—"}
         </div>
-        <form
-          onSubmit={submit}
-          className="mx-auto mt-16 w-full max-w-[396px] space-y-7"
+      </div>
+      <form
+        onSubmit={submit}
+        className="mx-auto mt-16 w-full max-w-[396px] space-y-7"
+      >
+        {field(
+          "current",
+          "Пароль",
+          currentPassword,
+          setCurrentPassword,
+          "current-password"
+        )}
+        {field(
+          "new",
+          "Новый пароль",
+          newPassword,
+          setNewPassword,
+          "new-password"
+        )}
+        {field(
+          "confirm",
+          "Повторите пароль",
+          confirmation,
+          setConfirmation,
+          "new-password"
+        )}
+        <button
+          type="submit"
+          disabled={pending}
+          className="h-17.5 w-full cursor-pointer rounded-[20px] bg-[#c8ddd5] px-3 font-bold uppercase shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {field(
-            "current",
-            "Пароль",
-            currentPassword,
-            setCurrentPassword,
-            "current-password"
-          )}
-          {field(
-            "new",
-            "Новый пароль",
-            newPassword,
-            setNewPassword,
-            "new-password"
-          )}
-          {field(
-            "confirm",
-            "Повторите пароль",
-            confirmation,
-            setConfirmation,
-            "new-password"
-          )}
-          <button
-            type="submit"
-            disabled={pending}
-            className="h-[70px] w-full cursor-pointer rounded-[20px] bg-[#c8ddd5] px-3 text-[18px] font-bold uppercase shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {pending ? "Сохранение..." : "Сохранить изменения"}
-          </button>
-        </form>
+          {pending ? "Сохранение..." : "Сохранить изменения"}
+        </button>
+      </form>
     </DashboardPageFrame>
   );
 }

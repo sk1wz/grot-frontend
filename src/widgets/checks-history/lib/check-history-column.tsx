@@ -1,15 +1,11 @@
 import type { Check } from "@/entities/check";
 import Link from "next/link";
-import {
-  CheckModuleLabel,
-  CheckStatus,
-  CheckStatusLabel,
-} from "@/entities/check";
+import Image from "next/image";
+import { CheckStatus, CheckStatusLabel } from "@/entities/check";
 import { formatDate } from "@/shared/lib";
 import { CopyText, TableColumn } from "@/shared/ui";
 import { Badge } from "@/shared/ui/Badge/Badge";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
-import { Eye } from "lucide-react";
 
 export function CheckActions({ check }: { check: Check }) {
   const isAvailable = check.status === CheckStatus.DONE;
@@ -30,26 +26,29 @@ export function CheckActions({ check }: { check: Check }) {
         <Link
           aria-label="Открыть результат проверки"
           href={reportHref}
-          className="flex size-8 items-center justify-center rounded-md border border-(--foreground) bg-(--accent) text-(--foreground) transition-opacity"
+          className="flex size-[30px] items-center justify-center transition-opacity"
         >
-          <Eye size={20} strokeWidth={2.5} />
+          <Image src="/images/IconEye.svg" width={30} height={24} alt="" />
         </Link>
       ) : (
         <button
           type="button"
           aria-label="Открыть результат проверки"
           disabled
-          className="flex size-8 items-center justify-center rounded-md border border-(--foreground) bg-(--accent) text-(--foreground) transition-opacity disabled:border-slate-300 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
+          className="flex size-[30px] items-center justify-center transition-opacity disabled:opacity-70"
         >
-          <Eye size={20} strokeWidth={2.5} />
+          <Image src="/images/IconEye.svg" width={30} height={24} alt="" />
         </button>
       )}
       <button
         type="button"
         disabled={!isAvailable}
-        className="text-sm text-(--foreground) underline disabled:text-slate-400 disabled:opacity-70"
+        className="flex items-center gap-2 text-sm text-[#3e3c4b] transition-opacity disabled:text-slate-400 disabled:opacity-70"
       >
-        Скачать
+        <span>Скачать</span>
+        <span className="rounded-[5px] border-2 border-[#d4ddea] px-1 py-0.5 text-[10px] leading-none">
+          XLSX
+        </span>
       </button>
     </div>
   );
