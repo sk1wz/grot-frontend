@@ -43,10 +43,10 @@ export function CheckActions({ check }: { check: Check }) {
       <button
         type="button"
         disabled={!isAvailable}
-        className="flex items-center gap-2 text-sm text-[#3e3c4b] transition-opacity disabled:text-slate-400 disabled:opacity-70"
+        className="flex items-center gap-2 text-[14px] text-[#3e3c4b]  transition-opacity disabled:text-slate-400 disabled:opacity-50"
       >
         <span>Скачать</span>
-        <span className="rounded-[5px] border-2 border-[#d4ddea] px-1 py-0.5 text-[10px] leading-none">
+        <span className="rounded-[5px] border bg-[#B6B6B6] px-1 py-0.5 leading-none p-1">
           XLSX
         </span>
       </button>
