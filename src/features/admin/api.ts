@@ -1,4 +1,7 @@
-import { BalanceTransactionsResponseSchema, type BalanceTransactionsResponse } from "@/entities/balance";
+import {
+  BalanceTransactionsResponseSchema,
+  type BalanceTransactionsResponse,
+} from "@/entities/balance";
 import { UserSchema, type UserType } from "@/entities/user";
 import { CheckSchema, type Check } from "@/entities/check";
 import { baseURL } from "@/shared/api/config";
@@ -19,11 +22,16 @@ export async function getAdminUsers(): Promise<UserType[]> {
   return UserSchema.array().parse(data);
 }
 
-export async function getAdminUserTransactions(userId: string): Promise<BalanceTransactionsResponse> {
+export async function getAdminUserTransactions(
+  userId: string
+): Promise<BalanceTransactionsResponse> {
   const data: unknown = await request(`/balance/admin/transactions/${userId}`);
   const normalized = Array.isArray(data)
     ? { items: data, total: data.length }
-    : { items: (data as { items?: unknown[] })?.items ?? [], total: (data as { total?: number })?.total };
+    : {
+        items: (data as { items?: unknown[] })?.items ?? [],
+        total: (data as { total?: number })?.total,
+      };
   const parsed = BalanceTransactionsResponseSchema.parse(normalized);
   return { items: parsed.items, total: parsed.total ?? parsed.items.length };
 }
@@ -48,4 +56,8 @@ export async function changeAdminBalance(
     method: "POST",
     body: JSON.stringify({ userId, amount }),
   });
+}
+
+export async function deleteAdminUser(userId: string) {
+  await request(`/user/${userId}`, { method: "DELETE" });
 }

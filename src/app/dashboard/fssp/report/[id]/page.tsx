@@ -5,6 +5,7 @@ import {
   type CheckByModule,
   CheckModule,
 } from "@/entities/check";
+import { UserRole, useUserStore } from "@/entities/user";
 import { formatDate } from "@/shared/lib";
 import { ReportHeader } from "@/shared/ui";
 import { useParams } from "next/navigation";
@@ -18,6 +19,7 @@ const emptyValue = "—";
 export default function FsspReportPage() {
   const params = useParams<{ id: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const isAdmin = useUserStore((state) => state.user?.role === UserRole.ADMIN);
   const [check, setCheck] = useState<FsspCheck | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +27,7 @@ export default function FsspReportPage() {
     if (!id) return;
 
     let isCancelled = false;
-    getCheckById(id)
+    getCheckById(id, isAdmin)
       .then((loadedCheck) => {
         if (isCancelled) return;
         if (loadedCheck.module !== CheckModule.FSSP) {
@@ -47,7 +49,7 @@ export default function FsspReportPage() {
     return () => {
       isCancelled = true;
     };
-  }, [id]);
+  }, [id, isAdmin]);
 
   if (error) return <main className={styles.error}>{error}</main>;
   if (!check?.result) return null;

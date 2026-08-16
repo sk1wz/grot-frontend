@@ -10,7 +10,7 @@ const tariffs = [
   {
     icon: "Icongibdd",
     label: "Запрос о проверке транспортного средства в реестре ГИБДД",
-    price: 10,
+    price: 50,
   },
   {
     icon: "Iconfssp",
@@ -28,27 +28,27 @@ const tariffs = [
     label: "Запрос о проверке транспортных средств в реестре ГИС Торги",
     price: 10,
   },
-  {
-    icon: "Icontaxi",
-    label: "Отчёт о проверке транспортных средств в реестре ФГИС Такси",
-    price: 10,
-  },
+  // {
+  //   icon: "Icontaxi",
+  //   label: "Отчёт о проверке транспортных средств в реестре ФГИС Такси",
+  //   price: 10,
+  // },
   { icon: "Iconinn", label: "Запрос о проверке ИНН", price: 10 },
-  {
-    icon: "Iconinvalid",
-    label: "Запрос о проверке транспортных средств в реестре инвалидов",
-    price: 10,
-  },
+  // {
+  //   icon: "Iconinvalid",
+  //   label: "Запрос о проверке транспортных средств в реестре инвалидов",
+  //   price: 10,
+  // },
   {
     icon: "Iconlocks",
     label: "Запрос о проверке наложения ограничения на транспортные средства",
     price: 10,
   },
-  {
-    icon: "Iconpriceauto",
-    label: "Запрос об оценке стоимости авто",
-    price: 10,
-  },
+  // {
+  //   icon: "Iconpriceauto",
+  //   label: "Запрос об оценке стоимости авто",
+  //   price: 10,
+  // },
 ] as const;
 
 export default function TariffsPage() {

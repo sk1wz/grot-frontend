@@ -5,6 +5,7 @@ import {
   type CheckByModule,
   CheckModule,
 } from "@/entities/check";
+import { UserRole, useUserStore } from "@/entities/user";
 import { formatDate } from "@/shared/lib";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ type GistorgiCheck = CheckByModule<CheckModule.GISTORGI>;
 export default function GisTorgiReportPage() {
   const params = useParams<{ id: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const isAdmin = useUserStore((state) => state.user?.role === UserRole.ADMIN);
   const [check, setCheck] = useState<GistorgiCheck | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +25,7 @@ export default function GisTorgiReportPage() {
     if (!id) return;
     let isCancelled = false;
 
-    getCheckById(id)
+    getCheckById(id, isAdmin)
       .then((loadedCheck) => {
         if (isCancelled) return;
         if (loadedCheck.module !== CheckModule.GISTORGI) {
@@ -45,7 +47,7 @@ export default function GisTorgiReportPage() {
     return () => {
       isCancelled = true;
     };
-  }, [id]);
+  }, [id, isAdmin]);
 
   if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;

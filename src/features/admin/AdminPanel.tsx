@@ -24,6 +24,7 @@ import { transactionColumns } from "@/widgets/deposit-history/lib/transaction-co
 import { checkColumns } from "@/widgets/checks-history/lib/check-history-column";
 import {
   changeAdminBalance,
+  deleteAdminUser,
   getAdminUsers,
   getAdminUserTransactions,
   getAdminUserChecks,
@@ -54,6 +55,7 @@ const moduleOptions: { value: ModuleFilter; label: string }[] = [
 export function AdminPanel() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [balanceUser, setBalanceUser] = useState<UserType | null>(null);
+  const [userToDelete, setUserToDelete] = useState<UserType | null>(null);
   const [transactionsUser, setTransactionsUser] = useState<UserType | null>(
     null
   );
@@ -78,6 +80,7 @@ export function AdminPanel() {
   const [checksPerPage, setChecksPerPage] = useState(50);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isTransactionsLoading, setIsTransactionsLoading] = useState(false);
   const [isChecksLoading, setIsChecksLoading] = useState(false);
 
@@ -172,6 +175,26 @@ export function AdminPanel() {
       );
     } finally {
       setIsSaving(false);
+    }
+  }
+
+  async function deleteUser() {
+    if (!userToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteAdminUser(userToDelete.id);
+      setUserToDelete(null);
+      toast.success("Пользователь удалён");
+      await loadUsers();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Не удалось удалить пользователя"
+      );
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -297,9 +320,8 @@ export function AdminPanel() {
           </button>
           <button
             type="button"
-            disabled
-            title="Нужен endpoint удаления пользователя"
-            className="rounded-[12px] bg-[#f6d4d4] px-3 py-2 text-xs font-bold opacity-50"
+            onClick={() => setUserToDelete(user)}
+            className="rounded-[12px] bg-[#f6d4d4] px-3 py-2 text-xs font-bold"
           >
             Удалить
           </button>
@@ -410,6 +432,50 @@ export function AdminPanel() {
                 className="min-h-10 cursor-pointer rounded-[20px] bg-[#c8ced5] p-6 text-xs font-bold uppercase text-[#1f2937] shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Списать
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {userToDelete && (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-[#3e3c4b]/35 p-3 sm:p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-modal-title"
+        >
+          <div className="relative w-full max-w-105 rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:rounded-[24px] sm:p-6">
+            <button
+              type="button"
+              disabled={isDeleting}
+              onClick={() => setUserToDelete(null)}
+              aria-label="Закрыть"
+              className="absolute top-3 right-3 grid size-10 place-items-center rounded-full hover:bg-(--field) disabled:opacity-50"
+            >
+              <X size={22} />
+            </button>
+            <h2 id="delete-modal-title" className="pr-10 text-lg font-medium sm:text-xl">
+              Удалить пользователя?
+            </h2>
+            <p className="mt-3 text-sm">Пользователь: <strong>{userToDelete.email}</strong></p>
+            <p className="mt-2 text-sm text-[#868a85]">Действие нельзя отменить.</p>
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => void deleteUser()}
+                className="min-h-10 cursor-pointer rounded-[20px] bg-[#c5ddd5] p-6 text-xs font-bold uppercase text-[#1f2937] shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Подтвердить
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setUserToDelete(null)}
+                className="min-h-10 cursor-pointer rounded-[20px] bg-[#c8ced5] p-6 text-xs font-bold uppercase text-[#1f2937] shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Отмена
               </button>
             </div>
           </div>

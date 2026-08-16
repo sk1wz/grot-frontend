@@ -5,6 +5,7 @@ import {
   type CheckByModule,
   CheckModule,
 } from "@/entities/check";
+import { UserRole, useUserStore } from "@/entities/user";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
@@ -16,6 +17,7 @@ type GibddCheck = CheckByModule<CheckModule.GIBDD>;
 export default function GibddReportPage() {
   const params = useParams<{ id: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const isAdmin = useUserStore((state) => state.user?.role === UserRole.ADMIN);
   const [check, setCheck] = useState<GibddCheck | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +26,7 @@ export default function GibddReportPage() {
 
     let isCancelled = false;
 
-    getCheckById(id)
+    getCheckById(id, isAdmin)
       .then((loadedCheck) => {
         if (isCancelled) return;
 
@@ -48,7 +50,7 @@ export default function GibddReportPage() {
     return () => {
       isCancelled = true;
     };
-  }, [id]);
+  }, [id, isAdmin]);
 
   if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;

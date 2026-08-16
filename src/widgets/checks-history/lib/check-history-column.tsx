@@ -47,7 +47,8 @@ export function CheckActions({ check }: { check: Check }) {
   );
 }
 
-export const checkColumns: TableColumn<Check>[] = [
+export function getCheckColumns(): TableColumn<Check>[] {
+  return [
   {
     key: "createdAt",
     title: "Дата и время",
@@ -88,4 +89,7 @@ export const checkColumns: TableColumn<Check>[] = [
     width: "18%",
     render: (check) => <CheckActions check={check} />,
   },
-];
+  ];
+}
+
+export const checkColumns = getCheckColumns();
