@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { CheckModule, getCheckById, type CheckByModule } from "@/entities/check";
+import {
+  CheckModule,
+  getCheckById,
+  type CheckByModule,
+} from "@/entities/check";
 import { UserRole, useUserStore } from "@/entities/user";
 import { formatDate } from "@/shared/lib";
 import { ReportHeader } from "@/shared/ui";
@@ -31,10 +35,17 @@ export default function LimitationReportPage() {
         setCheck(loadedCheck);
       })
       .catch((loadError: unknown) => {
-        if (!isCancelled) setError(loadError instanceof Error ? loadError.message : "Не удалось загрузить проверку");
+        if (!isCancelled)
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Не удалось загрузить проверку"
+          );
       });
 
-    return () => { isCancelled = true; };
+    return () => {
+      isCancelled = true;
+    };
   }, [id, isAdmin]);
 
   if (error) return <main className={styles.report}>{error}</main>;
@@ -45,23 +56,56 @@ export default function LimitationReportPage() {
     <main className={styles.report}>
       <ReportHeader backHref="/dashboard/limitations" reportId={check.id} />
       <section className={styles.hero}>
-        <div className={styles.stamp}><span>Проверено {formatDate(check.completedAt ?? check.updatedAt)}</span><strong>autosintes.ru</strong></div>
+        <div className={styles.stamp}>
+          <span>
+            Проверено {formatDate(check.completedAt ?? check.updatedAt)}
+          </span>
+          <strong>autosintes.ru</strong>
+        </div>
         <div className={styles.reportFigure} aria-hidden="true" />
-        <div className={styles.heroTitle}>Отчёт о проверке ограничений транспортного средства</div>
+        <div className={styles.heroTitle}>
+          Отчёт о проверке ограничений транспортного средства
+        </div>
         <h1>{summary.vin ? `VIN ${summary.vin}` : "VIN не указан"}</h1>
-        <div className={styles.fields}><div><span>VIN</span><strong>{summary.vin ?? "—"}</strong></div></div>
-      </section>
-      {lots.length === 0 ? <section className={styles.section}><p className={styles.empty}>Ограничения не найдены</p></section> : lots.map((lot, index) => (
-        <section className={styles.section} key={`${lot.lot_name}-${lot.lot_link}-${index}`}>
-          <h2>Ограничение</h2>
-          <div className={styles.list}>
-            <div><span>Статус</span><strong>{lot.lot_status ?? "—"}</strong></div>
-            <div><span>Наименование</span><strong>{lot.lot_name ?? "—"}</strong></div>
-            <div><span>Дата</span><strong>{lot.lot_date ?? "—"}</strong></div>
-            <div><span>Ссылка</span><strong>{lot.lot_link ?? "—"}</strong></div>
+        <div className={styles.fields}>
+          <div>
+            <span>VIN</span>
+            <strong>{summary.vin ?? "—"}</strong>
           </div>
+        </div>
+      </section>
+      {lots.length === 0 ? (
+        <section className={styles.section}>
+          <p className={styles.empty}>Ограничения не найдены</p>
         </section>
-      ))}
+      ) : (
+        lots.map((lot, index) => (
+          <section
+            className={styles.section}
+            key={`${lot.lot_name}-${lot.lot_link}-${index}`}
+          >
+            <h2>Ограничение</h2>
+            <div className={styles.list}>
+              <div>
+                <span>Статус</span>
+                <strong>{lot.lot_status ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Наименование</span>
+                <strong>{lot.lot_name ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Дата</span>
+                <strong>{lot.lot_date ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Ссылка</span>
+                <strong>{lot.lot_link ?? "—"}</strong>
+              </div>
+            </div>
+          </section>
+        ))
+      )}
     </main>
   );
 }
