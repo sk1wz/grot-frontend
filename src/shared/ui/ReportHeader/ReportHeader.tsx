@@ -57,7 +57,7 @@ export function ReportHeader({ backHref, reportId }: ReportHeaderProps) {
         type="button"
         disabled={downloadingFormat !== null}
         onClick={() => downloadReport("pdf")}
-        className="inline-flex whitespace-nowrap items-center gap-2 rounded-[20px] bg-[#c8ced5] px-3 py-3 text-xs font-bold text-[#1f2937] uppercase shadow-(--shadow-1) disabled:cursor-not-allowed disabled:opacity-60 sm:gap-3 sm:px-[18px] sm:py-[18px]"
+        className="inline-flex cursor-pointer whitespace-nowrap items-center gap-2 rounded-[20px] bg-[#c8ced5] px-3 py-3 text-xs font-bold text-[#1f2937] uppercase shadow-(--shadow-1) disabled:cursor-not-allowed disabled:opacity-60 sm:gap-3 sm:px-[18px] sm:py-[18px]"
       >
         <span>{downloadingFormat === "pdf" ? "Скачивание..." : "Скачать"}</span>
         <span className="rounded border border-[#697a80] bg-[#c5ddd5] px-1 py-0.5 text-sm font-medium leading-none text-[#46565c]">
@@ -68,7 +68,7 @@ export function ReportHeader({ backHref, reportId }: ReportHeaderProps) {
         type="button"
         disabled={downloadingFormat !== null}
         onClick={() => downloadReport("excel")}
-        className="inline-flex whitespace-nowrap items-center gap-2 rounded-[20px] bg-[#c8ced5] px-3 py-3 text-xs font-bold text-[#1f2937] uppercase shadow-(--shadow-1) disabled:cursor-not-allowed disabled:opacity-60 sm:gap-3 sm:px-[18px] sm:py-[18px]"
+        className="inline-flex cursor-pointer whitespace-nowrap items-center gap-2 rounded-[20px] bg-[#c8ced5] px-3 py-3 text-xs font-bold text-[#1f2937] uppercase shadow-(--shadow-1) disabled:cursor-not-allowed disabled:opacity-60 sm:gap-3 sm:px-[18px] sm:py-[18px]"
       >
         <span>
           {downloadingFormat === "excel" ? "Скачивание..." : "Скачать"}

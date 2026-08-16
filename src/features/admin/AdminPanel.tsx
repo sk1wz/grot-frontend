@@ -300,28 +300,28 @@ export function AdminPanel() {
           <button
             type="button"
             onClick={() => setBalanceUser(user)}
-            className="rounded-[12px] bg-[#c8ddd5] px-3 py-2 text-xs font-bold"
+            className="rounded-[12px] cursor-pointer bg-[#c8ddd5] px-3 py-2 text-xs font-bold"
           >
             Баланс
           </button>
           <button
             type="button"
             onClick={() => void openTransactions(user)}
-            className="rounded-[12px] bg-[#dce7f2] px-3 py-2 text-xs font-bold"
+            className="rounded-[12px] cursor-pointer bg-[#dce7f2] px-3 py-2 text-xs font-bold"
           >
             Транзакции
           </button>
           <button
             type="button"
             onClick={() => void openChecks(user)}
-            className="rounded-[12px] bg-[#eee4d4] px-3 py-2 text-xs font-bold"
+            className="rounded-[12px] cursor-pointer bg-[#eee4d4] px-3 py-2 text-xs font-bold"
           >
             Проверки
           </button>
           <button
             type="button"
             onClick={() => setUserToDelete(user)}
-            className="rounded-[12px] bg-[#f6d4d4] px-3 py-2 text-xs font-bold"
+            className="rounded-[12px] cursor-pointer bg-[#f6d4d4] px-3 py-2 text-xs font-bold"
           >
             Удалить
           </button>
@@ -380,11 +380,15 @@ export function AdminPanel() {
       {balanceUser && (
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-[#3e3c4b]/35 p-3 sm:p-4"
+          onClick={closeBalanceModal}
           role="dialog"
           aria-modal="true"
           aria-labelledby="balance-modal-title"
         >
-          <div className="relative w-full max-w-105 rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:rounded-[24px] sm:p-6">
+          <div
+            className="relative w-full max-w-105 rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:rounded-[24px] sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
               onClick={closeBalanceModal}
@@ -441,11 +445,15 @@ export function AdminPanel() {
       {userToDelete && (
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-[#3e3c4b]/35 p-3 sm:p-4"
+          onClick={() => !isDeleting && setUserToDelete(null)}
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-modal-title"
         >
-          <div className="relative w-full max-w-105 rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:rounded-[24px] sm:p-6">
+          <div
+            className="relative w-full max-w-105 rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:rounded-[24px] sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
               disabled={isDeleting}
@@ -455,11 +463,18 @@ export function AdminPanel() {
             >
               <X size={22} />
             </button>
-            <h2 id="delete-modal-title" className="pr-10 text-lg font-medium sm:text-xl">
+            <h2
+              id="delete-modal-title"
+              className="pr-10 text-lg font-medium sm:text-xl"
+            >
               Удалить пользователя?
             </h2>
-            <p className="mt-3 text-sm">Пользователь: <strong>{userToDelete.email}</strong></p>
-            <p className="mt-2 text-sm text-[#868a85]">Действие нельзя отменить.</p>
+            <p className="mt-3 text-sm">
+              Пользователь: <strong>{userToDelete.email}</strong>
+            </p>
+            <p className="mt-2 text-sm text-[#868a85]">
+              Действие нельзя отменить.
+            </p>
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
@@ -485,11 +500,15 @@ export function AdminPanel() {
       {transactionsUser && (
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-[#3e3c4b]/35 p-3 sm:p-4"
+          onClick={() => setTransactionsUser(null)}
           role="dialog"
           aria-modal="true"
           aria-labelledby="transactions-modal-title"
         >
-          <div className="relative flex max-h-[calc(100vh-1.5rem)] w-full max-w-300 flex-col overflow-y-auto rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:max-h-[85vh] sm:rounded-[24px] sm:p-6">
+          <div
+            className="relative flex max-h-[calc(100vh-1.5rem)] w-full max-w-300 flex-col overflow-y-auto rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:max-h-[85vh] sm:rounded-[24px] sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
               onClick={() => setTransactionsUser(null)}
@@ -562,11 +581,15 @@ export function AdminPanel() {
       {checksUser && (
         <div
           className="fixed inset-0 z-50 grid place-items-center bg-[#3e3c4b]/35 p-3 sm:p-4"
+          onClick={() => setChecksUser(null)}
           role="dialog"
           aria-modal="true"
           aria-labelledby="checks-modal-title"
         >
-          <div className="relative flex max-h-[calc(100vh-1.5rem)] w-full max-w-300 flex-col overflow-y-auto rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:max-h-[85vh] sm:rounded-[24px] sm:p-6">
+          <div
+            className="relative flex max-h-[calc(100vh-1.5rem)] w-full max-w-300 flex-col overflow-y-auto rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:max-h-[85vh] sm:rounded-[24px] sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
               onClick={() => setChecksUser(null)}
