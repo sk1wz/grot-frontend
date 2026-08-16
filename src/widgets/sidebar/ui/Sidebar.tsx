@@ -43,10 +43,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         })}
       </nav>
 
-      <div className="mt-4 flex flex-col items-center gap-1 p-4 text-center text-sm text-(--foreground)">
-        <a className="font-medium" href="tel:+79999999999">
-          +7 999 999 99 99
-        </a>
+      <div className="mt-4 mb-6 flex flex-col items-center gap-1 p-4 text-center text-sm text-(--foreground)">
         <a className="underline" href="mailto:info@autosledrf.ru">
           info@autosledrf.ru
         </a>

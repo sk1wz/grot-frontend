@@ -191,7 +191,7 @@ export default function HomePage() {
             </a>
             <a
               className="mt-2 text-sm underline text-[#3E3C4B] font-semibold"
-              href="/privacy-policy"
+              href="/dashboard/privacy-policy"
             >
               Политика конфиденциальности
             </a>
