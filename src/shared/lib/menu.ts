@@ -9,6 +9,7 @@ export const sidebarNav: NavItem[] = [
   { label: "Банкротства", href: "/dashboard/bankruptcy" },
   { label: "ИНН по паспорту", href: "/dashboard/inn-by-passport" },
   { label: "ГИС торги", href: "/dashboard/gis-torgi" },
+  { label: "Ограничения", href: "/dashboard/limitations" },
   // { label: "ФгИС такси", href: "/dashboard/fgis-taxi" },
   // { label: "Оценка стоимости авто", href: "/dashboard/car-valuation" },
   // {

@@ -259,7 +259,7 @@ export function AdminPanel() {
     {
       key: "email",
       title: "Почта",
-      width: "25%",
+      width: "15%",
       render: (user) => user.email,
     },
     {
@@ -293,7 +293,7 @@ export function AdminPanel() {
     {
       key: "actions",
       title: "Действия",
-      width: "25%",
+      width: "35%",
       className: "whitespace-nowrap",
       render: (user) => (
         <div className="flex gap-2">

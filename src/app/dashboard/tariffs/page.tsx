@@ -53,7 +53,7 @@ const tariffs = [
 
 export default function TariffsPage() {
   return (
-    <DashboardPageFrame as="main" figureSrc="/images/tariff.png">
+    <DashboardPageFrame figureSrc="/images/tariff.png">
       <h1 className="mb-[50px] text-[32px] text-(--foreground) leading-none font-medium max-[700px]:mb-8 max-[700px]:text-[28px]">
         Тарифы
       </h1>
