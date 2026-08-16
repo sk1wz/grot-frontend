@@ -9,6 +9,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <input
       ref={ref}
+      suppressHydrationWarning
       autoComplete={autoComplete}
       autoCorrect="off"
       autoCapitalize="off"
