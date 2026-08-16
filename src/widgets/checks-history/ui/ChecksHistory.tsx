@@ -4,9 +4,9 @@ import { useMemo, useState } from "react";
 import { type Check, CheckStatus, CheckStatusLabel } from "@/entities/check";
 import {
   CheckCard,
+  MultiSelectField,
   Pagination,
   SearchField,
-  Select,
   Skeleton,
   SmartTable,
   Text,
@@ -31,7 +31,7 @@ export function ChecksHistory({
 }: ChecksHistoryProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [idQuery, setIdQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<CheckStatus | "">("");
+  const [statusFilter, setStatusFilter] = useState<CheckStatus[]>([]);
   const filteredItems = useMemo(() => {
     const normalizedQuery = idQuery.trim().toLowerCase();
 
@@ -39,7 +39,7 @@ export function ChecksHistory({
       (check) =>
         (!normalizedQuery ||
           check.id.toLowerCase().includes(normalizedQuery)) &&
-        (!statusFilter || check.status === statusFilter)
+        (statusFilter.length === 0 || statusFilter.includes(check.status))
     );
   }, [idQuery, items, statusFilter]);
   const totalItems = filteredItems.length;
@@ -68,23 +68,20 @@ export function ChecksHistory({
               setCurrentPage(1);
             }}
           />
-          <label className="flex w-full flex-col gap-2 text-sm font-medium text-(--foreground)">
-            Статус
-            <Select
-              value={statusFilter}
-              onChange={(event) => {
-                setStatusFilter(event.target.value as CheckStatus | "");
-                setCurrentPage(1);
-              }}
-            >
-              <option value="">Все статусы</option>
-              {Object.values(CheckStatus).map((status) => (
-                <option key={status} value={status}>
-                  {CheckStatusLabel[status]}
-                </option>
-              ))}
-            </Select>
-          </label>
+          <MultiSelectField
+            id="check-status-filter"
+            label="Статус"
+            value={statusFilter}
+            options={Object.values(CheckStatus).map((status) => ({
+              value: status,
+              label: CheckStatusLabel[status],
+            }))}
+            allLabel="Все статусы"
+            onChange={(value) => {
+              setStatusFilter(value);
+              setCurrentPage(1);
+            }}
+          />
         </div>
         <div className="hidden md:block">
           <SmartTable

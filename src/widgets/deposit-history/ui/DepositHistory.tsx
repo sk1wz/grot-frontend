@@ -7,12 +7,12 @@ import {
   getBalanceTransactions,
   useBalanceTransactionsStore,
 } from "@/entities/balance";
-import { filterItems, searchItems } from "@/features/options";
+import { searchItems } from "@/features/options";
 import {
   DepositCard,
   Pagination,
   SearchField,
-  SelectField,
+  MultiSelectField,
   Skeleton,
   SmartTable,
   Text,
@@ -22,17 +22,12 @@ import { transactionColumns } from "../lib/transaction-columns";
 import { DepositHistoryStats } from "./DepositHistoryStats";
 
 const ITEMS_PER_PAGE = 5;
-const ALL_STATUSES = "all";
-
-type StatusFilter = BalanceTransactionStatus | typeof ALL_STATUSES;
-
-const statusOptions: { value: StatusFilter; label: string }[] = [
-  { value: ALL_STATUSES, label: "Все статусы" },
-  ...Object.values(BalanceTransactionStatus).map((status) => ({
+const statusOptions = Object.values(BalanceTransactionStatus).map(
+  (status) => ({
     value: status,
     label: BalanceTransactionStatusLabel[status],
-  })),
-];
+  }),
+);
 
 export function DepositHistory() {
   const items = useBalanceTransactionsStore((state) => state.items);
@@ -42,18 +37,18 @@ export function DepositHistory() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>(ALL_STATUSES);
+  const [statusFilter, setStatusFilter] = useState<
+    BalanceTransactionStatus[]
+  >([]);
 
   const filteredItems = useMemo(() => {
     const foundItems = searchItems(items, searchQuery, (transaction, query) =>
       transaction.id.toLowerCase().includes(query)
     );
 
-    return filterItems(
-      foundItems,
-      statusFilter,
-      ALL_STATUSES,
-      (transaction, status) => transaction.status === status
+    return foundItems.filter(
+      (transaction) =>
+        statusFilter.length === 0 || statusFilter.includes(transaction.status)
     );
   }, [items, searchQuery, statusFilter]);
 
@@ -87,7 +82,7 @@ export function DepositHistory() {
     setCurrentPage(1);
   }
 
-  function handleStatusChange(value: StatusFilter) {
+  function handleStatusChange(value: BalanceTransactionStatus[]) {
     setStatusFilter(value);
     setCurrentPage(1);
   }
@@ -106,11 +101,12 @@ export function DepositHistory() {
           onChange={handleSearchChange}
         />
 
-        <SelectField
+        <MultiSelectField
           id="transaction-status-filter"
           label="Статус"
           value={statusFilter}
           options={statusOptions}
+          allLabel="Все операции"
           onChange={handleStatusChange}
         />
       </div>

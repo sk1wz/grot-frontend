@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -8,14 +9,18 @@ import {
   type BalanceTransactionType,
 } from "@/entities/balance";
 import type { UserType } from "@/entities/user";
-import { CheckModule, CheckModuleLabel, type Check } from "@/entities/check";
+import {
+  CheckModule,
+  CheckModuleLabel,
+  type Check,
+} from "@/entities/check";
 import { formatAmount, formatDate } from "@/shared/lib";
 import {
   DashboardPageFrame,
   CopyText,
+  MultiSelectField,
   Pagination,
   SearchField,
-  SelectField,
   SmartTable,
   type TableColumn,
 } from "@/shared/ui";
@@ -31,36 +36,44 @@ import {
 } from "./api";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50];
-const ALL_STATUSES = "all";
-
-type StatusFilter = BalanceTransactionStatus | typeof ALL_STATUSES;
-type ModuleFilter = CheckModule | typeof ALL_STATUSES;
-
-const statusOptions: { value: StatusFilter; label: string }[] = [
-  { value: ALL_STATUSES, label: "Все статусы" },
-  ...Object.values(BalanceTransactionStatus).map((status) => ({
+const transactionStatusOptions = Object.values(BalanceTransactionStatus).map(
+  (status) => ({
     value: status,
     label: BalanceTransactionStatusLabel[status],
-  })),
-];
+  }),
+);
 
-const moduleOptions: { value: ModuleFilter; label: string }[] = [
-  { value: ALL_STATUSES, label: "Все модули" },
-  ...Object.values(CheckModule).map((module) => ({
+const moduleIcons: Record<CheckModule, string> = {
+  [CheckModule.GIBDD]: "/images/tariff-icons/Icongibdd.svg",
+  [CheckModule.GISTORGI]: "/images/tariff-icons/Icontorgi.svg",
+  [CheckModule.FSSP]: "/images/tariff-icons/Iconfssp.svg",
+  [CheckModule.BANKRUPTCY]: "/images/tariff-icons/Iconbankcrupcy.svg",
+  [CheckModule.INN]: "/images/tariff-icons/Iconinn.svg",
+};
+
+const moduleOptions = Object.values(CheckModule).map((module) => ({
     value: module,
     label: CheckModuleLabel[module],
-  })),
-];
+    icon: (
+      <Image
+        src={moduleIcons[module]}
+        width={24}
+        height={24}
+        alt=""
+        className="size-6 shrink-0"
+      />
+    ),
+  }));
 
 export function AdminPanel() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [balanceUser, setBalanceUser] = useState<UserType | null>(null);
   const [userToDelete, setUserToDelete] = useState<UserType | null>(null);
   const [transactionsUser, setTransactionsUser] = useState<UserType | null>(
-    null
+    null,
   );
   const [transactions, setTransactions] = useState<BalanceTransactionType[]>(
-    []
+    [],
   );
   const [checksUser, setChecksUser] = useState<UserType | null>(null);
   const [checks, setChecks] = useState<Check[]>([]);
@@ -69,13 +82,15 @@ export function AdminPanel() {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(10);
   const [transactionSearchQuery, setTransactionSearchQuery] = useState("");
-  const [transactionStatusFilter, setTransactionStatusFilter] =
-    useState<StatusFilter>(ALL_STATUSES);
+  const [transactionStatusFilter, setTransactionStatusFilter] = useState<
+    BalanceTransactionStatus[]
+  >([]);
   const [transactionPage, setTransactionPage] = useState(1);
   const [transactionsPerPage, setTransactionsPerPage] = useState(50);
   const [checkSearchQuery, setCheckSearchQuery] = useState("");
-  const [checkModuleFilter, setCheckModuleFilter] =
-    useState<ModuleFilter>(ALL_STATUSES);
+  const [checkModuleFilter, setCheckModuleFilter] = useState<CheckModule[]>(
+    [],
+  );
   const [checkPage, setCheckPage] = useState(1);
   const [checksPerPage, setChecksPerPage] = useState(50);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,13 +105,13 @@ export function AdminPanel() {
       const items = await getAdminUsers();
       setUsers(items);
       setBalanceUser((current) =>
-        current ? items.find((user) => user.id === current.id) ?? null : null
+        current ? (items.find((user) => user.id === current.id) ?? null) : null,
       );
     } catch (error) {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Не удалось загрузить пользователей"
+          : "Не удалось загрузить пользователей",
       );
     } finally {
       setIsLoading(false);
@@ -117,7 +132,7 @@ export function AdminPanel() {
     setTransactionsUser(user);
     setTransactions([]);
     setTransactionSearchQuery("");
-    setTransactionStatusFilter(ALL_STATUSES);
+    setTransactionStatusFilter([]);
     setTransactionPage(1);
     setIsTransactionsLoading(true);
     try {
@@ -127,7 +142,7 @@ export function AdminPanel() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Не удалось загрузить транзакции"
+          : "Не удалось загрузить транзакции",
       );
     } finally {
       setIsTransactionsLoading(false);
@@ -138,14 +153,16 @@ export function AdminPanel() {
     setChecksUser(user);
     setChecks([]);
     setCheckSearchQuery("");
-    setCheckModuleFilter(ALL_STATUSES);
+    setCheckModuleFilter([]);
     setCheckPage(1);
     setIsChecksLoading(true);
     try {
       setChecks(await getAdminUserChecks(user.id));
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Не удалось загрузить проверки"
+        error instanceof Error
+          ? error.message
+          : "Не удалось загрузить проверки",
       );
     } finally {
       setIsChecksLoading(false);
@@ -164,14 +181,14 @@ export function AdminPanel() {
     try {
       await changeAdminBalance(operation, balanceUser.id, numericAmount);
       toast.success(
-        operation === "credit" ? "Баланс начислен" : "Средства списаны"
+        operation === "credit" ? "Баланс начислен" : "Средства списаны",
       );
       setBalanceUser(null);
       setAmount("");
       await loadUsers();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Не удалось изменить баланс"
+        error instanceof Error ? error.message : "Не удалось изменить баланс",
       );
     } finally {
       setIsSaving(false);
@@ -191,25 +208,22 @@ export function AdminPanel() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Не удалось удалить пользователя"
+          : "Не удалось удалить пользователя",
       );
     } finally {
       setIsDeleting(false);
     }
   }
 
-  const filteredUsers = useMemo(
-    () => {
-      const query = searchQuery.toLowerCase();
+  const filteredUsers = useMemo(() => {
+    const query = searchQuery.toLowerCase();
 
-      return users.filter(
-        (user) =>
-          user.id.toLowerCase().includes(query) ||
-          user.email.toLowerCase().includes(query)
-      );
-    },
-    [users, searchQuery]
-  );
+    return users.filter(
+      (user) =>
+        user.id.toLowerCase().includes(query) ||
+        user.email.toLowerCase().includes(query),
+    );
+  }, [users, searchQuery]);
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const safeCurrentPage = totalPages ? Math.min(currentPage, totalPages) : 1;
   const paginatedUsers = useMemo(() => {
@@ -223,13 +237,13 @@ export function AdminPanel() {
           transaction.id
             .toLowerCase()
             .includes(transactionSearchQuery.toLowerCase()) &&
-          (transactionStatusFilter === ALL_STATUSES ||
-            transaction.status === transactionStatusFilter)
+          (transactionStatusFilter.length === 0 ||
+            transactionStatusFilter.includes(transaction.status)),
       ),
-    [transactions, transactionSearchQuery, transactionStatusFilter]
+    [transactions, transactionSearchQuery, transactionStatusFilter],
   );
   const transactionTotalPages = Math.ceil(
-    filteredTransactions.length / transactionsPerPage
+    filteredTransactions.length / transactionsPerPage,
   );
   const safeTransactionPage = transactionTotalPages
     ? Math.min(transactionPage, transactionTotalPages)
@@ -246,10 +260,10 @@ export function AdminPanel() {
             check.subjectBodyText
               .toLowerCase()
               .includes(checkSearchQuery.toLowerCase())) &&
-          (checkModuleFilter === ALL_STATUSES ||
-            check.module === checkModuleFilter)
+          (checkModuleFilter.length === 0 ||
+            checkModuleFilter.includes(check.module)),
       ),
-    [checks, checkSearchQuery, checkModuleFilter]
+    [checks, checkSearchQuery, checkModuleFilter],
   );
   const checkTotalPages = Math.ceil(filteredChecks.length / checksPerPage);
   const safeCheckPage = checkTotalPages
@@ -542,13 +556,14 @@ export function AdminPanel() {
                   setTransactionPage(1);
                 }}
               />
-              <SelectField
+              <MultiSelectField
                 id="admin-transaction-status-filter"
                 label="Статус"
                 value={transactionStatusFilter}
-                options={statusOptions}
+                options={transactionStatusOptions}
+                allLabel="Все операции"
                 onChange={(value) => {
-                  setTransactionStatusFilter(value as StatusFilter);
+                  setTransactionStatusFilter(value);
                   setTransactionPage(1);
                 }}
               />
@@ -621,13 +636,14 @@ export function AdminPanel() {
                   setCheckPage(1);
                 }}
               />
-              <SelectField
+              <MultiSelectField
                 id="admin-check-module-filter"
                 label="Модуль"
                 value={checkModuleFilter}
                 options={moduleOptions}
+                allLabel="Все модули"
                 onChange={(value) => {
-                  setCheckModuleFilter(value as ModuleFilter);
+                  setCheckModuleFilter(value);
                   setCheckPage(1);
                 }}
               />
