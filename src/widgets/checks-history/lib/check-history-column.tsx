@@ -13,10 +13,12 @@ export function CheckActions({ check }: { check: Check }) {
       ? `/dashboard/gibdd/report/${check.id}`
       : check.module === "INN"
       ? `/dashboard/inn-by-passport/report/${check.id}`
-      : check.module === "GISTORGI"
-      ? `/dashboard/gis-torgi/report/${check.id}`
+      : check.module === "FSSP"
+      ? `/dashboard/fssp/report/${check.id}`
       : check.module === "BANKRUPTCY"
       ? `/dashboard/bankruptcy/report/${check.id}`
+      : check.module === "GISTORGI"
+      ? `/dashboard/gis-torgi/report/${check.id}`
       : undefined;
 
   return (
