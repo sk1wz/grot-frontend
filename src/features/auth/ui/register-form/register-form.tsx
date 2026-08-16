@@ -52,9 +52,9 @@ function PasswordField({
           aria-label={show ? "Скрыть пароль" : "Показать пароль"}
         >
           {show ? (
-            <EyeOffIcon color="black" size={20} />
+            <EyeOffIcon className="text-[#d4ddea]" size={20} />
           ) : (
-            <EyeIcon color="black" size={20} />
+            <EyeIcon className="text-[#d4ddea]" size={20} />
           )}
         </button>
       </div>

@@ -87,9 +87,9 @@ export function LoginForm() {
             aria-label={showPassword ? "Скрыть пароль" : "Показать пароль"}
           >
             {showPassword ? (
-              <EyeOffIcon color="black" size={20} />
+              <EyeOffIcon className="text-[#d4ddea]" size={20} />
             ) : (
-              <EyeIcon color="black" size={20} />
+              <EyeIcon className="text-[#d4ddea]" size={20} />
             )}
           </button>
         </div>
