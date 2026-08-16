@@ -16,24 +16,24 @@ const tariffs = [
     icon: "Iconfssp",
     label:
       "Запрос о проверке исполнительных производств физических и юридических лиц",
-    price: 10,
+    price: 5,
   },
   {
     icon: "Iconbankcrupcy",
     label: "Запрос о проверке в реестре сведений о банкротстве",
-    price: 10,
+    price: 5,
   },
   {
     icon: "Icontorgi",
     label: "Запрос о проверке транспортных средств в реестре ГИС Торги",
-    price: 10,
+    price: 5,
   },
   // {
   //   icon: "Icontaxi",
   //   label: "Отчёт о проверке транспортных средств в реестре ФГИС Такси",
   //   price: 10,
   // },
-  { icon: "Iconinn", label: "Запрос о проверке ИНН", price: 10 },
+  { icon: "Iconinn", label: "Запрос о проверке ИНН", price: 5 },
   // {
   //   icon: "Iconinvalid",
   //   label: "Запрос о проверке транспортных средств в реестре инвалидов",
@@ -42,7 +42,7 @@ const tariffs = [
   {
     icon: "Iconlocks",
     label: "Запрос о проверке наложения ограничения на транспортные средства",
-    price: 10,
+    price: 5,
   },
   // {
   //   icon: "Iconpriceauto",
