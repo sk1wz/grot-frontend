@@ -87,12 +87,12 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="hidden h-full w-75 shrink-0 flex-col rounded-tr-[34px] rounded-br-[34px] bg-(--panel-fill) shadow-(--panel-shadow) backdrop-blur-(--panel-blur) md:flex">
+      <aside className="hidden h-full w-75 shrink-0 flex-col rounded-tr-[34px] rounded-br-[34px] bg-(--panel-fill) shadow-(--panel-shadow) backdrop-blur-(--panel-blur) min-[1200px]:flex">
         <SidebarContent />
       </aside>
 
       <div
-        className={`fixed inset-0 z-50 md:hidden ${
+        className={`fixed inset-0 z-50 min-[1200px]:hidden ${
           isOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
         aria-hidden={!isOpen}
