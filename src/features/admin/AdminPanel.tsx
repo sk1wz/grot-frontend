@@ -199,10 +199,15 @@ export function AdminPanel() {
   }
 
   const filteredUsers = useMemo(
-    () =>
-      users.filter((user) =>
-        user.id.toLowerCase().includes(searchQuery.toLowerCase())
-      ),
+    () => {
+      const query = searchQuery.toLowerCase();
+
+      return users.filter(
+        (user) =>
+          user.id.toLowerCase().includes(query) ||
+          user.email.toLowerCase().includes(query)
+      );
+    },
     [users, searchQuery]
   );
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
@@ -341,9 +346,9 @@ export function AdminPanel() {
         <h2 className="text-xl font-medium">Пользователи</h2>
         <div className="mt-4 w-full max-w-100">
           <SearchField
-            id="admin-user-id-search"
-            label="Поиск по ID пользователя"
-            placeholder="Введите ID пользователя"
+            id="admin-user-search"
+            label="Поиск по ID или email"
+            placeholder="Введите ID или email"
             value={searchQuery}
             onChange={(value) => {
               setSearchQuery(value);
