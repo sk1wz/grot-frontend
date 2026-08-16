@@ -3,6 +3,7 @@ import { fsspConfig } from "./fssp/config";
 import { gibddConfig } from "./gibdd/config";
 import { gistorgiConfig } from "./gistorgi/config";
 import { innConfig } from "./inn/config";
+import { limitationConfig } from "./limitation/config";
 
 export const checkConfigs = [
   fsspConfig,
@@ -10,6 +11,7 @@ export const checkConfigs = [
   gistorgiConfig,
   bankruptcyConfig,
   innConfig,
+  limitationConfig,
 ];
 
 export {
@@ -18,4 +20,5 @@ export {
   gibddConfig,
   gistorgiConfig,
   innConfig,
+  limitationConfig,
 };

@@ -14,6 +14,7 @@ import {
   useFsspChecksStore,
   useGibddChecksStore,
   useGistorgiChecksStore,
+  useLimitationChecksStore,
   useInnChecksStore,
 } from "@/entities/check";
 
@@ -25,6 +26,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       useGibddChecksStore.getState().reset();
       useFsspChecksStore.getState().reset();
       useGistorgiChecksStore.getState().reset();
+      useLimitationChecksStore.getState().reset();
       useBankruptcyChecksStore.getState().reset();
       useInnChecksStore.getState().reset();
       return;
@@ -46,6 +48,9 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
           break;
         case CheckModule.GISTORGI:
           useGistorgiChecksStore.getState().upsertCheck(parsed.data);
+          break;
+        case CheckModule.LIMITATION:
+          useLimitationChecksStore.getState().upsertCheck(parsed.data);
           break;
         case CheckModule.BANKRUPTCY:
           useBankruptcyChecksStore.getState().upsertCheck(parsed.data);

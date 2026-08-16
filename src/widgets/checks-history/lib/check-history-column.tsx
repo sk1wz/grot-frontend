@@ -19,6 +19,8 @@ export function CheckActions({ check }: { check: Check }) {
       ? `/dashboard/bankruptcy/report/${check.id}`
       : check.module === "GISTORGI"
       ? `/dashboard/gis-torgi/report/${check.id}`
+      : check.module === "LIMITATION"
+      ? `/dashboard/limitations/report/${check.id}`
       : undefined;
 
   return (

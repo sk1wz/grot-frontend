@@ -2,6 +2,7 @@
 export enum CheckModule {
   GIBDD = "GIBDD",
   GISTORGI = "GISTORGI",
+  LIMITATION = "LIMITATION",
   FSSP = "FSSP",
   BANKRUPTCY = "BANKRUPTCY",
   INN = "INN",
@@ -20,6 +21,7 @@ export enum CheckStatus {
 export const CheckModuleLabel: Record<CheckModule, string> = {
   [CheckModule.GIBDD]: "Модуль ГИБДД",
   [CheckModule.GISTORGI]: "Модуль ГИСТОРГИ",
+  [CheckModule.LIMITATION]: "Модуль ограничений",
   [CheckModule.FSSP]: "Модуль ФССП",
   [CheckModule.BANKRUPTCY]: "Модуль банкротства",
   [CheckModule.INN]: "Модуль ИНН",

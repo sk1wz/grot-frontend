@@ -9,11 +9,7 @@ import {
   type BalanceTransactionType,
 } from "@/entities/balance";
 import type { UserType } from "@/entities/user";
-import {
-  CheckModule,
-  CheckModuleLabel,
-  type Check,
-} from "@/entities/check";
+import { CheckModule, CheckModuleLabel, type Check } from "@/entities/check";
 import { formatAmount, formatDate } from "@/shared/lib";
 import {
   DashboardPageFrame,
@@ -40,40 +36,41 @@ const transactionStatusOptions = Object.values(BalanceTransactionStatus).map(
   (status) => ({
     value: status,
     label: BalanceTransactionStatusLabel[status],
-  }),
+  })
 );
 
 const moduleIcons: Record<CheckModule, string> = {
   [CheckModule.GIBDD]: "/images/tariff-icons/Icongibdd.svg",
   [CheckModule.GISTORGI]: "/images/tariff-icons/Icontorgi.svg",
+  [CheckModule.LIMITATION]: "/images/tariff-icons/Iconlocks.svg",
   [CheckModule.FSSP]: "/images/tariff-icons/Iconfssp.svg",
   [CheckModule.BANKRUPTCY]: "/images/tariff-icons/Iconbankcrupcy.svg",
   [CheckModule.INN]: "/images/tariff-icons/Iconinn.svg",
 };
 
 const moduleOptions = Object.values(CheckModule).map((module) => ({
-    value: module,
-    label: CheckModuleLabel[module],
-    icon: (
-      <Image
-        src={moduleIcons[module]}
-        width={24}
-        height={24}
-        alt=""
-        className="size-6 shrink-0"
-      />
-    ),
-  }));
+  value: module,
+  label: CheckModuleLabel[module],
+  icon: (
+    <Image
+      src={moduleIcons[module]}
+      width={24}
+      height={24}
+      alt=""
+      className="size-6 shrink-0"
+    />
+  ),
+}));
 
 export function AdminPanel() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [balanceUser, setBalanceUser] = useState<UserType | null>(null);
   const [userToDelete, setUserToDelete] = useState<UserType | null>(null);
   const [transactionsUser, setTransactionsUser] = useState<UserType | null>(
-    null,
+    null
   );
   const [transactions, setTransactions] = useState<BalanceTransactionType[]>(
-    [],
+    []
   );
   const [checksUser, setChecksUser] = useState<UserType | null>(null);
   const [checks, setChecks] = useState<Check[]>([]);
@@ -88,9 +85,7 @@ export function AdminPanel() {
   const [transactionPage, setTransactionPage] = useState(1);
   const [transactionsPerPage, setTransactionsPerPage] = useState(50);
   const [checkSearchQuery, setCheckSearchQuery] = useState("");
-  const [checkModuleFilter, setCheckModuleFilter] = useState<CheckModule[]>(
-    [],
-  );
+  const [checkModuleFilter, setCheckModuleFilter] = useState<CheckModule[]>([]);
   const [checkPage, setCheckPage] = useState(1);
   const [checksPerPage, setChecksPerPage] = useState(50);
   const [isLoading, setIsLoading] = useState(true);
@@ -105,13 +100,13 @@ export function AdminPanel() {
       const items = await getAdminUsers();
       setUsers(items);
       setBalanceUser((current) =>
-        current ? (items.find((user) => user.id === current.id) ?? null) : null,
+        current ? items.find((user) => user.id === current.id) ?? null : null
       );
     } catch (error) {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Не удалось загрузить пользователей",
+          : "Не удалось загрузить пользователей"
       );
     } finally {
       setIsLoading(false);
@@ -142,7 +137,7 @@ export function AdminPanel() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Не удалось загрузить транзакции",
+          : "Не удалось загрузить транзакции"
       );
     } finally {
       setIsTransactionsLoading(false);
@@ -160,9 +155,7 @@ export function AdminPanel() {
       setChecks(await getAdminUserChecks(user.id));
     } catch (error) {
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Не удалось загрузить проверки",
+        error instanceof Error ? error.message : "Не удалось загрузить проверки"
       );
     } finally {
       setIsChecksLoading(false);
@@ -181,14 +174,14 @@ export function AdminPanel() {
     try {
       await changeAdminBalance(operation, balanceUser.id, numericAmount);
       toast.success(
-        operation === "credit" ? "Баланс начислен" : "Средства списаны",
+        operation === "credit" ? "Баланс начислен" : "Средства списаны"
       );
       setBalanceUser(null);
       setAmount("");
       await loadUsers();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Не удалось изменить баланс",
+        error instanceof Error ? error.message : "Не удалось изменить баланс"
       );
     } finally {
       setIsSaving(false);
@@ -208,7 +201,7 @@ export function AdminPanel() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Не удалось удалить пользователя",
+          : "Не удалось удалить пользователя"
       );
     } finally {
       setIsDeleting(false);
@@ -221,7 +214,7 @@ export function AdminPanel() {
     return users.filter(
       (user) =>
         user.id.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query),
+        user.email.toLowerCase().includes(query)
     );
   }, [users, searchQuery]);
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
@@ -238,12 +231,12 @@ export function AdminPanel() {
             .toLowerCase()
             .includes(transactionSearchQuery.toLowerCase()) &&
           (transactionStatusFilter.length === 0 ||
-            transactionStatusFilter.includes(transaction.status)),
+            transactionStatusFilter.includes(transaction.status))
       ),
-    [transactions, transactionSearchQuery, transactionStatusFilter],
+    [transactions, transactionSearchQuery, transactionStatusFilter]
   );
   const transactionTotalPages = Math.ceil(
-    filteredTransactions.length / transactionsPerPage,
+    filteredTransactions.length / transactionsPerPage
   );
   const safeTransactionPage = transactionTotalPages
     ? Math.min(transactionPage, transactionTotalPages)
@@ -261,9 +254,9 @@ export function AdminPanel() {
               .toLowerCase()
               .includes(checkSearchQuery.toLowerCase())) &&
           (checkModuleFilter.length === 0 ||
-            checkModuleFilter.includes(check.module)),
+            checkModuleFilter.includes(check.module))
       ),
-    [checks, checkSearchQuery, checkModuleFilter],
+    [checks, checkSearchQuery, checkModuleFilter]
   );
   const checkTotalPages = Math.ceil(filteredChecks.length / checksPerPage);
   const safeCheckPage = checkTotalPages

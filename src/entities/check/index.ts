@@ -4,4 +4,5 @@ export * from "./bankruptcy";
 export * from "./fssp";
 export * from "./gibdd";
 export * from "./gistorgi";
+export * from "./limitation";
 export * from "./inn";

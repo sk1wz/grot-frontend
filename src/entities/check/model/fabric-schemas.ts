@@ -4,11 +4,13 @@ import { FsspCheckSchema } from "../fssp/model/schema";
 import { GibddCheckSchema } from "../gibdd/model/schema";
 import { GistorgiCheckSchema } from "../gistorgi/model/schema";
 import { InnCheckSchema } from "../inn/model/schema";
+import { LimitationCheckSchema } from "../limitation/model/schema";
 import { CheckModule } from "./types";
 
 export const checkSchemasByModule = {
   [CheckModule.GIBDD]: GibddCheckSchema,
   [CheckModule.GISTORGI]: GistorgiCheckSchema,
+  [CheckModule.LIMITATION]: LimitationCheckSchema,
   [CheckModule.FSSP]: FsspCheckSchema,
   [CheckModule.BANKRUPTCY]: BankruptcyCheckSchema,
   [CheckModule.INN]: InnCheckSchema,
@@ -17,6 +19,7 @@ export const checkSchemasByModule = {
 export const CheckSchema = z.discriminatedUnion("module", [
   GibddCheckSchema,
   GistorgiCheckSchema,
+  LimitationCheckSchema,
   FsspCheckSchema,
   BankruptcyCheckSchema,
   InnCheckSchema,
