@@ -18,6 +18,7 @@ type SmartTableProps<T> = {
   emptyMessage?: string;
   minWidth?: string;
   className?: string;
+  stickyHeader?: boolean;
 };
 
 const cellClass = "px-4 py-3 text-sm text-(--foreground)";
@@ -31,6 +32,7 @@ export function SmartTable<T>({
   emptyMessage = "Нет данных для отображения",
   minWidth = "720px",
   className = "",
+  stickyHeader = true,
 }: SmartTableProps<T>) {
   const showSkeleton = !isInitialized || (isLoading && items.length === 0);
 
@@ -48,7 +50,13 @@ export function SmartTable<T>({
           ))}
         </colgroup>
 
-        <thead className="sticky top-0 z-10 bg-(--panel-fill) shadow-(--panel-shadow)">
+        <thead
+          className={
+            stickyHeader
+              ? "sticky top-0 z-10 bg-(--panel-fill) shadow-(--panel-shadow)"
+              : "bg-(--panel-fill) shadow-(--panel-shadow)"
+          }
+        >
           <tr>
             {columns.map((column, index) => (
               <th

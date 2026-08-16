@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { useSidebarStore } from "@/entities/sidebar";
 import { isActive, sidebarNav } from "@/shared/lib";
 import { Logo, LogoName } from "@/shared/ui";
+import { useUserStore, UserRole } from "@/entities/user";
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname() ?? "";
+  const role = useUserStore((state) => state.user?.role);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => setIsMounted(true), []);
+  const navigation = isMounted && role === UserRole.ADMIN
+    ? [...sidebarNav, { label: "Админ-панель", href: "/dashboard/admin" }]
+    : sidebarNav;
 
   return (
     <>
@@ -23,7 +31,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       </Link>
 
       <nav className="flex flex-1 flex-col gap-2 overflow-y-auto px-1">
-        {sidebarNav.map((item) => {
+        {navigation.map((item) => {
           const active = isActive(pathname, item.href);
 
           return (

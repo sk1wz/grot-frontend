@@ -15,6 +15,8 @@ export type PaginationProps = {
   className?: string;
   summaryText?: string;
   summaryClassName?: string;
+  pageSizeOptions?: number[];
+  onLimitChange?: (limit: number) => void;
   compactOnMobile?: boolean;
 };
 
@@ -49,6 +51,8 @@ export function Pagination({
   className = "",
   summaryText,
   summaryClassName = "",
+  pageSizeOptions,
+  onLimitChange,
   compactOnMobile = false,
 }: PaginationProps) {
   const totalPages = getTotalPages(total, limit);
@@ -75,11 +79,26 @@ export function Pagination({
       aria-label="Пагинация"
       className={`grid grid-cols-1 items-center gap-2 rounded-lg bg-(--surface) px-4 py-2 lg:grid-cols-3 ${className}`}
     >
-      <span
-        className={`hidden justify-self-start text-sm text-(--foreground) lg:block ${summaryClassName}`}
-      >
-        {summaryText ? `${summaryText}: ${total}` : null}
-      </span>
+      {pageSizeOptions && onLimitChange ? (
+        <label className="flex items-center gap-2 justify-self-center text-sm text-(--foreground) lg:justify-self-start">
+          Показывать
+          <select
+            value={limit}
+            onChange={(event) => onLimitChange(Number(event.target.value))}
+            className="rounded-md border border-(--border) bg-(--field) px-2 py-1 text-sm outline-none"
+          >
+            {pageSizeOptions.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+        </label>
+      ) : (
+        <span
+          className={`hidden justify-self-start text-sm text-(--foreground) lg:block ${summaryClassName}`}
+        >
+          {summaryText ? `${summaryText}: ${total}` : null}
+        </span>
+      )}
 
       <div
         className={`flex min-w-0 items-center gap-1 justify-self-center ${compactOnMobile ? "justify-start lg:justify-self-center lg:justify-center" : "justify-center lg:justify-self-center"}`}
