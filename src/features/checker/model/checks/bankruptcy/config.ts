@@ -14,7 +14,7 @@ export const bankruptcyConfig: CheckConfig = {
         {
           name: "inn",
           label: "ИНН",
-          placeholder: "ИНН или ОГРН",
+          placeholder: "ИНН",
         },
       ],
       schema: innSchema,
