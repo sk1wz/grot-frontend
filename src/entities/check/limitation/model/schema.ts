@@ -2,18 +2,23 @@ import { z } from "zod";
 import { createCheckSchema } from "../../model/base-schema";
 import { CheckModule } from "../../model/types";
 
-const text = z.union([z.string(), z.number()]).nullable().optional();
+const TextValueSchema = z.union([z.string(), z.number()]).nullable().optional();
+
+export const LimitationSchema = z.object({
+  a_model: TextValueSchema,
+  a_year: TextValueSchema,
+  a_restriction_date: TextValueSchema,
+  a_region: TextValueSchema,
+  a_author_name: TextValueSchema,
+  a_author_phone: TextValueSchema,
+  a_restriction_type: TextValueSchema,
+  a_description: TextValueSchema,
+  a_gibdd_id: TextValueSchema,
+});
 
 export const LimitationResultSchema = z.object({
-  summary: z.object({ vin: text }),
-  lots: z.array(
-    z.object({
-      lot_name: text,
-      lot_link: text,
-      lot_date: text,
-      lot_status: text,
-    }),
-  ),
+  vin: z.string(),
+  limitations: z.array(LimitationSchema),
 });
 
 export const LimitationCheckSchema = createCheckSchema(

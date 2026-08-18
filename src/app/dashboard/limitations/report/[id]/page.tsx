@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import {
-  CheckModule,
-  getCheckById,
-  type CheckByModule,
-} from "@/entities/check";
+import { CheckModule, getCheckById, type CheckByModule } from "@/entities/check";
 import { UserRole, useUserStore } from "@/entities/user";
 import { formatDate } from "@/shared/lib";
 import { ReportHeader } from "@/shared/ui";
@@ -35,12 +31,13 @@ export default function LimitationReportPage() {
         setCheck(loadedCheck);
       })
       .catch((loadError: unknown) => {
-        if (!isCancelled)
+        if (!isCancelled) {
           setError(
             loadError instanceof Error
               ? loadError.message
               : "Не удалось загрузить проверку"
           );
+        }
       });
 
     return () => {
@@ -50,7 +47,7 @@ export default function LimitationReportPage() {
 
   if (error) return <main className={styles.report}>{error}</main>;
   if (!check?.result) return null;
-  const { summary, lots } = check.result;
+  const { vin, limitations } = check.result;
 
   return (
     <main className={styles.report}>
@@ -66,41 +63,61 @@ export default function LimitationReportPage() {
         <div className={styles.heroTitle}>
           Отчёт о проверке ограничений транспортного средства
         </div>
-        <h1>{summary.vin ? `VIN ${summary.vin}` : "VIN не указан"}</h1>
+        <h1>{vin ? `VIN ${vin}` : "VIN не указан"}</h1>
         <div className={styles.fields}>
           <div>
             <span>VIN</span>
-            <strong>{summary.vin ?? "—"}</strong>
+            <strong>{vin || "—"}</strong>
           </div>
         </div>
       </section>
-      {lots.length === 0 ? (
+      {limitations.length === 0 ? (
         <section className={styles.section}>
           <p className={styles.empty}>Ограничения не найдены</p>
         </section>
       ) : (
-        lots.map((lot, index) => (
+        limitations.map((limitation, index) => (
           <section
             className={styles.section}
-            key={`${lot.lot_name}-${lot.lot_link}-${index}`}
+            key={`${limitation.a_gibdd_id}-${limitation.a_restriction_date}-${index}`}
           >
-            <h2>Ограничение</h2>
+            <h2>Ограничение {index + 1}</h2>
             <div className={styles.list}>
               <div>
-                <span>Статус</span>
-                <strong>{lot.lot_status ?? "—"}</strong>
+                <span>Модель</span>
+                <strong>{limitation.a_model ?? "—"}</strong>
               </div>
               <div>
-                <span>Наименование</span>
-                <strong>{lot.lot_name ?? "—"}</strong>
+                <span>Год выпуска</span>
+                <strong>{limitation.a_year ?? "—"}</strong>
               </div>
               <div>
-                <span>Дата</span>
-                <strong>{lot.lot_date ?? "—"}</strong>
+                <span>Дата ограничения</span>
+                <strong>{limitation.a_restriction_date ?? "—"}</strong>
               </div>
               <div>
-                <span>Ссылка</span>
-                <strong>{lot.lot_link ?? "—"}</strong>
+                <span>Регион</span>
+                <strong>{limitation.a_region ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Автор ограничения</span>
+                <strong>{limitation.a_author_name ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Телефон автора</span>
+                <strong>{limitation.a_author_phone ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Тип ограничения</span>
+                <strong>{limitation.a_restriction_type ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Описание</span>
+                <strong>{limitation.a_description ?? "—"}</strong>
+              </div>
+              <div>
+                <span>Идентификатор ГИБДД</span>
+                <strong>{limitation.a_gibdd_id ?? "—"}</strong>
               </div>
             </div>
           </section>
