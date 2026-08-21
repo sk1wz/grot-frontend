@@ -69,6 +69,10 @@
     margin: 8px 0;
 }
 
+.content strong {
+    font-weight: 700;
+}
+
 .content ul,
 .content ol {
     margin: 8px 0;
