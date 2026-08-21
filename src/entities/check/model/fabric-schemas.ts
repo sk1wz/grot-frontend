@@ -6,6 +6,7 @@ import { GistorgiCheckSchema } from "../gistorgi/model/schema";
 import { InnCheckSchema } from "../inn/model/schema";
 import { LimitationCheckSchema } from "../limitation/model/schema";
 import { CheckModule } from "./types";
+import { TaxiCheckSchema } from "../taxi/model/schema";
 
 export const checkSchemasByModule = {
   [CheckModule.GIBDD]: GibddCheckSchema,
@@ -14,6 +15,7 @@ export const checkSchemasByModule = {
   [CheckModule.FSSP]: FsspCheckSchema,
   [CheckModule.BANKRUPTCY]: BankruptcyCheckSchema,
   [CheckModule.INN]: InnCheckSchema,
+  [CheckModule.TAXI]: TaxiCheckSchema,
 } as const;
 
 export const CheckSchema = z.discriminatedUnion("module", [
@@ -23,6 +25,7 @@ export const CheckSchema = z.discriminatedUnion("module", [
   FsspCheckSchema,
   BankruptcyCheckSchema,
   InnCheckSchema,
+  TaxiCheckSchema,
 ]);
 export type Check = z.infer<typeof CheckSchema>;
 export type CheckByModule<TModule extends CheckModule> = Extract<

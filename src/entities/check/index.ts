@@ -6,3 +6,4 @@ export * from "./gibdd";
 export * from "./gistorgi";
 export * from "./limitation";
 export * from "./inn";
+export * from "./taxi";

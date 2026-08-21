@@ -5,6 +5,7 @@ export {
   gibddConfig,
   gistorgiConfig,
   innConfig,
+  taxiConfig,
 } from "./model/checks";
 export { CheckForm, CheckFormById } from "./ui/CheckForm";
 export type { CheckConfig } from "./model/types";

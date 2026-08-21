@@ -46,6 +46,7 @@ const moduleIcons: Record<CheckModule, string> = {
   [CheckModule.FSSP]: "/images/tariff-icons/Iconfssp.svg",
   [CheckModule.BANKRUPTCY]: "/images/tariff-icons/Iconbankcrupcy.svg",
   [CheckModule.INN]: "/images/tariff-icons/Iconinn.svg",
+  [CheckModule.TAXI]: "/images/tariff-icons/Icontaxi.svg",
 };
 
 const moduleOptions = Object.values(CheckModule).map((module) => ({

@@ -4,6 +4,7 @@ import { gibddConfig } from "./gibdd/config";
 import { gistorgiConfig } from "./gistorgi/config";
 import { innConfig } from "./inn/config";
 import { limitationConfig } from "./limitation/config";
+import { taxiConfig } from "./taxi/config";
 
 export const checkConfigs = [
   fsspConfig,
@@ -12,6 +13,7 @@ export const checkConfigs = [
   bankruptcyConfig,
   innConfig,
   limitationConfig,
+  taxiConfig,
 ];
 
 export {
@@ -21,4 +23,5 @@ export {
   gistorgiConfig,
   innConfig,
   limitationConfig,
+  taxiConfig,
 };

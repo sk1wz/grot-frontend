@@ -21,6 +21,8 @@ export function CheckActions({ check }: { check: Check }) {
       ? `/dashboard/gis-torgi/report/${check.id}`
       : check.module === "LIMITATION"
       ? `/dashboard/limitations/report/${check.id}`
+      : check.module === "TAXI"
+      ? `/dashboard/taxi/report/${check.id}`
       : undefined;
 
   return (

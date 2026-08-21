@@ -16,6 +16,7 @@ import {
   useGistorgiChecksStore,
   useLimitationChecksStore,
   useInnChecksStore,
+  useTaxiChecksStore,
 } from "@/entities/check";
 
 function RealtimeProvider({ children }: { children: React.ReactNode }) {
@@ -29,6 +30,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       useLimitationChecksStore.getState().reset();
       useBankruptcyChecksStore.getState().reset();
       useInnChecksStore.getState().reset();
+      useTaxiChecksStore.getState().reset();
       return;
     }
 
@@ -57,6 +59,9 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
           break;
         case CheckModule.INN:
           useInnChecksStore.getState().upsertCheck(parsed.data);
+          break;
+        case CheckModule.TAXI:
+          useTaxiChecksStore.getState().upsertCheck(parsed.data);
           break;
       }
     });

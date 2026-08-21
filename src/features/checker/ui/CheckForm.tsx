@@ -12,6 +12,7 @@ import {
   gistorgiConfig,
   innConfig,
   limitationConfig,
+  taxiConfig,
 } from "../model/checks";
 import type {
   CheckConfig,
@@ -35,6 +36,7 @@ const configsById: Record<string, CheckConfig> = {
   [gistorgiConfig.id]: gistorgiConfig,
   [innConfig.id]: innConfig,
   [limitationConfig.id]: limitationConfig,
+  [taxiConfig.id]: taxiConfig,
 };
 
 function getFields(config: CheckConfig, mode?: ModeDef): FieldDef[] {

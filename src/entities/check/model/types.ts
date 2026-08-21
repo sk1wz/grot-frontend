@@ -6,6 +6,7 @@ export enum CheckModule {
   FSSP = "FSSP",
   BANKRUPTCY = "BANKRUPTCY",
   INN = "INN",
+  TAXI = "TAXI",
 }
 
 /** Значения = коды API */
@@ -25,6 +26,7 @@ export const CheckModuleLabel: Record<CheckModule, string> = {
   [CheckModule.FSSP]: "Модуль ФССП",
   [CheckModule.BANKRUPTCY]: "Модуль банкротства",
   [CheckModule.INN]: "Модуль ИНН",
+  [CheckModule.TAXI]: "Модуль Такси",
 };
 /** Значения = названия статусов */
 export const CheckStatusLabel: Record<CheckStatus, string> = {
