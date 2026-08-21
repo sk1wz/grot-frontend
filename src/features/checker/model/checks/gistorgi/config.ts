@@ -6,6 +6,7 @@ export const gistorgiConfig: CheckConfig = {
   id: "gistorgi",
   title: "ГИС Торги",
   endpoint: "/checks/gistorgi",
+  batchEndpoint: "/checks/gistorgi/batch",
   fields: [
     {
       name: "vin",

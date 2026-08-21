@@ -6,6 +6,7 @@ export const limitationConfig: CheckConfig = {
   id: "limitation",
   title: "Ограничения",
   endpoint: "/checks/limitation",
+  batchEndpoint: "/checks/limitation/batch",
   fields: [
     {
       name: "vin",

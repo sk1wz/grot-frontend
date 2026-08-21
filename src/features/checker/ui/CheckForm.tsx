@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Download } from "lucide-react";
 import { toast } from "react-toastify";
-import { startCheck } from "../api";
+import { startBatchCheck, startCheck } from "../api";
 import { buildCheckSubjectBody } from "../model";
 import {
   bankruptcyConfig,
@@ -79,7 +79,7 @@ export function CheckForm({ config }: CheckFormProps) {
   const [values, setValues] = useState<FieldValues>(() =>
     getDefaultValues(fields)
   );
-  const [fileName, setFileName] = useState("Файл не выбран");
+  const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -97,6 +97,25 @@ export function CheckForm({ config }: CheckFormProps) {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (file && config.batchEndpoint) {
+      setIsSubmitting(true);
+      try {
+        await startBatchCheck(config.batchEndpoint, file);
+        toast.success("Файл принят: пакетные проверки запущены");
+        setFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Не удалось загрузить файл для проверки"
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
+    }
 
     const schema = activeMode?.schema ?? config.schema;
     const parsed = schema?.safeParse(values);
@@ -198,7 +217,9 @@ export function CheckForm({ config }: CheckFormProps) {
       </div>
 
       <div className="mt-5 flex items-center justify-between gap-4 text-xs font-medium text-[#1f2937]">
-        <span className="truncate">{fileName}</span>
+        <span className="truncate">
+          {file?.name ?? "Файл не выбран"}
+        </span>
         <a
           href={config.templateUrl ?? "#"}
           className={`inline-flex shrink-0 items-center gap-2 ${
@@ -217,9 +238,7 @@ export function CheckForm({ config }: CheckFormProps) {
         type="file"
         accept=".xlsx,.xls"
         className="hidden"
-        onChange={(event) => {
-          setFileName(event.target.files?.[0]?.name ?? "Файл не выбран");
-        }}
+        onChange={(event) => setFile(event.target.files?.[0] ?? null)}
       />
     </form>
   );

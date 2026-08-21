@@ -23,3 +23,30 @@ export async function startCheck(
 
   return data;
 }
+
+export async function startBatchCheck(
+  endpoint: string,
+  file: File
+): Promise<void> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${baseURL}${endpoint}`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+
+  const data: unknown = await response.json().catch(() => null);
+
+  if (response.status !== 202 && !response.ok) {
+    const message =
+      typeof data === "object" &&
+      data !== null &&
+      "message" in data &&
+      typeof data.message === "string"
+        ? data.message
+        : "Не удалось загрузить файл для проверки";
+    throw new Error(message);
+  }
+}

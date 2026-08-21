@@ -24,6 +24,7 @@ export type CheckConfig = {
   id: string;
   title: string;
   endpoint: string;
+  batchEndpoint?: string;
   modes?: ModeDef[];
   fields?: FieldDef[];
   schema?: z.ZodType<FieldValues>;

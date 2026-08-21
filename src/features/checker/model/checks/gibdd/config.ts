@@ -6,6 +6,7 @@ export const gibddConfig: CheckConfig = {
   id: "gibdd",
   title: "Транспорт",
   endpoint: "/checks/gibdd",
+  batchEndpoint: "/checks/gibdd/batch",
   fields: [
     {
       name: "vin",
