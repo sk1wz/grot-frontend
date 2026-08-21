@@ -239,7 +239,6 @@ export default function GibddReportPage() {
               <tr>
                 <th>№</th>
                 <th>Дата</th>
-                <th>Время</th>
                 <th>Сумма</th>
                 <th>Статус</th>
                 <th>Статья</th>
@@ -252,7 +251,6 @@ export default function GibddReportPage() {
                 <tr key={fine.uin?.toString() ?? index}>
                   <td>{index + 1}</td>
                   <td>{fine.date ?? "—"}</td>
-                  <td>{fine.time ?? "—"}</td>
                   <td>{fine.amount ?? "—"}</td>
                   <td>{fine.status ?? "—"}</td>
                   <td>{fine.article ?? "—"}</td>

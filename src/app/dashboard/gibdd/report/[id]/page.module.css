@@ -201,7 +201,6 @@
 .dataField strong {
     font-size: 16px;
     text-transform: uppercase;
-    text-decoration: underline;
 }
 
 .dataField:nth-child(1),
