@@ -13,21 +13,12 @@ export const gibddConfig: CheckConfig = {
       label: "VIN",
       placeholder: "Введите VIN",
     },
-    {
-      name: "osago",
-      label: "Запрашивать ОСАГО (+1-2 мин)",
-      type: "checkbox",
-    },
   ],
   schema: gibddSchema,
   buildSubjectBody: (values) => {
     const subjectBody: Record<string, unknown> = {
       vin: pickString(values, "vin"),
     };
-
-    if (values.osago === true) {
-      subjectBody.osago = true;
-    }
 
     return subjectBody;
   },
