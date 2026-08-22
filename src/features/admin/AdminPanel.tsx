@@ -174,8 +174,10 @@ export function AdminPanel() {
       ) as Record<CheckModule, number>
   );
 
-  async function loadUsers() {
-    setIsLoading(true);
+  async function loadUsers(showLoader = true) {
+    if (showLoader) {
+      setIsLoading(true);
+    }
     try {
       const items = await getAdminUsers();
       setUsers(items);
@@ -191,7 +193,9 @@ export function AdminPanel() {
     } catch {
       setUsers([]);
     } finally {
-      setIsLoading(false);
+      if (showLoader) {
+        setIsLoading(false);
+      }
     }
   }
 
@@ -333,7 +337,7 @@ export function AdminPanel() {
       );
       setBalanceUser(null);
       setAmount("");
-      await loadUsers();
+      await loadUsers(false);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Не удалось изменить баланс"
