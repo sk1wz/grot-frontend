@@ -21,10 +21,8 @@ import { type UserType, UserRole } from "@/entities/user";
 import {
   CheckModule,
   CheckModuleLabel,
-  getCheckPrices,
   type BatchCheck,
   type Check,
-  type CheckPrice,
 } from "@/entities/check";
 import { formatAmount, formatDate } from "@/shared/lib";
 import {
@@ -54,8 +52,11 @@ import {
   getAdminFeedback,
   getAdminFeedbackAttachmentUrl,
   type FeedbackRequest,
-  updateCheckPrice,
   updateAdminFeedbackStatus,
+  getAdminUserCheckPrices,
+  resetAdminUserCheckPrice,
+  updateAdminUserCheckPrice,
+  type UserCheckPrice,
 } from "./api";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50];
@@ -124,6 +125,12 @@ const moduleOptions = Object.values(CheckModule).map((module) => ({
 export function AdminPanel() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [balanceUser, setBalanceUser] = useState<UserType | null>(null);
+  const [checkPricesUser, setCheckPricesUser] = useState<UserType | null>(null);
+  const [userCheckPrices, setUserCheckPrices] = useState<UserCheckPrice[]>([]);
+  const [userPriceDrafts, setUserPriceDrafts] = useState<Record<string, string>>({});
+  const [isUserCheckPricesLoading, setIsUserCheckPricesLoading] = useState(false);
+  const [savingUserPriceModule, setSavingUserPriceModule] =
+    useState<CheckModule | null>(null);
   const [userToDelete, setUserToDelete] = useState<UserType | null>(null);
   const [transactionsUser, setTransactionsUser] = useState<UserType | null>(
     null
@@ -141,11 +148,6 @@ export function AdminPanel() {
     []
   );
   const [feedbackPage, setFeedbackPage] = useState(1);
-  const [checkPrices, setCheckPrices] = useState<CheckPrice[]>([]);
-  const [priceDrafts, setPriceDrafts] = useState<Record<string, string>>({});
-  const [isPricesLoading, setIsPricesLoading] = useState(true);
-  const [savingPriceModule, setSavingPriceModule] =
-    useState<CheckModule | null>(null);
   const [checksView, setChecksView] = useState<"single" | "batch">("single");
   const [amount, setAmount] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -204,20 +206,6 @@ export function AdminPanel() {
   }, []);
 
   useEffect(() => {
-    void getCheckPrices()
-      .then((items) => {
-        setCheckPrices(items);
-        setPriceDrafts(
-          Object.fromEntries(
-            items.map((item) => [item.module, String(item.price)])
-          )
-        );
-      })
-      .catch(() => toast.error("Не удалось загрузить цены проверок"))
-      .finally(() => setIsPricesLoading(false));
-  }, []);
-
-  useEffect(() => {
     void getAdminFeedback()
       .then(setFeedback)
       .catch(() => setFeedback([]))
@@ -245,34 +233,79 @@ export function AdminPanel() {
     }
   }
 
-  async function saveCheckPrice(module: CheckModule) {
-    const price = Number(priceDrafts[module]?.replace(",", "."));
+  function closeBalanceModal() {
+    if (isSaving) return;
+    setBalanceUser(null);
+    setAmount("");
+  }
+
+  async function openUserCheckPrices(user: UserType) {
+    setCheckPricesUser(user);
+    setUserCheckPrices([]);
+    setUserPriceDrafts({});
+    setIsUserCheckPricesLoading(true);
+
+    try {
+      const items = await getAdminUserCheckPrices(user.id);
+      setUserCheckPrices(items);
+      setUserPriceDrafts(
+        Object.fromEntries(items.map((item) => [item.module, String(item.price)]))
+      );
+    } catch (error) {
+      setCheckPricesUser(null);
+      toast.error(
+        error instanceof Error ? error.message : "Не удалось загрузить цены пользователя"
+      );
+    } finally {
+      setIsUserCheckPricesLoading(false);
+    }
+  }
+
+  async function saveUserCheckPrice(module: CheckModule) {
+    if (!checkPricesUser) return;
+
+    const price = Number(userPriceDrafts[module]?.replace(",", "."));
     if (!Number.isFinite(price) || price < 0) {
       toast.error("Укажите корректную цену");
       return;
     }
 
-    setSavingPriceModule(module);
+    setSavingUserPriceModule(module);
     try {
-      await updateCheckPrice(module, price);
-      setCheckPrices((items) =>
-        items.map((item) =>
-          item.module === module ? { ...item, price } : item
-        )
+      await updateAdminUserCheckPrice(checkPricesUser.id, module, price);
+      setUserCheckPrices((items) =>
+        items.map((item) => (item.module === module ? { ...item, price } : item))
       );
-      setPriceDrafts((items) => ({ ...items, [module]: String(price) }));
-      toast.success("Цена проверки обновлена");
-    } catch {
-      toast.error("Не удалось обновить цену проверки");
+      setUserPriceDrafts((items) => ({ ...items, [module]: String(price) }));
+      toast.success("Персональная цена сохранена");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Не удалось сохранить цену"
+      );
     } finally {
-      setSavingPriceModule(null);
+      setSavingUserPriceModule(null);
     }
   }
 
-  function closeBalanceModal() {
-    if (isSaving) return;
-    setBalanceUser(null);
-    setAmount("");
+  async function resetUserCheckPrice(module: CheckModule) {
+    if (!checkPricesUser) return;
+
+    setSavingUserPriceModule(module);
+    try {
+      await resetAdminUserCheckPrice(checkPricesUser.id, module);
+      const items = await getAdminUserCheckPrices(checkPricesUser.id);
+      setUserCheckPrices(items);
+      setUserPriceDrafts(
+        Object.fromEntries(items.map((item) => [item.module, String(item.price)]))
+      );
+      toast.success("Возвращена общая цена");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Не удалось сбросить цену"
+      );
+    } finally {
+      setSavingUserPriceModule(null);
+    }
   }
 
   async function openTransactions(user: UserType) {
@@ -626,6 +659,13 @@ export function AdminPanel() {
           </button>
           <button
             type="button"
+            onClick={() => void openUserCheckPrices(user)}
+            className="rounded-[12px] cursor-pointer bg-[#e5ddf2] px-3 py-2 text-xs font-bold"
+          >
+            Цены
+          </button>
+          <button
+            type="button"
             onClick={() => setUserToDelete(user)}
             className="rounded-[12px] cursor-pointer bg-[#f6d4d4] px-3 py-2 text-xs font-bold"
           >
@@ -818,6 +858,14 @@ export function AdminPanel() {
                   </button>
                   <button
                     type="button"
+                    onClick={() => void openUserCheckPrices(user)}
+                    className="flex items-center justify-center gap-2 rounded-xl bg-[#eee5f8] px-3 py-2 text-xs font-bold"
+                  >
+                    <WalletCards className="size-4" />
+                    Цены
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => setUserToDelete(user)}
                     className="flex items-center justify-center gap-2 rounded-xl bg-[#f9e2e2] px-3 py-2 text-xs font-bold text-[#9c3c3c]"
                   >
@@ -977,68 +1025,108 @@ export function AdminPanel() {
         )}
       </section>
 
-      <section className="mt-6 rounded-[28px] border border-white/80 bg-white/70 p-4 shadow-[0_18px_45px_rgba(90,111,130,0.1)] backdrop-blur md:p-6">
-        <div>
-          <h2 className="text-xl font-medium">Цены проверок</h2>
-          <p className="mt-1 text-sm text-[#718096]">
-            Стоимость одной проверки для пользователей платформы
-          </p>
-        </div>
-        {isPricesLoading ? (
-          <p className="mt-5 rounded-3xl bg-white p-5 text-sm text-[#718096]">
-            Загрузка цен…
-          </p>
-        ) : checkPrices.length ? (
-          <div className="mt-5 grid gap-3 lg:grid-cols-2">
-            {checkPrices.map((item) => (
-              <article
-                key={item.module}
-                className="rounded-[24px] border border-[#eef0f3] bg-white p-5 shadow-[0_12px_32px_rgba(90,111,130,0.1)]"
-              >
-                <p className="font-semibold text-(--foreground)">
-                  {item.title}
-                </p>
-                <p className="mt-2 min-h-10 text-sm leading-5 text-[#718096]">
-                  {item.description}
-                </p>
-                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-end">
-                  <label className="flex flex-1 flex-col gap-2 text-sm font-medium text-[#526173]">
-                    Цена, ₽
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      inputMode="decimal"
-                      value={priceDrafts[item.module] ?? ""}
-                      onChange={(event) =>
-                        setPriceDrafts((items) => ({
-                          ...items,
-                          [item.module]: event.target.value,
-                        }))
-                      }
-                      className="h-11 rounded-xl bg-(--surface) px-3 text-sm text-(--foreground) outline-none shadow-[0_2px_7px_rgba(15,23,42,0.12)] focus:ring-2 focus:ring-[#c5ddd5]"
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    disabled={savingPriceModule === item.module}
-                    onClick={() => void saveCheckPrice(item.module)}
-                    className="h-11 cursor-pointer rounded-xl bg-[#c5ddd5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {savingPriceModule === item.module
-                      ? "Сохранение…"
-                      : "Сохранить"}
-                  </button>
-                </div>
-              </article>
-            ))}
+      {checkPricesUser && (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-[#3e3c4b]/35 p-3 sm:p-4"
+          onClick={() =>
+            savingUserPriceModule === null && setCheckPricesUser(null)
+          }
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="user-prices-modal-title"
+        >
+          <div
+            className="relative flex max-h-[calc(100vh-1.5rem)] w-full max-w-210 flex-col overflow-y-auto rounded-[20px] bg-white p-4 text-(--foreground) shadow-[0_12px_40px_rgba(62,60,75,0.3)] sm:max-h-[85vh] sm:rounded-[24px] sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              disabled={savingUserPriceModule !== null}
+              onClick={() => setCheckPricesUser(null)}
+              aria-label="Закрыть"
+              className="absolute top-3 right-3 grid size-10 place-items-center rounded-full hover:bg-(--field) disabled:opacity-50"
+            >
+              <X size={22} />
+            </button>
+            <h2 id="user-prices-modal-title" className="pr-10 text-lg font-medium sm:text-xl">
+              Персональные цены
+            </h2>
+            <p className="mt-2 text-sm text-[#868a85]">{checkPricesUser.email}</p>
+            <p className="mt-1 text-xs text-[#718096]">
+              Сохраните цену для пользователя или сбросьте её, чтобы применить общий тариф.
+            </p>
+
+            {isUserCheckPricesLoading ? (
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {Array.from({ length: 6 }, (_, index) => (
+                  <div key={index} className="rounded-2xl border border-[#eef0f3] p-4">
+                    <Skeleton className="h-5 w-2/3" />
+                    <Skeleton className="mt-2 h-3 w-full" />
+                    <Skeleton className="mt-4 h-10 w-full rounded-xl" />
+                  </div>
+                ))}
+              </div>
+            ) : userCheckPrices.length ? (
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {userCheckPrices.map((item) => {
+                  const isSavingModule = savingUserPriceModule === item.module;
+
+                  return (
+                    <article
+                      key={item.module}
+                      className="rounded-2xl border border-[#eef0f3] bg-white p-4 shadow-[0_8px_20px_rgba(90,111,130,0.08)]"
+                    >
+                      <p className="font-semibold">{item.title}</p>
+                      <p className="mt-1 min-h-10 text-sm text-[#718096]">
+                        {item.description}
+                      </p>
+                      <label className="mt-4 flex flex-col gap-2 text-sm font-medium text-[#526173]">
+                        Цена, ₽
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          inputMode="decimal"
+                          value={userPriceDrafts[item.module] ?? ""}
+                          onChange={(event) =>
+                            setUserPriceDrafts((items) => ({
+                              ...items,
+                              [item.module]: event.target.value,
+                            }))
+                          }
+                          className="h-11 rounded-xl bg-(--surface) px-3 text-sm outline-none shadow-[0_2px_7px_rgba(15,23,42,0.12)] focus:ring-2 focus:ring-[#c5ddd5]"
+                        />
+                      </label>
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          disabled={isSavingModule}
+                          onClick={() => void saveUserCheckPrice(item.module)}
+                          className="h-10 cursor-pointer rounded-xl bg-[#c5ddd5] px-3 text-xs font-bold uppercase text-[#1f2937] disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {isSavingModule ? "Сохранение…" : "Сохранить"}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={isSavingModule}
+                          onClick={() => void resetUserCheckPrice(item.module)}
+                          className="h-10 cursor-pointer rounded-xl bg-[#edf0f3] px-3 text-xs font-bold uppercase text-[#526173] disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          Сбросить
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="mt-5 rounded-2xl bg-(--surface) p-4 text-sm text-[#718096]">
+                Цены для пользователя не найдены.
+              </p>
+            )}
           </div>
-        ) : (
-          <p className="mt-5 rounded-3xl bg-white p-5 text-sm text-[#718096]">
-            Цены проверок не найдены
-          </p>
-        )}
-      </section>
+        </div>
+      )}
 
       {balanceUser && (
         <div

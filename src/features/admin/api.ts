@@ -12,6 +12,13 @@ import {
 } from "@/entities/check";
 import { baseURL } from "@/shared/api/config";
 
+export type UserCheckPrice = {
+  module: CheckModule;
+  title: string;
+  description: string;
+  price: number;
+};
+
 export const FeedbackStatus = {
   NEW: "NEW",
   IN_REVIEW: "IN_REVIEW",
@@ -113,10 +120,34 @@ export async function getChecksStatistics(): Promise<ChecksStatistics> {
   };
 }
 
-export async function updateCheckPrice(module: CheckModule, price: number) {
-  await request(`/checks/prices/${module}`, {
-    method: "PATCH",
+export async function getAdminUserCheckPrices(
+  userId: string
+): Promise<UserCheckPrice[]> {
+  const data: unknown = await request(`/checks/prices/users/${userId}`);
+  if (!Array.isArray(data)) {
+    throw new Error("Некорректный ответ сервера");
+  }
+
+  return data as UserCheckPrice[];
+}
+
+export async function updateAdminUserCheckPrice(
+  userId: string,
+  module: CheckModule,
+  price: number
+) {
+  await request(`/checks/prices/users/${userId}/${module}`, {
+    method: "PUT",
     body: JSON.stringify({ price }),
+  });
+}
+
+export async function resetAdminUserCheckPrice(
+  userId: string,
+  module: CheckModule
+) {
+  await request(`/checks/prices/users/${userId}/${module}`, {
+    method: "DELETE",
   });
 }
 
