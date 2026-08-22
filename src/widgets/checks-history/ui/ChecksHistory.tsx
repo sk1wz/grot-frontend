@@ -52,7 +52,7 @@ export function ChecksHistory({
   className = "",
 }: ChecksHistoryProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [idQuery, setIdQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<CheckStatus[]>([]);
   const [view, setView] = useState<HistoryView>("single");
   const displayedItems = view === "single" ? items : batches;
@@ -60,13 +60,15 @@ export function ChecksHistory({
   const currentIsInitialized =
     view === "single" ? isInitialized : areBatchesInitialized;
   const filteredItems = useMemo(() => {
-    const normalizedQuery = idQuery.trim().toLowerCase();
+    const normalizedQuery = searchQuery.trim().toLowerCase();
     return displayedItems.filter(
       (check) =>
-        (!normalizedQuery || check.id.toLowerCase().includes(normalizedQuery)) &&
+        (!normalizedQuery ||
+          check.id.toLowerCase().includes(normalizedQuery) ||
+          check.subjectBodyText.toLowerCase().includes(normalizedQuery)) &&
         (statusFilter.length === 0 || statusFilter.includes(check.status)),
     );
-  }, [displayedItems, idQuery, statusFilter]);
+  }, [displayedItems, searchQuery, statusFilter]);
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const safeCurrentPage = totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
@@ -90,14 +92,14 @@ export function ChecksHistory({
             setCurrentPage(1);
           }}
         />
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 lg:grid-cols-2">
           <SearchField
-            id="check-id-search"
-            label="Поиск по ID"
-            placeholder="Введите ID проверки"
-            value={idQuery}
+            id="check-search"
+            label="Поиск"
+            placeholder="ID или текст запроса"
+            value={searchQuery}
             onChange={(value) => {
-              setIdQuery(value);
+              setSearchQuery(value);
               setCurrentPage(1);
             }}
           />
