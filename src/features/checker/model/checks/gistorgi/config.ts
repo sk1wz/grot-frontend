@@ -7,6 +7,7 @@ export const gistorgiConfig: CheckConfig = {
   title: "ГИС Торги",
   endpoint: "/checks/gistorgi",
   batchEndpoint: "/checks/gistorgi/batch",
+  templateUrl: "/templates/vin.xlsx",
   fields: [
     {
       name: "vin",

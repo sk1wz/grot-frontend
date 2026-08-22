@@ -7,6 +7,7 @@ export const fsspConfig: CheckConfig = {
   title: "ФССП",
   endpoint: "/checks/fssp",
   batchEndpoint: "/checks/fssp/batch",
+  templateUrl: "/templates/fssp.xlsx",
   modes: [
     {
       id: "for_fio_dob",

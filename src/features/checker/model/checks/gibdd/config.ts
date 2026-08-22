@@ -7,6 +7,7 @@ export const gibddConfig: CheckConfig = {
   title: "Транспорт",
   endpoint: "/checks/gibdd",
   batchEndpoint: "/checks/gibdd/batch",
+  templateUrl: "/templates/vin.xlsx",
   fields: [
     {
       name: "vin",

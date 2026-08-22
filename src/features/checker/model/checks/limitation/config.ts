@@ -7,6 +7,7 @@ export const limitationConfig: CheckConfig = {
   title: "Ограничения",
   endpoint: "/checks/limitation",
   batchEndpoint: "/checks/limitation/batch",
+  templateUrl: "/templates/vin.xlsx",
   fields: [
     {
       name: "vin",

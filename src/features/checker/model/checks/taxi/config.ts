@@ -7,6 +7,7 @@ export const taxiConfig: CheckConfig = {
   title: "ФГИС Такси",
   endpoint: "/checks/taxi",
   batchEndpoint: "/checks/taxi/batch",
+  templateUrl: "/templates/vin.xlsx",
   fields: [
     {
       name: "vin",

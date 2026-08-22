@@ -7,6 +7,7 @@ export const bankruptcyConfig: CheckConfig = {
   title: "Банкротства",
   endpoint: "/checks/bancrupcy",
   batchEndpoint: "/checks/bancrupcy/batch",
+  templateUrl: "/templates/bancrupcy.xlsx",
   modes: [
     {
       id: "for_inn",

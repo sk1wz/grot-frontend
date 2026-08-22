@@ -224,6 +224,7 @@ export function CheckForm({ config }: CheckFormProps) {
         </span>
         <a
           href={config.templateUrl ?? "#"}
+          download
           className={`inline-flex shrink-0 items-center gap-2 ${
             config.templateUrl
               ? "hover:underline"

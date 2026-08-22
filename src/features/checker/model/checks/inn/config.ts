@@ -7,6 +7,7 @@ export const innConfig: CheckConfig = {
   title: "ИНН по паспорту",
   endpoint: "/checks/inn",
   batchEndpoint: "/checks/inn/batch",
+  templateUrl: "/templates/inn.xlsx",
   modes: [
     {
       id: "for_structured",
