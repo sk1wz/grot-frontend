@@ -288,6 +288,10 @@
     color: #4fcb91;
 }
 
+.statusDone {
+    color: #249763;
+}
+
 .section {
     margin-top: 30px;
     padding: 30px;

@@ -4,6 +4,7 @@ import {
   getCheckById,
   type CheckByModule,
   CheckModule,
+  CheckStatus,
 } from "@/entities/check";
 import { UserRole, useUserStore } from "@/entities/user";
 import { useParams } from "next/navigation";
@@ -144,7 +145,9 @@ export default function GibddReportPage() {
           {hasAccidents ? <a href="#accidents" className={`${styles.summaryItem} ${styles.summaryLink}`}><span>ДТП</span><strong className={styles.summaryValueLink}>{accidents.length}</strong></a> : <div className={styles.summaryItem}><span>ДТП</span><strong>{accidents.length}</strong></div>}
           <div className={styles.summaryItem}>
             <span>Статус</span>
-            <strong>{check.status}</strong>
+            <strong className={check.status === CheckStatus.DONE ? styles.statusDone : undefined}>
+              {check.status === CheckStatus.DONE ? "ПРОВЕРЕНО" : check.status}
+            </strong>
           </div>
           <div className={styles.summaryItem}>
             <span>Розыск</span>
