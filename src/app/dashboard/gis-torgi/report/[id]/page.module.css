@@ -119,14 +119,14 @@
     overflow: hidden;
     padding: 0;
     border: 1px solid #4fcb91;
-    border-radius: 20px;
-    background: #fff
+    border-radius: 30px;
+    background: #fff;
+    box-shadow: inset -4px 12px 4px rgb(255 255 255 / 20%), inset 0 4px 15px rgb(62 60 75 / 20%), 0 4px 50px rgb(62 60 75 / 15%);
 }
 
 .fields div {
     display: grid;
-    grid-template-columns: 50% 50%;
-    min-height: 54px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     border-bottom: 1px solid #4fcb91;
     background: #fff;
 }
@@ -145,18 +145,23 @@
 .fields strong {
     display: flex;
     align-items: center;
-    padding: 10px 14px
+    min-width: 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
 }
 
 .fields span {
     justify-content: center;
     background: rgb(62 60 75 / 10%);
-    border-right: 1px solid #4fcb91
+    border-right: 3px solid #fff;
+    text-align: center;
 }
 
 .fields strong {
-    text-transform: uppercase;
-    font-size: 14px
+    border-left: 1px solid #4fcb91;
+    overflow-wrap: anywhere;
 }
 
 .section h2 {
@@ -176,13 +181,14 @@
 .list {
     overflow: hidden;
     border: 1px solid #4fcb91;
-    border-radius: 12px
+    border-radius: 30px;
+    box-shadow: inset -4px 12px 4px rgb(255 255 255 / 20%), inset 0 4px 15px rgb(62 60 75 / 20%), 0 4px 50px rgb(62 60 75 / 15%);
 }
 
 .list div {
     display: grid;
-    grid-template-columns: 42% 58%;
-    border-bottom: 1px solid #c9d5e5
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    border-bottom: 1px solid #4fcb91
 }
 
 .list div:last-child {
@@ -191,17 +197,25 @@
 
 .list span,
 .list strong {
-    padding: 11px 14px
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
 }
 
 .list span {
     background: rgb(62 60 75 / 10%);
-    text-align: right
+    justify-content: center;
+    border-right: 3px solid #fff;
+    text-align: center
 }
 
 .list strong {
-    border-left: 1px solid #c9d5e5;
-    font-size: 14px
+    border-left: 1px solid #4fcb91;
+    overflow-wrap: anywhere;
 }
 
 .success {
@@ -266,9 +280,11 @@
         font-size: 10px
     }
 
-    .fields div { grid-template-columns: 48% 52% }
+    .fields span,
+    .fields strong,
+    .list span,
+    .list strong { padding: 10px 12px; font-size: 12px; line-height: 16px }
 
-    .list div {
-        grid-template-columns: 42% 58%
-    }
+    .fields { border-radius: 20px }
+    .list { border-radius: 20px }
 }
