@@ -5,6 +5,7 @@ import {
 import { UserSchema, type UserType } from "@/entities/user";
 import {
   BatchCheckSchema,
+  CheckModule,
   CheckSchema,
   type BatchCheck,
   type Check,
@@ -77,6 +78,38 @@ export async function getAdminUserBatchChecks(
     const parsed = BatchCheckSchema.safeParse(item);
     return parsed.success ? [parsed.data] : [];
   });
+}
+
+export type ChecksStatistics = {
+  totalChecks: number;
+  byModule: Record<CheckModule, number>;
+};
+
+export async function getChecksStatistics(): Promise<ChecksStatistics> {
+  const data: unknown = await request("/checks/statistics");
+  if (!data || typeof data !== "object") {
+    throw new Error("Некорректный ответ сервера");
+  }
+
+  const response = data as {
+    totalChecks?: unknown;
+    byModule?: Record<string, unknown>;
+  };
+  if (typeof response.totalChecks !== "number" || !response.byModule) {
+    throw new Error("Некорректный ответ сервера");
+  }
+
+  return {
+    totalChecks: response.totalChecks,
+    byModule: Object.fromEntries(
+      Object.values(CheckModule).map((module) => [
+        module,
+        typeof response.byModule?.[module] === "number"
+          ? response.byModule[module]
+          : 0,
+      ]),
+    ) as Record<CheckModule, number>,
+  };
 }
 
 export async function changeAdminBalance(

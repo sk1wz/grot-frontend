@@ -36,6 +36,7 @@ import {
   getAdminUserTransactions,
   getAdminUserChecks,
   getAdminUserBatchChecks,
+  getChecksStatistics,
   deleteAdminFeedback,
   FeedbackStatus,
   getAdminFeedback,
@@ -131,20 +132,10 @@ export function AdminPanel() {
     try {
       const items = await getAdminUsers();
       setUsers(items);
-      void Promise.all(items.map(async (user) => {
-        const [single, batch] = await Promise.all([
-          getAdminUserChecks(user.id),
-          getAdminUserBatchChecks(user.id),
-        ]);
-        return [...single, ...batch];
-      }))
-        .then((groups) => {
-          const allChecks = groups.flat();
-          setTotalChecks(allChecks.length);
-          setModuleUsage(allChecks.reduce((usage, check) => {
-            usage[check.module] += 1;
-            return usage;
-          }, Object.fromEntries(Object.values(CheckModule).map((module) => [module, 0])) as Record<CheckModule, number>));
+      void getChecksStatistics()
+        .then(({ totalChecks, byModule }) => {
+          setTotalChecks(totalChecks);
+          setModuleUsage(byModule);
         })
         .catch(() => setTotalChecks(null));
       setBalanceUser((current) =>
