@@ -44,7 +44,7 @@ export const miniMenu: MiniMenuItem[] = [
   {
     label: "Поддержка",
     iconSrc: "/images/Icon_info.svg",
-    href: "mailto:info@autosledrf.ru",
+    href: "/dashboard/support",
   },
 ];
 
