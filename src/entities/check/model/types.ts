@@ -22,9 +22,9 @@ export enum CheckStatus {
 export const CheckModuleLabel: Record<CheckModule, string> = {
   [CheckModule.GIBDD]: "Модуль ГИБДД",
   [CheckModule.GISTORGI]: "Модуль ГИСТОРГИ",
-  [CheckModule.LIMITATION]: "Модуль ограничений",
+  [CheckModule.LIMITATION]: "Модуль Ограничений",
   [CheckModule.FSSP]: "Модуль ФССП",
-  [CheckModule.BANKRUPTCY]: "Модуль банкротства",
+  [CheckModule.BANKRUPTCY]: "Модуль Банкротства",
   [CheckModule.INN]: "Модуль ИНН",
   [CheckModule.TAXI]: "Модуль Такси",
 };

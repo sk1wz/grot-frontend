@@ -3,8 +3,28 @@ import {
   type BalanceTransactionsResponse,
 } from "@/entities/balance";
 import { UserSchema, type UserType } from "@/entities/user";
-import { CheckSchema, type Check } from "@/entities/check";
+import {
+  BatchCheckSchema,
+  CheckSchema,
+  type BatchCheck,
+  type Check,
+} from "@/entities/check";
 import { baseURL } from "@/shared/api/config";
+
+export const FeedbackStatus = {
+  NEW: "NEW",
+  IN_REVIEW: "IN_REVIEW",
+  REJECTED: "REJECTED",
+  COMPLETED: "COMPLETED",
+  ARCHIVED: "ARCHIVED",
+} as const;
+export type FeedbackStatus = (typeof FeedbackStatus)[keyof typeof FeedbackStatus];
+export type FeedbackRequest = {
+  id: string; name: string; companyName: string; email: string; phone: string;
+  message: string; status: FeedbackStatus;
+  attachment: { name: string; mimeType: string | null; size: number | null } | null;
+  createdAt: string; updatedAt: string;
+};
 
 async function request(path: string, options?: RequestInit) {
   const response = await fetch(`${baseURL}${path}`, {
@@ -47,6 +67,18 @@ export async function getAdminUserChecks(userId: string): Promise<Check[]> {
   });
 }
 
+export async function getAdminUserBatchChecks(
+  userId: string,
+): Promise<BatchCheck[]> {
+  const data: unknown = await request(`/checks/admin/${userId}/batch`);
+  if (!Array.isArray(data)) throw new Error("Некорректный ответ сервера");
+
+  return data.flatMap((item) => {
+    const parsed = BatchCheckSchema.safeParse(item);
+    return parsed.success ? [parsed.data] : [];
+  });
+}
+
 export async function changeAdminBalance(
   operation: "credit" | "debit",
   userId: string,
@@ -60,4 +92,19 @@ export async function changeAdminBalance(
 
 export async function deleteAdminUser(userId: string) {
   await request(`/user/${userId}`, { method: "DELETE" });
+}
+
+export async function getAdminFeedback(): Promise<FeedbackRequest[]> {
+  const data: unknown = await request("/feedback/admin");
+  if (!Array.isArray(data)) throw new Error("Некорректный ответ сервера");
+  return data as FeedbackRequest[];
+}
+export async function updateAdminFeedbackStatus(id: string, status: FeedbackStatus) {
+  return request(`/feedback/admin/${id}/status`, { method: "PATCH", body: JSON.stringify({ status }) });
+}
+export async function deleteAdminFeedback(id: string) {
+  return request(`/feedback/admin/${id}`, { method: "DELETE" });
+}
+export function getAdminFeedbackAttachmentUrl(id: string) {
+  return `${baseURL}/feedback/admin/${id}/attachment`;
 }

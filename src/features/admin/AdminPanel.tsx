@@ -1,15 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { X } from "lucide-react";
+import { CreditCard, FileText, ReceiptText, ShieldCheck, Trash2, Users, WalletCards, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   BalanceTransactionStatus,
   BalanceTransactionStatusLabel,
   type BalanceTransactionType,
 } from "@/entities/balance";
-import type { UserType } from "@/entities/user";
-import { CheckModule, CheckModuleLabel, type Check } from "@/entities/check";
+import { type UserType, UserRole } from "@/entities/user";
+import {
+  CheckModule,
+  CheckModuleLabel,
+  type BatchCheck,
+  type Check,
+} from "@/entities/check";
 import { formatAmount, formatDate } from "@/shared/lib";
 import {
   DashboardPageFrame,
@@ -18,6 +23,7 @@ import {
   Pagination,
   SearchField,
   SmartTable,
+  Tabs,
   type TableColumn,
 } from "@/shared/ui";
 import { toast } from "react-toastify";
@@ -29,6 +35,13 @@ import {
   getAdminUsers,
   getAdminUserTransactions,
   getAdminUserChecks,
+  getAdminUserBatchChecks,
+  deleteAdminFeedback,
+  FeedbackStatus,
+  getAdminFeedback,
+  getAdminFeedbackAttachmentUrl,
+  type FeedbackRequest,
+  updateAdminFeedbackStatus,
 } from "./api";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50];
@@ -75,6 +88,10 @@ export function AdminPanel() {
   );
   const [checksUser, setChecksUser] = useState<UserType | null>(null);
   const [checks, setChecks] = useState<Check[]>([]);
+  const [batchChecks, setBatchChecks] = useState<BatchCheck[]>([]);
+  const [feedback, setFeedback] = useState<FeedbackRequest[]>([]);
+  const [isFeedbackLoading, setIsFeedbackLoading] = useState(true);
+  const [checksView, setChecksView] = useState<"single" | "batch">("single");
   const [amount, setAmount] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,12 +111,32 @@ export function AdminPanel() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isTransactionsLoading, setIsTransactionsLoading] = useState(false);
   const [isChecksLoading, setIsChecksLoading] = useState(false);
+  const [totalChecks, setTotalChecks] = useState<number | null>(null);
+  const [moduleUsage, setModuleUsage] = useState<Record<CheckModule, number>>(
+    () => Object.fromEntries(Object.values(CheckModule).map((module) => [module, 0])) as Record<CheckModule, number>,
+  );
 
   async function loadUsers() {
     setIsLoading(true);
     try {
       const items = await getAdminUsers();
       setUsers(items);
+      void Promise.all(items.map(async (user) => {
+        const [single, batch] = await Promise.all([
+          getAdminUserChecks(user.id),
+          getAdminUserBatchChecks(user.id),
+        ]);
+        return [...single, ...batch];
+      }))
+        .then((groups) => {
+          const allChecks = groups.flat();
+          setTotalChecks(allChecks.length);
+          setModuleUsage(allChecks.reduce((usage, check) => {
+            usage[check.module] += 1;
+            return usage;
+          }, Object.fromEntries(Object.values(CheckModule).map((module) => [module, 0])) as Record<CheckModule, number>));
+        })
+        .catch(() => setTotalChecks(null));
       setBalanceUser((current) =>
         current ? items.find((user) => user.id === current.id) ?? null : null
       );
@@ -117,6 +154,26 @@ export function AdminPanel() {
   useEffect(() => {
     void loadUsers();
   }, []);
+
+  useEffect(() => {
+    void getAdminFeedback()
+      .then(setFeedback)
+      .catch(() => toast.error("Не удалось загрузить обращения"))
+      .finally(() => setIsFeedbackLoading(false));
+  }, []);
+
+  async function changeFeedbackStatus(id: string, status: FeedbackStatus) {
+    try {
+      const updated = await updateAdminFeedbackStatus(id, status);
+      setFeedback((items) => items.map((item) => item.id === id ? updated as FeedbackRequest : item));
+    } catch { toast.error("Не удалось обновить статус обращения"); }
+  }
+  async function removeFeedback(id: string) {
+    try {
+      await deleteAdminFeedback(id);
+      setFeedback((items) => items.filter((item) => item.id !== id));
+    } catch { toast.error("Не удалось удалить обращение"); }
+  }
 
   function closeBalanceModal() {
     if (isSaving) return;
@@ -148,12 +205,19 @@ export function AdminPanel() {
   async function openChecks(user: UserType) {
     setChecksUser(user);
     setChecks([]);
+    setBatchChecks([]);
+    setChecksView("single");
     setCheckSearchQuery("");
     setCheckModuleFilter([]);
     setCheckPage(1);
     setIsChecksLoading(true);
     try {
-      setChecks(await getAdminUserChecks(user.id));
+      const [singleChecks, batches] = await Promise.all([
+        getAdminUserChecks(user.id),
+        getAdminUserBatchChecks(user.id),
+      ]);
+      setChecks(singleChecks);
+      setBatchChecks(batches);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Не удалось загрузить проверки"
@@ -218,6 +282,22 @@ export function AdminPanel() {
         user.email.toLowerCase().includes(query)
     );
   }, [users, searchQuery]);
+  const userStats = useMemo(
+    () => ({
+      total: users.length,
+      regular: users.filter((user) => user.role === UserRole.REGULAR).length,
+      admins: users.filter((user) => user.role === UserRole.ADMIN).length,
+      balance: users.reduce((sum, user) => sum + user.balance, 0),
+    }),
+    [users],
+  );
+  const popularModules = useMemo(
+    () => Object.entries(moduleUsage)
+      .sort(([, left], [, right]) => right - left)
+      .filter(([, count]) => count > 0)
+      .map(([module, count]) => ({ module: module as CheckModule, count })),
+    [moduleUsage],
+  );
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const safeCurrentPage = totalPages ? Math.min(currentPage, totalPages) : 1;
   const paginatedUsers = useMemo(() => {
@@ -248,7 +328,7 @@ export function AdminPanel() {
   }, [filteredTransactions, safeTransactionPage, transactionsPerPage]);
   const filteredChecks = useMemo(
     () =>
-      checks.filter(
+      (checksView === "single" ? checks : batchChecks).filter(
         (check) =>
           (check.id.toLowerCase().includes(checkSearchQuery.toLowerCase()) ||
             check.subjectBodyText
@@ -257,7 +337,7 @@ export function AdminPanel() {
           (checkModuleFilter.length === 0 ||
             checkModuleFilter.includes(check.module))
       ),
-    [checks, checkSearchQuery, checkModuleFilter]
+    [batchChecks, checks, checkSearchQuery, checkModuleFilter, checksView]
   );
   const checkTotalPages = Math.ceil(filteredChecks.length / checksPerPage);
   const safeCheckPage = checkTotalPages
@@ -347,9 +427,31 @@ export function AdminPanel() {
     <DashboardPageFrame
       figureSrc="/images/about-figure.png"
       wrapperClassName="relative min-h-full overflow-hidden"
-      className="relative min-h-full bg-white p-5 text-(--foreground) md:rounded-[70px_10px_70px_10px] md:border-4 md:border-[#d7e2ed] md:p-8"
+      className="relative min-h-full bg-(--surface) p-4 text-(--foreground) md:p-8"
     >
-      <h1 className="text-2xl font-medium md:text-[32px]">Админ-панель</h1>
+      <div className="rounded-[28px] border border-white/90 bg-white p-5 shadow-[0_18px_45px_rgba(90,111,130,0.12)] md:p-7">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#7a8797]">Управление платформой</p>
+        <h1 className="mt-2 text-2xl font-medium md:text-[32px]">Админ-панель</h1>
+      </div>
+      <section className="mt-5 space-y-6">
+        <h2 className="text-xl font-medium">Статистика</h2>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#718096]">Пользователи</h3>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <article className="relative overflow-hidden rounded-[26px] bg-white p-5 shadow-[0_15px_35px_rgba(90,111,130,0.12)]"><Users className="absolute -right-2 -top-2 size-20 text-white/45" /><p className="text-sm font-medium text-[#617087]">Всего пользователей</p><p className="mt-3 text-3xl font-semibold text-[#334155]">{userStats.total}</p><p className="mt-2 text-xs text-[#718096]">На платформе</p></article>
+        <article className="relative overflow-hidden rounded-[26px] bg-white p-5 shadow-[0_15px_35px_rgba(90,111,130,0.12)]"><Users className="absolute -right-2 -top-2 size-20 text-white/50" /><p className="text-sm font-medium text-[#567263]">Обычные пользователи</p><p className="mt-3 text-3xl font-semibold text-[#305843]">{userStats.regular}</p><p className="mt-2 text-xs text-[#668574]">Аккаунты клиентов</p></article>
+        <article className="relative overflow-hidden rounded-[26px] bg-white p-5 shadow-[0_15px_35px_rgba(90,111,130,0.12)]"><ShieldCheck className="absolute -right-2 -top-2 size-20 text-white/55" /><p className="text-sm font-medium text-[#826a49]">Администраторы</p><p className="mt-3 text-3xl font-semibold text-[#685234]">{userStats.admins}</p><p className="mt-2 text-xs text-[#927959]">Доступ к управлению</p></article>
+        <article className="relative overflow-hidden rounded-[26px] bg-white p-5 shadow-[0_15px_35px_rgba(90,111,130,0.12)]"><WalletCards className="absolute -right-2 -top-2 size-20 text-white/55" /><p className="text-sm font-medium text-[#756188]">Суммарный баланс</p><p className="mt-3 text-3xl font-semibold text-[#56456a]">{formatAmount(userStats.balance)}</p><p className="mt-2 text-xs text-[#82708f]">По всем аккаунтам</p></article>
+          </div>
+        </div>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#718096]">Проверки</h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+        <article className="relative overflow-hidden rounded-[26px] bg-white p-5 shadow-[0_15px_35px_rgba(90,111,130,0.12)]"><FileText className="absolute -right-2 -top-2 size-20 text-white/55" /><p className="text-sm font-medium text-[#52757a]">Всего проверок</p><p className="mt-3 text-3xl font-semibold text-[#38585d]">{totalChecks ?? "—"}</p><p className="mt-2 text-xs text-[#66858a]">Одиночные и пакетные</p></article>
+        <article className="rounded-[26px] bg-white p-5 shadow-[0_15px_35px_rgba(90,111,130,0.12)]"><p className="text-sm font-medium text-[#52757a]">По модулям</p><div className="mt-3 flex flex-wrap gap-2">{popularModules.length ? popularModules.map(({ module, count }) => <span key={module} className="rounded-full bg-(--surface) px-3 py-1 text-xs font-semibold text-[#38585d]">{CheckModuleLabel[module]} · {count}</span>) : <span className="text-sm text-[#718096]">Нет данных</span>}</div></article>
+          </div>
+        </div>
+      </section>
       <section className="mt-8">
         <h2 className="text-xl font-medium">Пользователи</h2>
         <div className="mt-4 w-full max-w-100">
@@ -364,7 +466,27 @@ export function AdminPanel() {
             }}
           />
         </div>
-        <div className="mt-4">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {isLoading ? (
+            <div className="rounded-[24px] bg-white p-5 shadow-[0_10px_30px_rgba(90,111,130,0.1)]">Загрузка пользователей…</div>
+          ) : paginatedUsers.length ? (
+            paginatedUsers.map((user) => (
+              <article key={user.id} className="rounded-[24px] border border-white bg-white p-4 shadow-[0_12px_32px_rgba(90,111,130,0.12)]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0"><p className="truncate font-semibold">{user.email}</p><CopyText value={user.id} title="Скопировать ID" className="mt-1 max-w-full text-xs text-[#718096]" /><p className="mt-2 text-sm font-semibold text-(--foreground)">Баланс: {formatAmount(user.balance)}</p></div>
+                </div>
+                <p className="mt-3 text-xs text-[#718096]">Регистрация: {formatDate(user.createdAt)}</p>
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <button type="button" onClick={() => setBalanceUser(user)} className="flex items-center justify-center gap-2 rounded-xl bg-[#dbeee6] px-3 py-2 text-xs font-bold"><CreditCard className="size-4" />Баланс</button>
+                  <button type="button" onClick={() => void openTransactions(user)} className="flex items-center justify-center gap-2 rounded-xl bg-[#e4edf6] px-3 py-2 text-xs font-bold"><ReceiptText className="size-4" />Операции</button>
+                  <button type="button" onClick={() => void openChecks(user)} className="flex items-center justify-center gap-2 rounded-xl bg-[#f5ead9] px-3 py-2 text-xs font-bold"><FileText className="size-4" />Проверки</button>
+                  <button type="button" onClick={() => setUserToDelete(user)} className="flex items-center justify-center gap-2 rounded-xl bg-[#f9e2e2] px-3 py-2 text-xs font-bold text-[#9c3c3c]"><Trash2 className="size-4" />Удалить</button>
+                </div>
+              </article>
+            ))
+          ) : <p className="rounded-[24px] bg-white p-5 text-center text-sm text-[#718096]">Пользователи не найдены</p>}
+        </div>
+        <div className="mt-4 hidden">
           <SmartTable
             items={paginatedUsers}
             columns={userColumns}
@@ -387,6 +509,22 @@ export function AdminPanel() {
               }}
             />
           </div>
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-[28px] border border-white/80 bg-white/70 p-4 shadow-[0_18px_45px_rgba(90,111,130,0.1)] backdrop-blur md:p-6">
+        <div className="flex items-center justify-between gap-3">
+          <div><h2 className="text-xl font-medium">Обращения пользователей</h2><p className="mt-1 text-sm text-[#718096]">Заявки с формы обратной связи</p></div>
+          <span className="rounded-full bg-[#e8f1fb] px-3 py-1 text-sm font-semibold">{feedback.length}</span>
+        </div>
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {isFeedbackLoading ? <p className="rounded-3xl bg-white p-5 text-sm text-[#718096]">Загрузка обращений…</p> : feedback.length ? feedback.map((item) => (
+            <article key={item.id} className="rounded-3xl bg-white p-5 shadow-[0_12px_32px_rgba(90,111,130,0.1)]">
+              <div className="flex items-start justify-between gap-3"><div><p className="font-semibold">{item.name}</p><p className="text-sm text-[#718096]">{item.companyName}</p></div><select value={item.status} onChange={(event) => void changeFeedbackStatus(item.id, event.target.value as FeedbackStatus)} className="rounded-xl bg-(--surface) px-3 py-2 text-xs font-semibold"><option value="NEW">Новая</option><option value="IN_REVIEW">На рассмотрении</option><option value="COMPLETED">Завершена</option><option value="REJECTED">Отклонена</option><option value="ARCHIVED">В архиве</option></select></div>
+              <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-[#4a5568]">{item.message}</p>
+              <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[#718096]"><a href={`mailto:${item.email}`} className="hover:underline">{item.email}</a><a href={`tel:${item.phone}`} className="hover:underline">{item.phone}</a><span>{formatDate(item.createdAt)}</span>{item.attachment && <a href={getAdminFeedbackAttachmentUrl(item.id)} className="font-semibold text-[#4f6f9c] hover:underline">Скачать: {item.attachment.name}</a>}<button type="button" onClick={() => void removeFeedback(item.id)} className="ml-auto text-[#b14b4b] hover:underline">Удалить</button></div>
+            </article>
+          )) : <p className="rounded-3xl bg-white p-5 text-sm text-[#718096]">Обращений пока нет</p>}
         </div>
       </section>
 
@@ -619,6 +757,18 @@ export function AdminPanel() {
               Проверки пользователя
             </h2>
             <p className="mt-2 text-sm text-[#868a85]">{checksUser.email}</p>
+            <Tabs
+              className="mt-5"
+              value={checksView}
+              options={[
+                { value: "single", label: "Одиночные" },
+                { value: "batch", label: "Пакетные" },
+              ] as const}
+              onChange={(value) => {
+                setChecksView(value);
+                setCheckPage(1);
+              }}
+            />
             <div className="mt-5 grid gap-3 md:grid-cols-2">
               <SearchField
                 id="admin-check-search"
