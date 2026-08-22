@@ -150,18 +150,22 @@ export function CheckForm({ config }: CheckFormProps) {
     <form onSubmit={onSubmit} className="mb-6 px-3 py-4 sm:px-5">
       {config.modes && config.modes.length > 0 ? (
         <div
-          className="mb-6 grid overflow-hidden rounded-lg bg-[#f4f8fc] shadow-[inset_0_1px_6px_rgba(15,23,42,0.12)] sm:grid-cols-[repeat(var(--tabs),minmax(0,1fr))]"
+          role="tablist"
+          aria-label="Режим проверки"
+          className="mb-6 grid overflow-hidden rounded-lg bg-[#f4f8fc] shadow-[inset_0_1px_6px_rgba(15,23,42,0.12)] sm:grid-cols-[repeat(var(--tabs),minmax(0,1fr))] lg:mb-8 lg:flex lg:overflow-x-auto lg:rounded-tl-[30px] lg:rounded-tr-[10px] lg:rounded-br-[30px] lg:rounded-bl-[10px] lg:bg-white lg:shadow-[inset_8px_-8px_8px_rgba(212,221,234,0.6),inset_16px_-16px_16px_rgba(255,255,255,0.6),inset_-8px_8px_8px_rgba(255,255,255,0.6),inset_-16px_16px_16px_rgba(212,221,234,0.6)]"
           style={{ "--tabs": config.modes.length } as React.CSSProperties}
         >
           {config.modes.map((mode) => (
             <button
               key={mode.id}
               type="button"
+              role="tab"
+              aria-selected={mode.id === activeModeId}
               onClick={() => selectMode(mode)}
-              className={`min-h-9 cursor-pointer border-[#e2e8f0] px-3 text-xs font-semibold text-[#1f2937] transition hover:brightness-95 sm:border-r last:border-r-0 ${
+              className={`min-h-9 cursor-pointer border-[#e2e8f0] px-3 text-xs font-semibold text-[#1f2937] transition-colors hover:brightness-95 sm:border-r last:border-r-0 lg:min-h-15 lg:min-w-40 lg:flex-1 lg:border-y lg:border-r lg:border-[rgba(62,60,75,0.1)] lg:px-4 lg:py-2.5 lg:text-sm lg:font-medium lg:text-[#3e3c4b] lg:first:rounded-tl-[30px] lg:first:rounded-bl-[10px] lg:last:rounded-tr-[10px] lg:last:rounded-br-[30px] lg:hover:bg-[#edf2f7] lg:focus-visible:z-10 lg:focus-visible:outline-2 lg:focus-visible:outline-offset-[-2px] lg:focus-visible:outline-[#718096] ${
                 mode.id === activeModeId
-                  ? "bg-[#d7e6f5] shadow-[inset_0_8px_16px_rgba(148,163,184,0.35)]"
-                  : "bg-white/50 hover:bg-white"
+                  ? "bg-[#d7e6f5] shadow-[inset_0_8px_16px_rgba(148,163,184,0.35)] lg:bg-[#d4ddea] lg:shadow-[inset_8px_-8px_8px_rgba(212,221,234,0.6),inset_16px_-16px_16px_rgba(255,255,255,0.6),inset_-8px_8px_8px_rgba(255,255,255,0.6),inset_-16px_16px_16px_rgba(212,221,234,0.6)]"
+                  : "bg-white/50 hover:bg-white lg:bg-white"
               }`}
             >
               {mode.label}
