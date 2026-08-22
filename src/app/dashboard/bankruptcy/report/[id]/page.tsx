@@ -106,7 +106,7 @@ export default function BankruptcyReportPage() {
                     {rows.map(([label, value]) => (
                       <div className={styles.row} key={label}>
                         <dt>{label}</dt>
-                        <dd>{value ?? emptyValue}</dd>
+                        <dd>{label === "Карточка дела" && typeof value === "string" && value ? <a className={styles.externalLink} href={value} target="_blank" rel="noreferrer">{value}</a> : value ?? emptyValue}</dd>
                       </div>
                     ))}
                   </dl>

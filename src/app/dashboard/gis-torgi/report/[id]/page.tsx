@@ -102,7 +102,18 @@ export default function GisTorgiReportPage() {
               </div>
               <div>
                 <span>Ссылка</span>
-                <strong>{lot.lot_link ?? "—"}</strong>
+                <strong>
+                  {typeof lot.lot_link === "string" && lot.lot_link ? (
+                    <a
+                      className={styles.externalLink}
+                      href={lot.lot_link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {lot.lot_link}
+                    </a>
+                  ) : lot.lot_link ?? "—"}
+                </strong>
               </div>
             </div>
           </section>

@@ -218,6 +218,12 @@
     overflow-wrap: anywhere;
 }
 
+.externalLink {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .success {
     color: #4fcb91 !important
 }

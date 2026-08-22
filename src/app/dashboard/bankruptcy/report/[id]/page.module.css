@@ -114,6 +114,12 @@
     overflow-wrap: anywhere;
 }
 
+.externalLink {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .row:first-child dt {
     border-top-left-radius: 29px;
 }

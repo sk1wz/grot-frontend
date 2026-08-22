@@ -260,6 +260,26 @@
     font-size: 10px;
 }
 
+.summaryLink {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}
+
+.summaryValueLink {
+    color: #ef4444;
+    text-decoration: underline;
+    text-decoration-color: #ef4444;
+    text-underline-offset: 3px;
+}
+
+.anchorTarget {
+    scroll-margin-top: 24px;
+}
+
+.finePaid { color: #249763; font-weight: 700; }
+.fineUnpaid { color: #ef4444; font-weight: 700; }
+
 .danger {
     color: #ef4444;
 }

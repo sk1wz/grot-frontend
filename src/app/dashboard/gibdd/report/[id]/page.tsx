@@ -14,6 +14,13 @@ import { ReportHeader } from "@/shared/ui";
 
 type GibddCheck = CheckByModule<CheckModule.GIBDD>;
 
+function getFineStatusClass(status: unknown) {
+  const value = String(status ?? "").toLowerCase();
+  if (value === "paid" || (value.includes("оплачен") && !value.includes("неоплачен") && !value.includes("не оплачен"))) return styles.finePaid;
+  if (value === "unpaid" || value.includes("неоплачен") || value.includes("не оплачен")) return styles.fineUnpaid;
+  return "";
+}
+
 export default function GibddReportPage() {
   const params = useParams<{ id: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -56,6 +63,8 @@ export default function GibddReportPage() {
   if (!check?.result) return null;
 
   const { accidents, fines, owners } = check.result;
+  const hasAccidents = accidents.length > 0;
+  const hasFines = fines.length > 0;
   const summary = check.result.summary;
   const vehicleName =
     [summary.model, summary.year].filter(Boolean).join(", ") ||
@@ -132,10 +141,7 @@ export default function GibddReportPage() {
             <span>Залоги</span>
             <strong>{summary.pledges_count ?? "—"}</strong>
           </div>
-          <div className={styles.summaryItem}>
-            <span>ДТП</span>
-            <strong>{accidents.length}</strong>
-          </div>
+          {hasAccidents ? <a href="#accidents" className={`${styles.summaryItem} ${styles.summaryLink}`}><span>ДТП</span><strong className={styles.summaryValueLink}>{accidents.length}</strong></a> : <div className={styles.summaryItem}><span>ДТП</span><strong>{accidents.length}</strong></div>}
           <div className={styles.summaryItem}>
             <span>Статус</span>
             <strong>{check.status}</strong>
@@ -154,11 +160,7 @@ export default function GibddReportPage() {
             <span>Ограничения</span>
             <strong>{summary.restrictions_count ?? "—"}</strong>
           </div>
-          <div className={styles.summaryItem}>
-            <span>Штрафы</span>
-            <strong>{fines.length}</strong>
-            <small>На сумму: {summary.total_fine ?? "—"}</small>
-          </div>
+          {hasFines ? <a href="#fines" className={`${styles.summaryItem} ${styles.summaryLink}`}><span>Штрафы</span><strong className={styles.summaryValueLink}>{fines.length}</strong><small>На сумму: {summary.total_fine ?? "—"}</small></a> : <div className={styles.summaryItem}><span>Штрафы</span><strong>{fines.length}</strong><small>На сумму: {summary.total_fine ?? "—"}</small></div>}
           <div className={styles.summaryItem}>
             <span>ОСАГО</span>
             <strong>{summary.osago_contract_status ?? "—"}</strong>
@@ -230,7 +232,7 @@ export default function GibddReportPage() {
         <div className={styles.notice}>{summary.in_rozisk ?? "—"}</div>
       </section>
 
-      <section className={styles.section}>
+      <section id="fines" className={`${styles.section} ${styles.anchorTarget}`}>
         <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>Штрафы</h2>
         <div className={styles.tableScroll}>
@@ -252,7 +254,7 @@ export default function GibddReportPage() {
                   <td>{index + 1}</td>
                   <td>{fine.date ?? "—"}</td>
                   <td>{fine.amount ?? "—"}</td>
-                  <td>{fine.status ?? "—"}</td>
+                  <td className={getFineStatusClass(fine.status)}>{fine.status ?? "—"}</td>
                   <td>{fine.article ?? "—"}</td>
                   <td>{fine.address ?? "—"}</td>
                   <td>{fine.issuer ?? "—"}</td>
@@ -263,7 +265,7 @@ export default function GibddReportPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section id="accidents" className={`${styles.section} ${styles.anchorTarget}`}>
         <div className={styles.vehicleCaption}>{vehicleCaption}</div>
         <h2>ДТП</h2>
         <div className={styles.tableScroll}>
