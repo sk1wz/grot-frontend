@@ -45,6 +45,13 @@ import {
 } from "./api";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50];
+const feedbackStatusOptions: { value: FeedbackStatus; label: string; className: string }[] = [
+  { value: FeedbackStatus.NEW, label: "Новые", className: "bg-[#e7f0ff] text-[#416a9f]" },
+  { value: FeedbackStatus.IN_REVIEW, label: "В работе", className: "bg-[#fff1d8] text-[#9a6824]" },
+  { value: FeedbackStatus.COMPLETED, label: "Завершённые", className: "bg-[#e1f3e8] text-[#347254]" },
+  { value: FeedbackStatus.REJECTED, label: "Отклонённые", className: "bg-[#fbe6e6] text-[#a34d4d]" },
+  { value: FeedbackStatus.ARCHIVED, label: "В архиве", className: "bg-[#edeaf3] text-[#6d5d83]" },
+];
 const transactionStatusOptions = Object.values(BalanceTransactionStatus).map(
   (status) => ({
     value: status,
@@ -91,6 +98,9 @@ export function AdminPanel() {
   const [batchChecks, setBatchChecks] = useState<BatchCheck[]>([]);
   const [feedback, setFeedback] = useState<FeedbackRequest[]>([]);
   const [isFeedbackLoading, setIsFeedbackLoading] = useState(true);
+  const [feedbackQuery, setFeedbackQuery] = useState("");
+  const [feedbackStatuses, setFeedbackStatuses] = useState<FeedbackStatus[]>([]);
+  const [feedbackPage, setFeedbackPage] = useState(1);
   const [checksView, setChecksView] = useState<"single" | "batch">("single");
   const [amount, setAmount] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -298,6 +308,57 @@ export function AdminPanel() {
       .map(([module, count]) => ({ module: module as CheckModule, count })),
     [moduleUsage],
   );
+  const filteredFeedback = useMemo(() => {
+    const query = feedbackQuery.trim().toLowerCase();
+    return feedback.filter((item) =>
+      (!query || [item.name, item.companyName, item.email, item.phone, item.message]
+        .some((value) => value.toLowerCase().includes(query))) &&
+      (feedbackStatuses.length === 0 || feedbackStatuses.includes(item.status)),
+    );
+  }, [feedback, feedbackQuery, feedbackStatuses]);
+  const feedbackPerPage = 10;
+  const feedbackTotalPages = Math.ceil(filteredFeedback.length / feedbackPerPage);
+  const safeFeedbackPage = feedbackTotalPages
+    ? Math.min(feedbackPage, feedbackTotalPages)
+    : 1;
+  const paginatedFeedback = useMemo(() => {
+    const start = (safeFeedbackPage - 1) * feedbackPerPage;
+    return filteredFeedback.slice(start, start + feedbackPerPage);
+  }, [filteredFeedback, safeFeedbackPage]);
+  const feedbackStatusMeta = (status: FeedbackStatus) =>
+    feedbackStatusOptions.find((option) => option.value === status) ?? feedbackStatusOptions[0];
+  const toggleFeedbackStatus = (status: FeedbackStatus) => {
+    setFeedbackPage(1);
+    setFeedbackStatuses((current) =>
+      current.includes(status)
+        ? current.filter((value) => value !== status)
+        : [...current, status],
+    );
+  };
+  const renderFeedbackCard = (item: FeedbackRequest) => {
+    const status = feedbackStatusMeta(item.status);
+    return (
+      <article key={item.id} className="rounded-[24px] border border-[#eef0f3] bg-white p-5 shadow-[0_12px_32px_rgba(90,111,130,0.1)]">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="font-semibold text-(--foreground)">Имя: {item.name}</p>
+            <p className="mt-1 text-sm text-[#718096]">{formatDate(item.createdAt)}</p>
+          </div>
+          <select value={item.status} onChange={(event) => void changeFeedbackStatus(item.id, event.target.value as FeedbackStatus)} className={`shrink-0 cursor-pointer rounded-xl px-3 py-2 text-xs font-semibold ${status.className}`} aria-label="Статус обращения">
+            {feedbackStatusOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+          </select>
+        </div>
+        <div className="mt-4 grid gap-2 text-sm text-[#526173] sm:grid-cols-2">
+          <p><span className="font-semibold text-(--foreground)">Компания:</span> {item.companyName}</p>
+          <p><span className="font-semibold text-(--foreground)">Телефон:</span> <a href={`tel:${item.phone}`} className="hover:underline">{item.phone}</a></p>
+          <p className="min-w-0 truncate"><span className="font-semibold text-(--foreground)">Почта:</span> <a href={`mailto:${item.email}`} className="hover:underline">{item.email}</a></p>
+          <p><span className="font-semibold text-(--foreground)">Документ:</span> {item.attachment ? <a href={getAdminFeedbackAttachmentUrl(item.id)} className="font-medium text-[#4f6f9c] hover:underline">{item.attachment.name}</a> : "не прикреплён"}</p>
+        </div>
+        <p className="mt-4 whitespace-pre-wrap rounded-2xl bg-(--surface) px-4 py-3 text-sm leading-6 text-[#4a5568]">{item.message}</p>
+        <div className="mt-4 flex justify-end"><button type="button" onClick={() => void removeFeedback(item.id)} className="text-xs font-semibold text-[#b14b4b] hover:underline">Удалить обращение</button></div>
+      </article>
+    );
+  };
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const safeCurrentPage = totalPages ? Math.min(currentPage, totalPages) : 1;
   const paginatedUsers = useMemo(() => {
@@ -452,7 +513,7 @@ export function AdminPanel() {
           </div>
         </div>
       </section>
-      <section className="mt-8">
+      <section className="mt-8 rounded-[28px] border border-white/80 bg-white/70 p-4 shadow-[0_18px_45px_rgba(90,111,130,0.1)] backdrop-blur md:p-6">
         <h2 className="text-xl font-medium">Пользователи</h2>
         <div className="mt-4 w-full max-w-100">
           <SearchField
@@ -486,6 +547,14 @@ export function AdminPanel() {
             ))
           ) : <p className="rounded-[24px] bg-white p-5 text-center text-sm text-[#718096]">Пользователи не найдены</p>}
         </div>
+        <Pagination
+          className="mt-4"
+          total={filteredUsers.length}
+          limit={usersPerPage}
+          page={safeCurrentPage}
+          onPageChange={setCurrentPage}
+          summaryText="Пользователей"
+        />
         <div className="mt-4 hidden">
           <SmartTable
             items={paginatedUsers}
@@ -517,15 +586,31 @@ export function AdminPanel() {
           <div><h2 className="text-xl font-medium">Обращения пользователей</h2><p className="mt-1 text-sm text-[#718096]">Заявки с формы обратной связи</p></div>
           <span className="rounded-full bg-[#e8f1fb] px-3 py-1 text-sm font-semibold">{feedback.length}</span>
         </div>
-        <div className="mt-5 grid gap-3 lg:grid-cols-2">
-          {isFeedbackLoading ? <p className="rounded-3xl bg-white p-5 text-sm text-[#718096]">Загрузка обращений…</p> : feedback.length ? feedback.map((item) => (
-            <article key={item.id} className="rounded-3xl bg-white p-5 shadow-[0_12px_32px_rgba(90,111,130,0.1)]">
-              <div className="flex items-start justify-between gap-3"><div><p className="font-semibold">{item.name}</p><p className="text-sm text-[#718096]">{item.companyName}</p></div><select value={item.status} onChange={(event) => void changeFeedbackStatus(item.id, event.target.value as FeedbackStatus)} className="rounded-xl bg-(--surface) px-3 py-2 text-xs font-semibold"><option value="NEW">Новая</option><option value="IN_REVIEW">На рассмотрении</option><option value="COMPLETED">Завершена</option><option value="REJECTED">Отклонена</option><option value="ARCHIVED">В архиве</option></select></div>
-              <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-[#4a5568]">{item.message}</p>
-              <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[#718096]"><a href={`mailto:${item.email}`} className="hover:underline">{item.email}</a><a href={`tel:${item.phone}`} className="hover:underline">{item.phone}</a><span>{formatDate(item.createdAt)}</span>{item.attachment && <a href={getAdminFeedbackAttachmentUrl(item.id)} className="font-semibold text-[#4f6f9c] hover:underline">Скачать: {item.attachment.name}</a>}<button type="button" onClick={() => void removeFeedback(item.id)} className="ml-auto text-[#b14b4b] hover:underline">Удалить</button></div>
-            </article>
-          )) : <p className="rounded-3xl bg-white p-5 text-sm text-[#718096]">Обращений пока нет</p>}
+        <div className="mt-5 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+          <SearchField
+            id="admin-feedback-search"
+            label="Поиск обращений"
+            placeholder="Имя, компания, почта, телефон или текст обращения"
+            value={feedbackQuery}
+            onChange={(value) => { setFeedbackQuery(value); setFeedbackPage(1); }}
+          />
+          <button type="button" onClick={() => { setFeedbackQuery(""); setFeedbackStatuses([]); setFeedbackPage(1); }} className="mb-0 h-fit cursor-pointer rounded-xl px-3 py-2 text-sm text-[#718096] hover:bg-white hover:text-(--foreground)">Сбросить</button>
         </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button type="button" onClick={() => { setFeedbackStatuses([]); setFeedbackPage(1); }} className={`cursor-pointer rounded-full px-3 py-2 text-xs font-semibold transition ${feedbackStatuses.length === 0 ? "bg-(--foreground) text-white" : "bg-white text-[#65748a] shadow-sm"}`}>Все</button>
+          {feedbackStatusOptions.map((option) => <button key={option.value} type="button" onClick={() => toggleFeedbackStatus(option.value)} className={`cursor-pointer rounded-full px-3 py-2 text-xs font-semibold transition ${feedbackStatuses.includes(option.value) ? option.className : "bg-white text-[#65748a] shadow-sm"}`}>{option.label}</button>)}
+        </div>
+        {isFeedbackLoading ? <p className="mt-5 rounded-3xl bg-white p-5 text-sm text-[#718096]">Загрузка обращений…</p> : paginatedFeedback.length ? (
+          <div className="mt-6 grid gap-3 lg:grid-cols-2">{paginatedFeedback.map(renderFeedbackCard)}</div>
+        ) : <p className="mt-5 rounded-2xl bg-white px-4 py-3 text-sm text-[#718096]">Обращения не найдены</p>}
+        {!isFeedbackLoading && <Pagination
+          className="mt-5"
+          total={filteredFeedback.length}
+          limit={feedbackPerPage}
+          page={safeFeedbackPage}
+          onPageChange={setFeedbackPage}
+          summaryText="Обращений"
+        />}
       </section>
 
       {balanceUser && (
