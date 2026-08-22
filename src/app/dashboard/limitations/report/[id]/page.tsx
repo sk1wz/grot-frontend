@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { CheckModule, getCheckById, type CheckByModule } from "@/entities/check";
+import {
+  CheckModule,
+  getCheckById,
+  type CheckByModule,
+} from "@/entities/check";
 import { UserRole, useUserStore } from "@/entities/user";
 import { formatDate } from "@/shared/lib";
 import { ReportHeader } from "@/shared/ui";
@@ -77,47 +81,32 @@ export default function LimitationReportPage() {
         </section>
       ) : (
         limitations.map((limitation, index) => (
-          <section
-            className={styles.section}
-            key={`${limitation.a_gibdd_id}-${limitation.a_restriction_date}-${index}`}
-          >
+          <section className={styles.section} key={`${index}`}>
             <h2>Ограничение {index + 1}</h2>
             <div className={styles.list}>
               <div>
                 <span>Модель</span>
-                <strong>{limitation.a_model ?? "—"}</strong>
+                <strong>{limitation.model ?? "—"}</strong>
               </div>
               <div>
                 <span>Год выпуска</span>
-                <strong>{limitation.a_year ?? "—"}</strong>
+                <strong>{limitation.year ?? "—"}</strong>
               </div>
               <div>
                 <span>Дата ограничения</span>
-                <strong>{limitation.a_restriction_date ?? "—"}</strong>
+                <strong>{limitation.restriction_date ?? "—"}</strong>
               </div>
               <div>
                 <span>Регион</span>
-                <strong>{limitation.a_region ?? "—"}</strong>
-              </div>
-              <div>
-                <span>Автор ограничения</span>
-                <strong>{limitation.a_author_name ?? "—"}</strong>
-              </div>
-              <div>
-                <span>Телефон автора</span>
-                <strong>{limitation.a_author_phone ?? "—"}</strong>
+                <strong>{limitation.region ?? "—"}</strong>
               </div>
               <div>
                 <span>Тип ограничения</span>
-                <strong>{limitation.a_restriction_type ?? "—"}</strong>
+                <strong>{limitation.restriction_type ?? "—"}</strong>
               </div>
               <div>
                 <span>Описание</span>
-                <strong>{limitation.a_description ?? "—"}</strong>
-              </div>
-              <div>
-                <span>Идентификатор ГИБДД</span>
-                <strong>{limitation.a_gibdd_id ?? "—"}</strong>
+                <strong>{limitation.description ?? "—"}</strong>
               </div>
             </div>
           </section>
