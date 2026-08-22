@@ -12,8 +12,10 @@ import { type UserType, UserRole } from "@/entities/user";
 import {
   CheckModule,
   CheckModuleLabel,
+  getCheckPrices,
   type BatchCheck,
   type Check,
+  type CheckPrice,
 } from "@/entities/check";
 import { formatAmount, formatDate } from "@/shared/lib";
 import {
@@ -42,6 +44,7 @@ import {
   getAdminFeedback,
   getAdminFeedbackAttachmentUrl,
   type FeedbackRequest,
+  updateCheckPrice,
   updateAdminFeedbackStatus,
 } from "./api";
 
@@ -102,6 +105,10 @@ export function AdminPanel() {
   const [feedbackQuery, setFeedbackQuery] = useState("");
   const [feedbackStatuses, setFeedbackStatuses] = useState<FeedbackStatus[]>([]);
   const [feedbackPage, setFeedbackPage] = useState(1);
+  const [checkPrices, setCheckPrices] = useState<CheckPrice[]>([]);
+  const [priceDrafts, setPriceDrafts] = useState<Record<string, string>>({});
+  const [isPricesLoading, setIsPricesLoading] = useState(true);
+  const [savingPriceModule, setSavingPriceModule] = useState<CheckModule | null>(null);
   const [checksView, setChecksView] = useState<"single" | "batch">("single");
   const [amount, setAmount] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -157,6 +164,16 @@ export function AdminPanel() {
   }, []);
 
   useEffect(() => {
+    void getCheckPrices()
+      .then((items) => {
+        setCheckPrices(items);
+        setPriceDrafts(Object.fromEntries(items.map((item) => [item.module, String(item.price)])));
+      })
+      .catch(() => toast.error("Не удалось загрузить цены проверок"))
+      .finally(() => setIsPricesLoading(false));
+  }, []);
+
+  useEffect(() => {
     void getAdminFeedback()
       .then(setFeedback)
       .catch(() => toast.error("Не удалось загрузить обращения"))
@@ -174,6 +191,28 @@ export function AdminPanel() {
       await deleteAdminFeedback(id);
       setFeedback((items) => items.filter((item) => item.id !== id));
     } catch { toast.error("Не удалось удалить обращение"); }
+  }
+
+  async function saveCheckPrice(module: CheckModule) {
+    const price = Number(priceDrafts[module]?.replace(",", "."));
+    if (!Number.isFinite(price) || price < 0) {
+      toast.error("Укажите корректную цену");
+      return;
+    }
+
+    setSavingPriceModule(module);
+    try {
+      await updateCheckPrice(module, price);
+      setCheckPrices((items) =>
+        items.map((item) => item.module === module ? { ...item, price } : item),
+      );
+      setPriceDrafts((items) => ({ ...items, [module]: String(price) }));
+      toast.success("Цена проверки обновлена");
+    } catch {
+      toast.error("Не удалось обновить цену проверки");
+    } finally {
+      setSavingPriceModule(null);
+    }
   }
 
   function closeBalanceModal() {
@@ -602,6 +641,49 @@ export function AdminPanel() {
           onPageChange={setFeedbackPage}
           summaryText="Обращений"
         />}
+      </section>
+
+      <section className="mt-6 rounded-[28px] border border-white/80 bg-white/70 p-4 shadow-[0_18px_45px_rgba(90,111,130,0.1)] backdrop-blur md:p-6">
+        <div>
+          <h2 className="text-xl font-medium">Цены проверок</h2>
+          <p className="mt-1 text-sm text-[#718096]">Стоимость одной проверки для пользователей платформы</p>
+        </div>
+        {isPricesLoading ? (
+          <p className="mt-5 rounded-3xl bg-white p-5 text-sm text-[#718096]">Загрузка цен…</p>
+        ) : checkPrices.length ? (
+          <div className="mt-5 grid gap-3 lg:grid-cols-2">
+            {checkPrices.map((item) => (
+              <article key={item.module} className="rounded-[24px] border border-[#eef0f3] bg-white p-5 shadow-[0_12px_32px_rgba(90,111,130,0.1)]">
+                <p className="font-semibold text-(--foreground)">{item.title}</p>
+                <p className="mt-2 min-h-10 text-sm leading-5 text-[#718096]">{item.description}</p>
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-end">
+                  <label className="flex flex-1 flex-col gap-2 text-sm font-medium text-[#526173]">
+                    Цена, ₽
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      inputMode="decimal"
+                      value={priceDrafts[item.module] ?? ""}
+                      onChange={(event) => setPriceDrafts((items) => ({ ...items, [item.module]: event.target.value }))}
+                      className="h-11 rounded-xl bg-(--surface) px-3 text-sm text-(--foreground) outline-none shadow-[0_2px_7px_rgba(15,23,42,0.12)] focus:ring-2 focus:ring-[#c5ddd5]"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    disabled={savingPriceModule === item.module}
+                    onClick={() => void saveCheckPrice(item.module)}
+                    className="h-11 cursor-pointer rounded-xl bg-[#c5ddd5] px-4 text-xs font-bold uppercase text-[#1f2937] shadow-(--shadow-1) transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {savingPriceModule === item.module ? "Сохранение…" : "Сохранить"}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-5 rounded-3xl bg-white p-5 text-sm text-[#718096]">Цены проверок не найдены</p>
+        )}
       </section>
 
       {balanceUser && (

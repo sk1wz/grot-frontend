@@ -85,6 +85,7 @@ export type ChecksStatistics = {
   byModule: Record<CheckModule, number>;
 };
 
+
 export async function getChecksStatistics(): Promise<ChecksStatistics> {
   const data: unknown = await request("/checks/statistics");
   if (!data || typeof data !== "object") {
@@ -110,6 +111,13 @@ export async function getChecksStatistics(): Promise<ChecksStatistics> {
       ]),
     ) as Record<CheckModule, number>,
   };
+}
+
+export async function updateCheckPrice(module: CheckModule, price: number) {
+  await request(`/checks/prices/${module}`, {
+    method: "PATCH",
+    body: JSON.stringify({ price }),
+  });
 }
 
 export async function changeAdminBalance(
