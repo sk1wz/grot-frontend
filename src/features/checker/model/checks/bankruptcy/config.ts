@@ -5,9 +5,9 @@ import { fioSchema, innSchema } from "./schema";
 export const bankruptcyConfig: CheckConfig = {
   id: "bankruptcy",
   title: "Банкротства",
-  endpoint: "/checks/bancrupcy",
-  batchEndpoint: "/checks/bancrupcy/batch",
-  templateUrl: "/templates/bancrupcy.xlsx",
+  endpoint: "/checks/bankruptcy",
+  batchEndpoint: "/checks/bankruptcy/batch",
+  templateUrl: "/templates/bankruptcy.xlsx",
   modes: [
     {
       id: "for_inn",

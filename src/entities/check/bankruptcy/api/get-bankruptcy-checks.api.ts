@@ -7,7 +7,7 @@ export async function getBankruptcyChecks(): Promise<
 > {
   useBankruptcyChecksStore.getState().setLoading(true);
   try {
-    const response = await fetch(`${baseURL}/checks/bancrupcy`, {
+    const response = await fetch(`${baseURL}/checks/bankruptcy`, {
       credentials: "include",
     });
     if (!response.ok) throw new Error("Failed to load bankruptcy checks");
