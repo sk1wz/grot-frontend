@@ -3,6 +3,7 @@ import { baseURL } from "./config";
 
 type Sockets = {
   check: Socket;
+  batch: Socket;
   balance: Socket;
 };
 
@@ -13,6 +14,7 @@ export const connectRealtime = (userId: string): Sockets => {
   };
 
   const check = io(`${baseURL}/check`, common);
+  const batch = io(`${baseURL}/batch`, common);
   const balance = io(`${baseURL}/balance`, common);
 
   const subscribe = (socket: Socket) => {
@@ -20,7 +22,8 @@ export const connectRealtime = (userId: string): Sockets => {
   };
 
   check.on("connect", () => subscribe(check));
+  batch.on("connect", () => subscribe(batch));
   balance.on("connect", () => subscribe(balance));
 
-  return { check, balance };
+  return { check, batch, balance };
 };

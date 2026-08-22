@@ -10,6 +10,7 @@ import {
 import {
   CheckModule,
   CheckSchema,
+  BatchCheckSchema,
   useBankruptcyChecksStore,
   useFsspChecksStore,
   useGibddChecksStore,
@@ -17,6 +18,13 @@ import {
   useLimitationChecksStore,
   useInnChecksStore,
   useTaxiChecksStore,
+  useGibddBatchChecksStore,
+  useFsspBatchChecksStore,
+  useGistorgiBatchChecksStore,
+  useLimitationBatchChecksStore,
+  useBankruptcyBatchChecksStore,
+  useInnBatchChecksStore,
+  useTaxiBatchChecksStore,
 } from "@/entities/check";
 
 function RealtimeProvider({ children }: { children: React.ReactNode }) {
@@ -31,13 +39,19 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       useBankruptcyChecksStore.getState().reset();
       useInnChecksStore.getState().reset();
       useTaxiChecksStore.getState().reset();
+      useGibddBatchChecksStore.getState().reset();
+      useFsspBatchChecksStore.getState().reset();
+      useGistorgiBatchChecksStore.getState().reset();
+      useLimitationBatchChecksStore.getState().reset();
+      useBankruptcyBatchChecksStore.getState().reset();
+      useInnBatchChecksStore.getState().reset();
+      useTaxiBatchChecksStore.getState().reset();
       return;
     }
 
     const sockets = connectRealtime(userId);
 
     sockets.check.on("check.updated", (checkDto) => {
-      console.log(checkDto);
       const parsed = CheckSchema.safeParse(checkDto);
       if (!parsed.success) return;
 
@@ -66,6 +80,35 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
+    sockets.batch.on("batch.updated", (batchDto) => {
+      const parsed = BatchCheckSchema.safeParse(batchDto);
+      if (!parsed.success) return;
+
+      switch (parsed.data.module) {
+        case CheckModule.GIBDD:
+          useGibddBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+        case CheckModule.FSSP:
+          useFsspBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+        case CheckModule.GISTORGI:
+          useGistorgiBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+        case CheckModule.LIMITATION:
+          useLimitationBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+        case CheckModule.BANKRUPTCY:
+          useBankruptcyBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+        case CheckModule.INN:
+          useInnBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+        case CheckModule.TAXI:
+          useTaxiBatchChecksStore.getState().upsertBatch(parsed.data);
+          break;
+      }
+    });
+
     sockets.balance.on("balance.updated", (payload: unknown) => {
       const { user, setUser } = useUserStore.getState();
       const { setTransaction } = useBalanceTransactionsStore.getState();
@@ -86,6 +129,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       sockets.check.disconnect();
+      sockets.batch.disconnect();
       sockets.balance.disconnect();
     };
   }, [userId]);

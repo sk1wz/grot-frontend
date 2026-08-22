@@ -1,11 +1,18 @@
-import type { Check } from "@/entities/check";
+import {
+  type BatchCheck,
+  type Check,
+  type ChecksHistoryItem,
+  isBatchCheck,
+} from "@/entities/check";
 import Link from "next/link";
 import Image from "next/image";
+import { Download } from "lucide-react";
 import { CheckStatus, CheckStatusLabel } from "@/entities/check";
 import { formatDate } from "@/shared/lib";
 import { CopyText, TableColumn } from "@/shared/ui";
 import { Badge } from "@/shared/ui/Badge/Badge";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
+import { baseURL } from "@/shared/api/config";
 export function CheckActions({ check }: { check: Check }) {
   const isAvailable = check.status === CheckStatus.DONE;
   const reportHref =
@@ -51,7 +58,32 @@ export function CheckActions({ check }: { check: Check }) {
   );
 }
 
-export function getCheckColumns(): TableColumn<Check>[] {
+export function BatchDownloadAction({ batch }: { batch: BatchCheck }) {
+  const isAvailable = Boolean(batch.completedAt);
+
+  return isAvailable ? (
+    <a
+      aria-label="Скачать Excel-отчёт"
+      href={`${baseURL}/checks/report/batch/${batch.id}`}
+      className="flex items-center gap-2 text-[14px] text-[#3e3c4b] transition-opacity"
+    >
+      <Download className="size-5" />
+      <span>Скачать Excel</span>
+    </a>
+  ) : (
+    <button
+      type="button"
+      aria-label="Скачать Excel-отчёт"
+      disabled
+      className="flex items-center gap-2 text-[14px] text-[#3e3c4b] disabled:opacity-50"
+    >
+      <Download className="size-5" />
+      <span>Скачать Excel</span>
+    </button>
+  );
+}
+
+export function getCheckColumns(): TableColumn<ChecksHistoryItem>[] {
   return [
   {
     key: "createdAt",
@@ -91,7 +123,12 @@ export function getCheckColumns(): TableColumn<Check>[] {
     key: "actions",
     title: "Действия",
     width: "18%",
-    render: (check) => <CheckActions check={check} />,
+    render: (check) =>
+      isBatchCheck(check) ? (
+        <BatchDownloadAction batch={check} />
+      ) : (
+        <CheckActions check={check} />
+      ),
   },
   ];
 }

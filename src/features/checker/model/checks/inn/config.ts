@@ -6,6 +6,7 @@ export const innConfig: CheckConfig = {
   id: "inn",
   title: "ИНН по паспорту",
   endpoint: "/checks/inn",
+  batchEndpoint: "/checks/inn/batch",
   modes: [
     {
       id: "for_structured",

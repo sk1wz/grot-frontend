@@ -6,6 +6,7 @@ export const bankruptcyConfig: CheckConfig = {
   id: "bankruptcy",
   title: "Банкротства",
   endpoint: "/checks/bancrupcy",
+  batchEndpoint: "/checks/bancrupcy/batch",
   modes: [
     {
       id: "for_inn",

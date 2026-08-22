@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import {
   CheckModuleLabel,
   CheckStatusLabel,
-  type Check,
+  type ChecksHistoryItem,
 } from "@/entities/check";
 import { formatDate } from "@/shared/lib";
 import { Badge } from "@/shared/ui/Badge/Badge";
@@ -10,7 +10,7 @@ import { CopyText } from "@/shared/ui/CopyText";
 import { TextParagraph } from "@/shared/ui/Text/TextParagraph";
 import { checkStatusVariants } from "@/shared/ui/Table/lib/check-status";
 
-type CheckCardProps = { check: Check; actions?: ReactNode };
+type CheckCardProps = { check: ChecksHistoryItem; actions?: ReactNode };
 
 export function CheckCard({ check, actions }: CheckCardProps) {
   return (

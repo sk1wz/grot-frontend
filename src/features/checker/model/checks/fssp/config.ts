@@ -6,6 +6,7 @@ export const fsspConfig: CheckConfig = {
   id: "fssp",
   title: "ФССП",
   endpoint: "/checks/fssp",
+  batchEndpoint: "/checks/fssp/batch",
   modes: [
     {
       id: "for_fio_dob",

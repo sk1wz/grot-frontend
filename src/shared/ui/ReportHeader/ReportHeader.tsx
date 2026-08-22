@@ -32,7 +32,7 @@ export function ReportHeader({ backHref, reportId }: ReportHeaderProps) {
       const url = URL.createObjectURL(await response.blob());
       const link = document.createElement("a");
       link.href = url;
-      link.download = `report-${reportId}.${format === "pdf" ? "pdf" : "xlsx"}`;
+      link.download = `autosintes-report-${reportId}.${format === "pdf" ? "pdf" : "xlsx"}`;
       link.click();
       URL.revokeObjectURL(url);
     } catch (error) {

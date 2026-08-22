@@ -6,6 +6,7 @@ export const taxiConfig: CheckConfig = {
   id: "taxi",
   title: "ФГИС Такси",
   endpoint: "/checks/taxi",
+  batchEndpoint: "/checks/taxi/batch",
   fields: [
     {
       name: "vin",

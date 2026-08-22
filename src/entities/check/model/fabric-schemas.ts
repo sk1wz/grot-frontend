@@ -7,6 +7,7 @@ import { InnCheckSchema } from "../inn/model/schema";
 import { LimitationCheckSchema } from "../limitation/model/schema";
 import { CheckModule } from "./types";
 import { TaxiCheckSchema } from "../taxi/model/schema";
+import type { BatchCheck } from "./base-schema";
 
 export const checkSchemasByModule = {
   [CheckModule.GIBDD]: GibddCheckSchema,
@@ -32,6 +33,11 @@ export type CheckByModule<TModule extends CheckModule> = Extract<
   Check,
   { module: TModule }
 >;
+export type ChecksHistoryItem = Check | BatchCheck;
+
+export function isBatchCheck(item: ChecksHistoryItem): item is BatchCheck {
+  return "totalItems" in item;
+}
 export function isCheckModule<TModule extends CheckModule>(
   module: TModule
 ): (check: Check) => check is CheckByModule<TModule> {

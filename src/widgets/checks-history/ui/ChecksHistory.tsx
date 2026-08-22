@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { type Check, CheckStatus, CheckStatusLabel } from "@/entities/check";
+import {
+  type BatchCheck,
+  type ChecksHistoryItem,
+  CheckStatus,
+  CheckStatusLabel,
+  isBatchCheck,
+} from "@/entities/check";
 import {
   CheckCard,
   MultiSelectField,
@@ -9,54 +15,81 @@ import {
   SearchField,
   Skeleton,
   SmartTable,
+  Tabs,
   Text,
   TextTitle,
 } from "@/shared/ui";
-import { CheckActions, checkColumns } from "../lib/check-history-column";
+import {
+  BatchDownloadAction,
+  CheckActions,
+  checkColumns,
+} from "../lib/check-history-column";
 
 const ITEMS_PER_PAGE = 5;
+type HistoryView = "single" | "batch";
+const historyTabs = [
+  { value: "single", label: "Одиночные" },
+  { value: "batch", label: "Пакетные" },
+] as const;
 
 export type ChecksHistoryProps = {
-  items: Check[];
+  items: ChecksHistoryItem[];
+  batches: BatchCheck[];
   isLoading: boolean;
   isInitialized: boolean;
+  isBatchesLoading: boolean;
+  areBatchesInitialized: boolean;
   className?: string;
 };
 
 export function ChecksHistory({
   items,
+  batches,
   isLoading,
   isInitialized,
+  isBatchesLoading,
+  areBatchesInitialized,
   className = "",
 }: ChecksHistoryProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [idQuery, setIdQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<CheckStatus[]>([]);
+  const [view, setView] = useState<HistoryView>("single");
+  const displayedItems = view === "single" ? items : batches;
+  const currentIsLoading = view === "single" ? isLoading : isBatchesLoading;
+  const currentIsInitialized =
+    view === "single" ? isInitialized : areBatchesInitialized;
   const filteredItems = useMemo(() => {
     const normalizedQuery = idQuery.trim().toLowerCase();
-
-    return items.filter(
+    return displayedItems.filter(
       (check) =>
-        (!normalizedQuery ||
-          check.id.toLowerCase().includes(normalizedQuery)) &&
-        (statusFilter.length === 0 || statusFilter.includes(check.status))
+        (!normalizedQuery || check.id.toLowerCase().includes(normalizedQuery)) &&
+        (statusFilter.length === 0 || statusFilter.includes(check.status)),
     );
-  }, [idQuery, items, statusFilter]);
+  }, [displayedItems, idQuery, statusFilter]);
   const totalItems = filteredItems.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-  const safeCurrentPage =
-    totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
+  const safeCurrentPage = totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
   const paginatedItems = useMemo(() => {
     const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
     return filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredItems, safeCurrentPage]);
   const showCardsSkeleton =
-    !isInitialized || (isLoading && paginatedItems.length === 0);
+    !currentIsInitialized ||
+    (currentIsLoading && paginatedItems.length === 0);
 
   return (
     <section className={`flex w-full flex-col gap-4 ${className}`}>
       <TextTitle>История проверок</TextTitle>
       <div className="flex flex-col gap-4">
+        <Tabs
+          value={view}
+          options={historyTabs}
+          onChange={(nextView) => {
+            setView(nextView);
+            setCurrentPage(1);
+          }}
+        />
         <div className="grid gap-3 sm:grid-cols-2">
           <SearchField
             id="check-id-search"
@@ -88,8 +121,8 @@ export function ChecksHistory({
             items={paginatedItems}
             columns={checkColumns}
             getRowKey={(check) => check.id}
-            isLoading={isLoading}
-            isInitialized={isInitialized}
+            isLoading={currentIsLoading}
+            isInitialized={currentIsInitialized}
             emptyMessage="Нет проверок для отображения"
           />
         </div>
@@ -97,10 +130,7 @@ export function ChecksHistory({
           {showCardsSkeleton ? (
             <div className="space-y-3">
               {Array.from({ length: 3 }, (_, index) => (
-                <div
-                  key={index}
-                  className="rounded-lg border border-(--border) p-3"
-                >
+                <div key={index} className="rounded-lg border border-(--border) p-3">
                   <Skeleton className="h-4 w-32" />
                   <Skeleton className="mt-3 h-4 w-full" />
                   <Skeleton className="mt-3 h-6 w-24" />
@@ -113,14 +143,18 @@ export function ChecksHistory({
                 <CheckCard
                   key={check.id}
                   check={check}
-                  actions={<CheckActions check={check} />}
+                  actions={
+                    isBatchCheck(check) ? (
+                      <BatchDownloadAction batch={check} />
+                    ) : (
+                      <CheckActions check={check} />
+                    )
+                  }
                 />
               ))}
             </div>
           ) : (
-            <Text className="py-10 text-center">
-              Нет проверок для отображения
-            </Text>
+            <Text className="py-10 text-center">Нет проверок для отображения</Text>
           )}
         </div>
         <Pagination

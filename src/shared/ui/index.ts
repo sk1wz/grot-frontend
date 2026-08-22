@@ -16,6 +16,7 @@ export * from "./Cards";
 export * from "./CopyText";
 export * from "./Pwa";
 export * from "./Table";
+export * from "./Tabs";
 export * from "./Logo/Logo";
 export * from "./Logo/LogoName";
 export * from "./DashboardPageFrame";
